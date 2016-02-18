@@ -10,8 +10,12 @@
                       Height="350" Width="525"
                       ResizeMode="CanResizeWithGrip"
                       EnableDWMDropShadow="True"
-                      MinHeight="350" MinWidth="525">
+                      MinHeight="350" MinWidth="525"
+                      DataContext="{Binding Main, Source={StaticResource Locator}}">
     <Grid>
-        
+        <TextBlock VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   FontSize="36"
+                   Text="{Binding WelcomeMessage}" />
     </Grid>
 </Controls:MetroWindow>
