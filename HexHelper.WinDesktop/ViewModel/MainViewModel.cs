@@ -1,21 +1,58 @@
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using HexHelper.WinDesktop.Service;
 
 namespace HexHelper.WinDesktop.ViewModel
 {
-    public class MainViewModel : ViewModelBase
+    public sealed class MainViewModel : ViewModelBase
     {
-        public MainViewModel()
+        public MainViewModel( IServerService aServer )
         {
-            if( IsInDesignMode )
-            {
-                WelcomeMessage = "Hello Designer.";
-            }
-            else
-            {
-                WelcomeMessage = "Hello World.";
-            }
+            mServer = aServer;
+            mServer.DataPosted += HandleDataPosted;
+            mServer.ErrorOccurred += HandleErrorOccurred;
+
+            StartCommand = new RelayCommand( StartServer );
+
+            StartServer();
         }
 
-        public string WelcomeMessage { get; private set; }
+        private void StartServer()
+        {
+            mServer.Start();
+        }
+
+        private void HandleErrorOccurred( object sender, string e )
+        {
+            
+        }
+
+        private void HandleDataPosted( object sender, string e )
+        {
+            Status += e;
+        }
+
+        public override void Cleanup()
+        {
+            mServer.Stop();
+
+            base.Cleanup();
+        }
+
+        public string Status { 
+            get {
+                return _status;
+            }
+
+            set
+            {
+                Set( nameof( Status ), ref _status, value );
+            }
+        }
+        private string _status;
+
+        public RelayCommand StartCommand { get; private set; }
+
+        private IServerService mServer;
     }
 }

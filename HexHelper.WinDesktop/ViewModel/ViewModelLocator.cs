@@ -14,6 +14,7 @@
 
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
+using HexHelper.WinDesktop.Service;
 using Microsoft.Practices.ServiceLocation;
 
 namespace HexHelper.WinDesktop.ViewModel
@@ -43,6 +44,7 @@ namespace HexHelper.WinDesktop.ViewModel
             ////}
 
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<IServerService, ServerService>();
         }
 
         public MainViewModel Main
@@ -55,7 +57,7 @@ namespace HexHelper.WinDesktop.ViewModel
         
         public static void Cleanup()
         {
-            // TODO Clear the ViewModels
+            ServiceLocator.Current.GetInstance<MainViewModel>().Cleanup();
         }
     }
 }

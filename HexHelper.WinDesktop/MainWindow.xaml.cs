@@ -24,6 +24,13 @@ namespace HexHelper.WinDesktop
         public MainWindow()
         {
             InitializeComponent();
+
+            this.Closed += HandleWindowClosed;
+        }
+
+        private void HandleWindowClosed( object sender, EventArgs e )
+        {
+            ViewModel.ViewModelLocator.Cleanup();
         }
     }
 }
