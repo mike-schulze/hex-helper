@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Newtonsoft.Json.Linq;
 
 namespace HexHelper.HexApi
@@ -19,7 +20,8 @@ namespace HexHelper.HexApi
             GameStarted,
             GameEnded,
             PlayedUpdated,
-            CardUpdated
+            CardUpdated,
+            PlayerUpdated
         }
 
         public MessageType Type { get; private set; }
@@ -42,14 +44,14 @@ namespace HexHelper.HexApi
 
         private static MessageType TypeFromString( string aMessageTypeString )
         {
-            try
+            MessageType theType;
+            if( Enum.TryParse( aMessageTypeString, out theType ) )
             {
-                return ( MessageType ) Enum.Parse( typeof( MessageType ), aMessageTypeString );
+                return theType;
             }
-            catch( InvalidCastException )
-            {
-                return MessageType.Unknown;
-            }
+
+            Debug.WriteLine( String.Format( "Unknown message type: {0}", aMessageTypeString ) );
+            return MessageType.Unknown;
         }
     }
 }
