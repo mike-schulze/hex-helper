@@ -17,7 +17,10 @@ namespace HexHelper.WinDesktop.ViewModel
             mHexApi = aHexApi;
 
             StartCommand = new RelayCommand( StartServer );
+        }
 
+        public void Initialize()
+        {
             StartServer();
         }
 

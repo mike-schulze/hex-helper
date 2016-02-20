@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
 namespace HexHelper.WinDesktop
 {
@@ -13,5 +7,19 @@ namespace HexHelper.WinDesktop
     /// </summary>
     public partial class App : Application
     {
+        private void HandleStartup( object sender, StartupEventArgs e )
+        {
+            Current.DispatcherUnhandledException += HandleUnhandledException;
+        }
+
+        private void HandleUnhandledException( object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e )
+        {
+            e.Handled = true;
+
+            string theErrorMessage = e.Exception.Message + ( e.Exception.InnerException != null ? "\n" + e.Exception.InnerException.Message : null );
+            MessageBox.Show( theErrorMessage, "An error occurred" );
+
+            Application.Current.Shutdown();
+        }
     }
 }
