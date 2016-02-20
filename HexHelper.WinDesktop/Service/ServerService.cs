@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace HexHelper.WinDesktop.Service
 {
     public sealed class ServerService : IServerService
     {
-        public void Start( int port )
+        public void Start( int aPort )
         {
             if( !HttpListener.IsSupported )
             {
@@ -20,7 +16,7 @@ namespace HexHelper.WinDesktop.Service
                 return;
             }
 
-            if( _listener != null && _listener.IsListening )
+            if( mListener != null && mListener.IsListening )
             {
                 OnErrorOccurred( "Server has already been started." );
                 return;
@@ -28,13 +24,13 @@ namespace HexHelper.WinDesktop.Service
 
             try
             {
-                _listener = new HttpListener();
-                _listener.Prefixes.Add( String.Format( "http://localhost:{0}/server/", port ) );
+                mListener = new HttpListener();
+                mListener.Prefixes.Add( String.Format( "http://localhost:{0}/server/", aPort ) );
 
-                _listener.Start();
-                Debug.WriteLine( String.Format( "Listening on port {0}...", port ) );
+                mListener.Start();
+                Debug.WriteLine( String.Format( "Listening on port {0}...", aPort ) );
 
-                _listener.BeginGetContext( HandleRequest, _listener );
+                mListener.BeginGetContext( HandleRequest, mListener );
             }
             catch( HttpListenerException e )
             {
@@ -42,44 +38,44 @@ namespace HexHelper.WinDesktop.Service
             }
         }
 
-        private void HandleRequest( IAsyncResult result )
+        private void HandleRequest( IAsyncResult aResult )
         {
-            HttpListener listener = ( HttpListener ) result.AsyncState;
+            var theListener = ( HttpListener ) aResult.AsyncState;
 
-            if( listener == null || !listener.IsListening )
+            if( theListener == null || !theListener.IsListening )
             {
                 return;
             }
 
             try
             {
-                var context = listener.EndGetContext( result );
-                var request = context.Request;
+                var theContext = theListener.EndGetContext( aResult );
+                var theRequest = theContext.Request;
 
-                if( request.InputStream != null )
+                if( theRequest.InputStream != null )
                 {
-                    using( var reader = new StreamReader( request.InputStream ) )
+                    using( var theReader = new StreamReader( theRequest.InputStream ) )
                     {
-                        var content = reader.ReadToEnd();
-                        if( !String.IsNullOrWhiteSpace( content ) )
+                        var theContent = theReader.ReadToEnd();
+                        if( !String.IsNullOrWhiteSpace( theContent ) )
                         {
-                            OnDataPosted( content );
+                            OnDataPosted( theContent );
                         }
                     }
                 }
 
-                var response = context.Response;
-                string responseString = "<HTML><BODY>Hello world!</BODY></HTML>";
-                byte[] buffer = Encoding.UTF8.GetBytes( responseString );
+                var theResponse = theContext.Response;
+                string theResponseString = "<HTML><BODY>Hello world!</BODY></HTML>";
+                byte[] theBuffer = Encoding.UTF8.GetBytes( theResponseString );
 
-                response.ContentLength64 = buffer.Length;
-                var output = response.OutputStream;
-                output.Write( buffer, 0, buffer.Length );
-                output.Close();
+                theResponse.ContentLength64 = theBuffer.Length;
+                var theOutput = theResponse.OutputStream;
+                theOutput.Write( theBuffer, 0, theBuffer.Length );
+                theOutput.Close();
 
-                if( listener.IsListening )
+                if( theListener.IsListening )
                 {
-                    _listener.BeginGetContext( HandleRequest, _listener );
+                    mListener.BeginGetContext( HandleRequest, mListener );
                 }
             }
             catch( HttpListenerException e )
@@ -90,12 +86,12 @@ namespace HexHelper.WinDesktop.Service
 
         public void Stop()
         {
-            if( _listener != null && _listener.IsListening )
+            if( mListener != null && mListener.IsListening )
             {
                 try
                 {
-                    _listener.Stop();
-                    _listener = null;
+                    mListener.Stop();
+                    mListener = null;
                 }
                 catch( HttpListenerException e )
                 {
@@ -104,24 +100,24 @@ namespace HexHelper.WinDesktop.Service
             }
         }
 
-        private void OnDataPosted( string data )
+        private void OnDataPosted( string aData )
         {
             if( DataPosted != null )
             {
-                DataPosted( this, data );
+                DataPosted( this, aData );
             }
         }
         public event EventHandler<string> DataPosted;
 
-        private void OnErrorOccurred( string data )
+        private void OnErrorOccurred( string aData )
         {
             if( ErrorOccurred != null )
             {
-                ErrorOccurred( this, data );
+                ErrorOccurred( this, aData );
             }
         }
         public event EventHandler<string> ErrorOccurred;
 
-        private HttpListener _listener;
+        private HttpListener mListener;
     }
 }

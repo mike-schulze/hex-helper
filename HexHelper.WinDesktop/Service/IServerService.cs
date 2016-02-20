@@ -8,7 +8,7 @@ namespace HexHelper.WinDesktop.Service
 {
     public interface IServerService
     {
-        void Start( int port = 1408 );
+        void Start( int aPort = 1408 );
 
         void Stop();
 

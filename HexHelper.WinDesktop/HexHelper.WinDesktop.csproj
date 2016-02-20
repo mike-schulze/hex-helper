@@ -79,6 +79,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Service\HexApiService.cs" />
+    <Compile Include="Service\IHexApiService.cs" />
     <Compile Include="Service\IServerService.cs" />
     <Compile Include="Service\ServerService.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
@@ -114,7 +116,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -123,6 +127,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HexHelper.HexApi\HexHelper.HexApi.csproj">
+      <Project>{b15cb1d2-9714-409c-be14-d2708baa1706}</Project>
+      <Name>HexHelper.HexApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HexHelper.Hex\HexHelper.Hex.csproj">
+      <Project>{5f61ad0c-f121-4da5-a385-8ba2f4fab50e}</Project>
+      <Name>HexHelper.Hex</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

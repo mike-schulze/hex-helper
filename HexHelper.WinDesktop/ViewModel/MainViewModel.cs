@@ -1,16 +1,20 @@
+using System;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using HexHelper.HexApi;
 using HexHelper.WinDesktop.Service;
 
 namespace HexHelper.WinDesktop.ViewModel
 {
     public sealed class MainViewModel : ViewModelBase
     {
-        public MainViewModel( IServerService aServer )
+        public MainViewModel( IServerService aServer, IHexApiService aHexApi )
         {
             mServer = aServer;
             mServer.DataPosted += HandleDataPosted;
             mServer.ErrorOccurred += HandleErrorOccurred;
+
+            mHexApi = aHexApi;
 
             StartCommand = new RelayCommand( StartServer );
 
@@ -27,9 +31,17 @@ namespace HexHelper.WinDesktop.ViewModel
             
         }
 
-        private void HandleDataPosted( object sender, string e )
+        private void HandleDataPosted( object sender, string aMessageString )
         {
-            Status += e;
+            var theMessage = mHexApi.ParseMessageString( aMessageString );
+            if( theMessage.Type == Message.MessageType.Unknown )
+            {
+                Status = string.Format( "{0} - Unknown message received", DateTime.Now.ToShortTimeString() );
+            }
+            else
+            {
+                Status = string.Format( "{0} - {1} message received", DateTime.Now.ToShortTimeString(), theMessage.Type );
+            }
         }
 
         public override void Cleanup()
@@ -41,18 +53,19 @@ namespace HexHelper.WinDesktop.ViewModel
 
         public string Status { 
             get {
-                return _status;
+                return mStatus;
             }
 
             set
             {
-                Set( nameof( Status ), ref _status, value );
+                Set( nameof( Status ), ref mStatus, value );
             }
         }
-        private string _status;
+        private string mStatus;
 
         public RelayCommand StartCommand { get; private set; }
 
         private IServerService mServer;
+        private IHexApiService mHexApi;
     }
 }

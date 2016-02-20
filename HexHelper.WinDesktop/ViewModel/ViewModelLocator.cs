@@ -45,6 +45,7 @@ namespace HexHelper.WinDesktop.ViewModel
 
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<IServerService, ServerService>();
+            SimpleIoc.Default.Register<IHexApiService, HexApiService>();
         }
 
         public MainViewModel Main
