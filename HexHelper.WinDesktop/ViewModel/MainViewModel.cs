@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using HexHelper.HexApi;
@@ -19,9 +20,11 @@ namespace HexHelper.WinDesktop.ViewModel
             StartCommand = new RelayCommand( StartServer );
         }
 
-        public void Initialize()
+        public async Task Initialize()
         {
             StartServer();
+
+            await mHexApi.DownloadCardList();
         }
 
         private void StartServer()

@@ -137,6 +137,10 @@
       <Project>{5f61ad0c-f121-4da5-a385-8ba2f4fab50e}</Project>
       <Name>HexHelper.Hex</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HexHelper.JsonApi\HexHelper.JsonApi.csproj">
+      <Project>{a94fc616-2ab3-444a-b034-d7fde6aaf4f9}</Project>
+      <Name>HexHelper.JsonApi</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

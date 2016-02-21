@@ -1,11 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
+using HexHelper.Hex;
 using HexHelper.HexApi;
+using HexHelper.JsonApi;
 
 namespace HexHelper.WinDesktop.Service
 {
     public sealed class HexApiService : IHexApiService
     {
+        public Task<IEnumerable<Card>> DownloadCardList()
+        {
+            return AuctionHouseData.RetrievePriceList();
+        }
+
         public Message ParseMessageString( string aMessageString )
         {
             var theMessage = Message.ParseMessage( aMessageString );

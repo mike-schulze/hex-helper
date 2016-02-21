@@ -18,13 +18,13 @@ namespace HexHelper.WinDesktop
             this.Closed += HandleWindowClosed;
         }
 
-        private void HandleLoaded( object sender, RoutedEventArgs e )
+        private async void HandleLoaded( object sender, RoutedEventArgs e )
         {
             var theVM = DataContext as MainViewModel;
             
             if( theVM != null )
             {
-                theVM.Initialize();
+                await theVM.Initialize();
             }
         }
 
