@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using HexHelper.Hex;
+using HexHelper.Hex.Interface;
 using HexHelper.HexApi;
 using HexHelper.JsonApi;
 
@@ -10,33 +11,45 @@ namespace HexHelper.WinDesktop.Service
 {
     public sealed class HexApiService : IHexApiService
     {
-        public Task<IEnumerable<Card>> DownloadCardList()
+        public HexApiService( IFileService aFileService, IRepository aRepo )
         {
-            return AuctionHouseData.RetrievePriceList();
+            mFileService = aFileService;
+            mRepo = aRepo;
         }
 
-        public Message ParseMessageString( string aMessageString )
+        public async Task Initialize()
+        {
+            await mRepo.Initialize();
+        }
+
+        public Task Shutdown()
+        {
+            // bugged
+            // await mRepo.Persist();
+            return Task.FromResult( 0 );
+        }
+
+        public async Task UpdatePrices()
+        {
+            var theCards = await AuctionHouseData.RetrievePriceList();
+            mRepo.UpdatePrices( theCards );
+            await mRepo.Persist();
+        }
+
+        public async Task<Message> ParseMessageString( string aMessageString )
         {
             var theMessage = Message.ParseMessage( aMessageString );
-            StoreMessage( theMessage, aMessageString );
-
+            await StoreMessage( theMessage, aMessageString );
             return theMessage;
         }
 
-        private void StoreMessage( Message aMessage, string aMessageString )
+        private async Task StoreMessage( Message aMessage, string aMessageString )
         {
-            var thePath = Path.Combine(
-                Environment.GetFolderPath( Environment.SpecialFolder.ApplicationData ),
-                "HexHelper",
-                "Messages" );
-            Directory.CreateDirectory( thePath );
-
-            string theFileName = String.Format( "{0}-{1}.json", DateTime.Now.ToFileTimeUtc(), aMessage.Type.ToString() );
-
-            using( TextWriter theWriter = new StreamWriter( Path.Combine( thePath, theFileName ) ) )
-            {
-                theWriter.WriteLine( aMessageString );
-            }
+            string theFileName = String.Format( "{0}.json", DateTime.Now.ToFileTimeUtc() );
+            await mFileService.SaveFile( "Message\\" + aMessage.Type.ToString(), theFileName, aMessageString );
         }
+
+        private readonly IRepository mRepo;
+        private readonly IFileService mFileService;
     }
 }

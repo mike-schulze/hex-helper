@@ -10,8 +10,9 @@ namespace HexHelper.WinDesktop.Service
 {
     public interface IHexApiService
     {
-        Message ParseMessageString( string aMessageString );
-
-        Task<IEnumerable<Card>> DownloadCardList();
+        Task Initialize();
+        Task UpdatePrices();
+        Task<Message> ParseMessageString( string aMessageString );        
+        Task Shutdown();
     }
 }

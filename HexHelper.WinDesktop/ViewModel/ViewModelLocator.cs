@@ -12,8 +12,11 @@
   See http://www.galasoft.ch/mvvm
 */
 
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
+using HexHelper.Hex;
+using HexHelper.Hex.Interface;
 using HexHelper.WinDesktop.Service;
 using Microsoft.Practices.ServiceLocation;
 
@@ -46,6 +49,8 @@ namespace HexHelper.WinDesktop.ViewModel
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<IServerService, ServerService>();
             SimpleIoc.Default.Register<IHexApiService, HexApiService>();
+            SimpleIoc.Default.Register<IFileService, FileService>();
+            SimpleIoc.Default.Register<IRepository, Repository>();
         }
 
         public MainViewModel Main
@@ -56,9 +61,9 @@ namespace HexHelper.WinDesktop.ViewModel
             }
         }
         
-        public static void Cleanup()
+        public static async Task Cleanup()
         {
-            ServiceLocator.Current.GetInstance<MainViewModel>().Cleanup();
+            await ServiceLocator.Current.GetInstance<MainViewModel>().Shutdown();
         }
     }
 }

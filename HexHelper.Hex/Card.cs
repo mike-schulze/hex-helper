@@ -2,6 +2,12 @@
 
 namespace HexHelper.Hex
 {
+    public struct CardCount
+    {
+        public Guid Id;
+        public int Count;
+    }
+
     public class Card
     {
         public Guid Id { get; set; }

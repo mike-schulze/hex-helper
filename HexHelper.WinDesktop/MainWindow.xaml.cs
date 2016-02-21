@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using HexHelper.WinDesktop.ViewModel;
 using MahApps.Metro.Controls;
@@ -28,9 +29,9 @@ namespace HexHelper.WinDesktop
             }
         }
 
-        private void HandleWindowClosed( object sender, EventArgs e )
+        private async void HandleWindowClosed( object sender, EventArgs e )
         {
-            ViewModel.ViewModelLocator.Cleanup();
+            await ViewModel.ViewModelLocator.Cleanup();
         }
     }
 }

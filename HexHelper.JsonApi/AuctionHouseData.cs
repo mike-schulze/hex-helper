@@ -30,9 +30,15 @@ namespace HexHelper.JsonApi
                             continue;
                         }
 
+                        Guid theGuid;
+                        if( !Guid.TryParse( (string ) theCard["uuid"], out theGuid ) )
+                        {
+                            continue;
+                        }
+
                         theList.Add( new Card() {
                             Name = theName,
-                            Id = new Guid( ( string ) theCard["uuid"] ),
+                            Id = theGuid,
                             PricePlatinum = ( int) theCard["PLATINUM"]["avg"],
                             SalesPlatinum = ( int ) theCard["PLATINUM"]["sample_size"],
                             PriceGold = ( int ) theCard["GOLD"]["avg"],

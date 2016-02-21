@@ -79,6 +79,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Service\FileService.cs" />
     <Compile Include="Service\HexApiService.cs" />
     <Compile Include="Service\IHexApiService.cs" />
     <Compile Include="Service\IServerService.cs" />

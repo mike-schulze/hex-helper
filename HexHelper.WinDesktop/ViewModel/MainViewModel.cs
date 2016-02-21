@@ -24,7 +24,8 @@ namespace HexHelper.WinDesktop.ViewModel
         {
             StartServer();
 
-            await mHexApi.DownloadCardList();
+            await mHexApi.Initialize();
+            await mHexApi.UpdatePrices();
         }
 
         private void StartServer()
@@ -37,9 +38,9 @@ namespace HexHelper.WinDesktop.ViewModel
             
         }
 
-        private void HandleDataPosted( object sender, string aMessageString )
+        private async void HandleDataPosted( object sender, string aMessageString )
         {
-            var theMessage = mHexApi.ParseMessageString( aMessageString );
+            var theMessage = await mHexApi.ParseMessageString( aMessageString );
             if( theMessage.Type == Message.MessageType.Unknown )
             {
                 Status = string.Format( "{0} - Unknown message received", DateTime.Now.ToShortTimeString() );
@@ -50,11 +51,10 @@ namespace HexHelper.WinDesktop.ViewModel
             }
         }
 
-        public override void Cleanup()
+        public async Task Shutdown()
         {
             mServer.Stop();
-
-            base.Cleanup();
+            await mHexApi.Shutdown();
         }
 
         public string Status { 
