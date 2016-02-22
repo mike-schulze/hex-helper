@@ -22,11 +22,9 @@ namespace HexHelper.WinDesktop.Service
             await mRepo.Initialize();
         }
 
-        public Task Shutdown()
+        public async Task Shutdown()
         {
-            // bugged
-            // await mRepo.Persist();
-            return Task.FromResult( 0 );
+            await mRepo.Persist();
         }
 
         public async Task UpdatePrices()

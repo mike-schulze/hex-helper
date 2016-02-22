@@ -30,7 +30,11 @@ namespace HexHelper.Hex
                 return;
             }
 
-            mDb = JsonConvert.DeserializeObject< Dictionary<Guid, Card> >( theFileContent );
+            var theDatabase = JsonConvert.DeserializeObject<Dictionary<Guid, Card>>( theFileContent );
+            if( theDatabase != null )
+            {
+                mDb = theDatabase;
+            }
         }
 
         public async Task Persist()

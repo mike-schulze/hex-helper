@@ -30,14 +30,16 @@ namespace HexHelper.WinDesktop.Service
             }
         }
 
-        public async Task SaveFile( string aRelativeDirectory, string aFileName, string aContent )
+        public Task SaveFile( string aRelativeDirectory, string aFileName, string aContent )
         {
             var thePath = ConstructPath( aRelativeDirectory );
             Directory.CreateDirectory( thePath );
 
             using( TextWriter theWriter = new StreamWriter( Path.Combine( thePath, aFileName ) ) )
             {
-                await theWriter.WriteLineAsync( aContent );
+                // This is a hack. When using WriteLineAsync at app shut-down, file gets truncated.
+                theWriter.WriteLine( aContent );
+                return Task.FromResult( 0 );
             }
         }
 
