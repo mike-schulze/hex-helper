@@ -14,5 +14,6 @@ namespace HexHelper.WinDesktop.Service
         Task UpdatePrices();
         Task<Message> ParseMessageString( string aMessageString );        
         Task Shutdown();
+        IEnumerable<Card> GetCards();
     }
 }

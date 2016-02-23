@@ -47,6 +47,11 @@ namespace HexHelper.WinDesktop.Service
             await mFileService.SaveFile( "Message\\" + aMessage.Type.ToString(), theFileName, aMessageString );
         }
 
+        public IEnumerable<Card> GetCards()
+        {
+            return mRepo.AllCards();
+        }
+
         private readonly IRepository mRepo;
         private readonly IFileService mFileService;
     }

@@ -1,7 +1,11 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using HexHelper.Hex;
 using HexHelper.HexApi;
 using HexHelper.WinDesktop.Service;
 
@@ -24,8 +28,14 @@ namespace HexHelper.WinDesktop.ViewModel
         {
             StartServer();
 
+            Status = "Initializing database...";
             await mHexApi.Initialize();
+
+            Status = "Updating prices...";
             await mHexApi.UpdatePrices();
+
+            Status = "Grabbing cards...";
+            Cards = new ObservableCollection<Card>( mHexApi.GetCards() );
         }
 
         private void StartServer()
@@ -68,6 +78,19 @@ namespace HexHelper.WinDesktop.ViewModel
             }
         }
         private string mStatus;
+
+        public ObservableCollection<Card> Cards
+        {
+            get {
+                return mCards;
+            }
+            set
+            {
+                Set( nameof( Cards ), ref mCards, value );
+            }
+        }
+        private ObservableCollection<Card> mCards;
+
 
         public RelayCommand StartCommand { get; private set; }
 

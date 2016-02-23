@@ -13,9 +13,47 @@
                       MinHeight="350" MinWidth="525"
                       DataContext="{Binding Main, Source={StaticResource Locator}}">
     <Grid>
-        <TextBlock VerticalAlignment="Center"
-                   HorizontalAlignment="Center"
-                   FontSize="12"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ListView ItemsSource="{Binding Cards}"
+                  ScrollViewer.CanContentScroll="True"
+                  Margin="10">
+
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn Header="Name"
+                                DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="Plat"
+                                DisplayMemberBinding="{Binding PricePlatinum}"/>
+                        <GridViewColumn Header="Gold"
+                                DisplayMemberBinding="{Binding PriceGold}"/>
+                        <GridViewColumn Header="Sales Plat"
+                                DisplayMemberBinding="{Binding SalesPlatinum}"/>
+                        <GridViewColumn Header="Sales Cold"
+                                DisplayMemberBinding="{Binding SalesGold}"/>
+                        <GridViewColumn Header="Owned"
+                                DisplayMemberBinding="{Binding CopiesOwned}"/>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <TextBlock Grid.Row="1"                   
+                   Foreground="{StaticResource BlackBrush}"
+                   Background="{StaticResource AccentColorBrush}"
+                   VerticalAlignment="Center"
+                   FontSize="11"
+                   Padding="10,3"
                    Text="{Binding Status}" />
     </Grid>
 </Controls:MetroWindow>
