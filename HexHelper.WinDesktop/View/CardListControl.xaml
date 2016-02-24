@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="HexHelper.WinDesktop.View.CardListControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HexHelper.WinDesktop.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="500">
+
+    <ListView ItemsSource="{Binding Cards}"
+                  ScrollViewer.CanContentScroll="True"
+                  x:Name="mList">
+
+        <ListView.ItemsPanel>
+            <ItemsPanelTemplate>
+                <VirtualizingStackPanel />
+            </ItemsPanelTemplate>
+        </ListView.ItemsPanel>
+
+        <ListView.View>
+            <GridView>
+                <GridView.Columns>
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="Name" Click="HandleNameClick" />
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding PricePlatinum}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="Plat" Click="HandlePlatClick" />
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding PriceGold}" Width="80">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="Gold" Click="HandleGoldClick" />
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding SalesPlatinum}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="Sales Plat" Click="HandlePlatSalesClick" />
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding SalesGold}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="Sales Gold" Click="HandleGoldSalesClick" />
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding CopiesOwned}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="Owned" Click="HandleOwnedClick" />
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                </GridView.Columns>
+            </GridView>
+        </ListView.View>
+    </ListView>
+</UserControl>

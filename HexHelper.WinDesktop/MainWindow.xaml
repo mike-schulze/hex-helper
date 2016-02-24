@@ -5,12 +5,13 @@
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:local="clr-namespace:HexHelper.WinDesktop"
+                      xmlns:view="clr-namespace:HexHelper.WinDesktop.View"
                       mc:Ignorable="d"
                       Title="Hex Helper"
-                      Height="350" Width="525"
+                      Height="450" Width="725"
                       ResizeMode="CanResizeWithGrip"
                       EnableDWMDropShadow="True"
-                      MinHeight="350" MinWidth="525"
+                      MinHeight="450" MinWidth="725"
                       DataContext="{Binding Main, Source={StaticResource Locator}}">
     <Grid>
         <Grid.RowDefinitions>
@@ -18,35 +19,8 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ListView ItemsSource="{Binding Cards}"
-                  ScrollViewer.CanContentScroll="True"
-                  Margin="10">
-
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <VirtualizingStackPanel />
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-
-            <ListView.View>
-                <GridView>
-                    <GridView.Columns>
-                        <GridViewColumn Header="Name"
-                                DisplayMemberBinding="{Binding Name}"/>
-                        <GridViewColumn Header="Plat"
-                                DisplayMemberBinding="{Binding PricePlatinum}"/>
-                        <GridViewColumn Header="Gold"
-                                DisplayMemberBinding="{Binding PriceGold}"/>
-                        <GridViewColumn Header="Sales Plat"
-                                DisplayMemberBinding="{Binding SalesPlatinum}"/>
-                        <GridViewColumn Header="Sales Cold"
-                                DisplayMemberBinding="{Binding SalesGold}"/>
-                        <GridViewColumn Header="Owned"
-                                DisplayMemberBinding="{Binding CopiesOwned}"/>
-                    </GridView.Columns>
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <view:CardListControl Cards="{Binding Cards}"
+                              Margin="10" />
 
         <TextBlock Grid.Row="1"                   
                    Foreground="{StaticResource BlackBrush}"
