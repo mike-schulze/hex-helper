@@ -4,8 +4,8 @@ using System.IO;
 using System.Threading.Tasks;
 using HexHelper.Hex;
 using HexHelper.Hex.Interface;
-using HexHelper.HexApi;
-using HexHelper.JsonApi;
+using HexHelper.JsonApi.HexApi;
+using HexHelper.JsonApi.Prices;
 
 namespace HexHelper.WinDesktop.Service
 {

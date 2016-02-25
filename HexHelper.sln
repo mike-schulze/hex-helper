@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexHelper.WinDesktop", "Hex
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexHelper.Hex", "HexHelper.Hex\HexHelper.Hex.csproj", "{5F61AD0C-F121-4DA5-A385-8BA2F4FAB50E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexHelper.HexApi", "HexHelper.HexApi\HexHelper.HexApi.csproj", "{B15CB1D2-9714-409C-BE14-D2708BAA1706}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexHelper.JsonApi", "HexHelper.JsonApi\HexHelper.JsonApi.csproj", "{A94FC616-2AB3-444A-B034-D7FDE6AAF4F9}"
 EndProject
 Global
@@ -25,10 +23,6 @@ Global
 		{5F61AD0C-F121-4DA5-A385-8BA2F4FAB50E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F61AD0C-F121-4DA5-A385-8BA2F4FAB50E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F61AD0C-F121-4DA5-A385-8BA2F4FAB50E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B15CB1D2-9714-409C-BE14-D2708BAA1706}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B15CB1D2-9714-409C-BE14-D2708BAA1706}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B15CB1D2-9714-409C-BE14-D2708BAA1706}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B15CB1D2-9714-409C-BE14-D2708BAA1706}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A94FC616-2AB3-444A-B034-D7FDE6AAF4F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A94FC616-2AB3-444A-B034-D7FDE6AAF4F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A94FC616-2AB3-444A-B034-D7FDE6AAF4F9}.Release|Any CPU.ActiveCfg = Release|Any CPU

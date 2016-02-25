@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
 
-namespace HexHelper.HexApi
+namespace HexHelper.JsonApi.HexApi
 {
     public class Message
     {        

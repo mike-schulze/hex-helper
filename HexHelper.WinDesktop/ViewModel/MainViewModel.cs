@@ -1,12 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using HexHelper.Hex;
-using HexHelper.HexApi;
+using HexHelper.JsonApi.HexApi;
 using HexHelper.WinDesktop.Service;
 
 namespace HexHelper.WinDesktop.ViewModel
