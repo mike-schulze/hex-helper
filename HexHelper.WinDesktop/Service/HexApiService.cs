@@ -34,15 +34,20 @@ namespace HexHelper.WinDesktop.Service
             await mRepo.Persist();
         }
 
-        public async Task<Message> ParseMessageString( string aMessageString )
+        public async Task<IMessage> ParseMessageString( string aMessageString, bool? aLogToFile = null )
         {
-            var theMessage = Message.ParseMessage( aMessageString );
+            var theMessage = Parser.ParseMessage( aMessageString, aLogToFile );
             await StoreMessage( theMessage, aMessageString );
             return theMessage;
         }
 
-        private async Task StoreMessage( Message aMessage, string aMessageString )
+        private async Task StoreMessage( IMessage aMessage, string aMessageString )
         {
+            if( !aMessage.LogToFile )
+            {
+                return;
+            }
+
             string theFileName = String.Format( "{0}.json", DateTime.Now.ToFileTimeUtc() );
             await mFileService.SaveFile( "Message\\" + aMessage.Type.ToString(), theFileName, aMessageString );
         }

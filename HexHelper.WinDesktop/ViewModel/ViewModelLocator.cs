@@ -35,22 +35,12 @@ namespace HexHelper.WinDesktop.ViewModel
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
-            ////if (ViewModelBase.IsInDesignModeStatic)
-            ////{
-            ////    // Create design time view services and models
-            ////    SimpleIoc.Default.Register<IDataService, DesignDataService>();
-            ////}
-            ////else
-            ////{
-            ////    // Create run time view services and models
-            ////    SimpleIoc.Default.Register<IDataService, DataService>();
-            ////}
-
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<IServerService, ServerService>();
             SimpleIoc.Default.Register<IHexApiService, HexApiService>();
             SimpleIoc.Default.Register<IFileService, FileService>();
             SimpleIoc.Default.Register<IRepository, Repository>();
+            SimpleIoc.Default.Register<IDialogService, MetroDialogService_t>();
         }
 
         public MainViewModel Main

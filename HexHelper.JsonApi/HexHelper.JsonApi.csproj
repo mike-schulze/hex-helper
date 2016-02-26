@@ -34,7 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="HexApi\Message.cs" />
+    <Compile Include="HexApi\CollectionMessage.cs" />
+    <Compile Include="HexApi\IMessage.cs" />
+    <Compile Include="HexApi\Parser.cs" />
     <Compile Include="Prices\AuctionHouseData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

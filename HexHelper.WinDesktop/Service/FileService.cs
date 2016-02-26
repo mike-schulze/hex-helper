@@ -10,6 +10,19 @@ namespace HexHelper.WinDesktop.Service
 {
     public class FileService : IFileService
     {
+        public async Task<string> LoadFile( string aPath )
+        {
+            if( !File.Exists( aPath ) )
+            {
+                return null;
+            }
+
+            using( TextReader theReader = new StreamReader( aPath ) )
+            {
+                return await theReader.ReadToEndAsync();
+            }
+        }
+
         public async Task<string> LoadFile( string aRelativeDirectory, string aFileName )
         {
             var thePath = ConstructPath( aRelativeDirectory );
@@ -17,17 +30,9 @@ namespace HexHelper.WinDesktop.Service
             {
                 return null;
             }
-
+           
             var theFileName = Path.Combine( thePath, aFileName );
-            if( !File.Exists( theFileName ) )
-            {
-                return null;
-            }
-
-            using( TextReader theReader = new StreamReader( theFileName ) )
-            {
-                return await theReader.ReadToEndAsync();
-            }
+            return await LoadFile( theFileName );
         }
 
         public Task SaveFile( string aRelativeDirectory, string aFileName, string aContent )

@@ -1,7 +1,6 @@
 ﻿using System;
-using System.IO;
-using System.Threading.Tasks;
 using System.Windows;
+using GalaSoft.MvvmLight.Ioc;
 using HexHelper.WinDesktop.ViewModel;
 using MahApps.Metro.Controls;
 
@@ -14,6 +13,9 @@ namespace HexHelper.WinDesktop
     {
         public MainWindow()
         {
+            // need to register ourselves as default MetroWindow for dialogs
+            SimpleIoc.Default.Register<MetroWindow>( () => this );
+
             InitializeComponent();
 
             this.Loaded += HandleLoaded;

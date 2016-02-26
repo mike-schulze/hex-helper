@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using HexHelper.Hex;
+using HexHelper.Hex.Interface;
 using HexHelper.JsonApi.HexApi;
 using HexHelper.WinDesktop.Service;
 
@@ -11,7 +12,7 @@ namespace HexHelper.WinDesktop.ViewModel
 {
     public sealed class MainViewModel : ViewModelBase
     {
-        public MainViewModel( IServerService aServer, IHexApiService aHexApi )
+        public MainViewModel( IServerService aServer, IHexApiService aHexApi, IDialogService aDialogs, IFileService aFile )
         {
             mServer = aServer;
             mServer.DataPosted += HandleDataPosted;
@@ -19,7 +20,12 @@ namespace HexHelper.WinDesktop.ViewModel
 
             mHexApi = aHexApi;
 
+            mDialogs = aDialogs;
+
+            mFile = aFile;
+
             StartCommand = new RelayCommand( StartServer );
+            PickMessageCommand = new RelayCommand( PickMessage );
         }
 
         public async Task Initialize()
@@ -48,8 +54,13 @@ namespace HexHelper.WinDesktop.ViewModel
 
         private async void HandleDataPosted( object sender, string aMessageString )
         {
-            var theMessage = await mHexApi.ParseMessageString( aMessageString );
-            if( theMessage.Type == Message.MessageType.Unknown )
+            await HandleMessage( aMessageString );
+        }
+
+        private async Task HandleMessage( string aMessageString, bool? aLogToFile = null )
+        {
+            var theMessage = await mHexApi.ParseMessageString( aMessageString, aLogToFile );
+            if( theMessage.Type == MessageType.Unknown )
             {
                 Status = string.Format( "{0} - Unknown message received", DateTime.Now.ToShortTimeString() );
             }
@@ -57,12 +68,25 @@ namespace HexHelper.WinDesktop.ViewModel
             {
                 Status = string.Format( "{0} - {1} message received", DateTime.Now.ToShortTimeString(), theMessage.Type );
             }
+
         }
 
         public async Task Shutdown()
         {
             mServer.Stop();
             await mHexApi.Shutdown();
+        }
+
+        private async void PickMessage()
+        {
+            var theFilePath = mDialogs.ShowFileOpenDialog( "Pick a Hex API json message", "*.json" );
+            if( String.IsNullOrWhiteSpace( theFilePath ) )
+            {
+                return;
+            }
+
+            MessageText = await mFile.LoadFile( theFilePath );
+            await HandleMessage( MessageText, aLogToFile: false );
         }
 
         public string Status { 
@@ -89,10 +113,26 @@ namespace HexHelper.WinDesktop.ViewModel
         }
         private ObservableCollection<Card> mCards;
 
+        public string MessageText
+        {
+            get
+            {
+                return mMessageText;
+            }
+            set
+            {
+                Set( nameof( MessageText ), ref mMessageText, value );
+            }
+        }
+        private string mMessageText;
+
 
         public RelayCommand StartCommand { get; private set; }
+        public RelayCommand PickMessageCommand { get; private set; }
 
-        private IServerService mServer;
-        private IHexApiService mHexApi;
+        private readonly IServerService mServer;
+        private readonly IHexApiService mHexApi;
+        private readonly IDialogService mDialogs;
+        private readonly IFileService mFile;
     }
 }

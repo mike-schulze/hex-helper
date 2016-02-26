@@ -81,8 +81,10 @@
     </ApplicationDefinition>
     <Compile Include="Service\FileService.cs" />
     <Compile Include="Service\HexApiService.cs" />
+    <Compile Include="Service\IDialogService.cs" />
     <Compile Include="Service\IHexApiService.cs" />
     <Compile Include="Service\IServerService.cs" />
+    <Compile Include="Service\MetroDialogService.cs" />
     <Compile Include="Service\ServerService.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
