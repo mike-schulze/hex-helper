@@ -38,7 +38,14 @@ namespace HexHelper.WinDesktop.ViewModel
             Status = "Updating prices...";
             await mHexApi.UpdatePrices();
 
-            Status = "Grabbing cards...";
+            Cards = new ObservableCollection<Card>( mHexApi.GetCards() );
+            Status = "Collection loaded.";
+
+            mHexApi.CollectionChanged += HandleCollectionChanged;
+        }
+
+        private void HandleCollectionChanged( object sender, EventArgs e )
+        {
             Cards = new ObservableCollection<Card>( mHexApi.GetCards() );
         }
 

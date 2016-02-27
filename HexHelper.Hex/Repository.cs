@@ -42,9 +42,9 @@ namespace HexHelper.Hex
             await mFileService.SaveFile( "Database", "db.json", JsonConvert.SerializeObject( mDb ) );
         }
 
-        public void UpdateInventory( IEnumerable<CardCount> aCardCount )
+        public void UpdateInventory( IEnumerable<ObjectCount> aCollection, IEnumerable<ObjectCount> aAdded, IEnumerable<ObjectCount> aRemoved )
         {
-            foreach( var theCount in aCardCount )
+            foreach( var theCount in aCollection )
             {
                 if( !mDb.ContainsKey( theCount.Id ) )
                 {
@@ -54,6 +54,32 @@ namespace HexHelper.Hex
 
                 Card theUpdatedCard = mDb[theCount.Id];
                 theUpdatedCard.CopiesOwned = theCount.Count;
+                mDb[theCount.Id] = theUpdatedCard;
+            }
+
+            foreach( var theCount in aAdded )
+            {
+                if( !mDb.ContainsKey( theCount.Id ) )
+                {
+                    Debug.WriteLine( String.Format( "Could not update card count for ID# {0}.", theCount.Id ) );
+                    continue;
+                }
+
+                Card theUpdatedCard = mDb[theCount.Id];
+                theUpdatedCard.CopiesOwned = theUpdatedCard.CopiesOwned + theCount.Count;
+                mDb[theCount.Id] = theUpdatedCard;
+            }
+
+            foreach( var theCount in aRemoved )
+            {
+                if( !mDb.ContainsKey( theCount.Id ) )
+                {
+                    Debug.WriteLine( String.Format( "Could not update card count for ID# {0}.", theCount.Id ) );
+                    continue;
+                }
+
+                Card theUpdatedCard = mDb[theCount.Id];
+                theUpdatedCard.CopiesOwned = theUpdatedCard.CopiesOwned - theCount.Count;
                 mDb[theCount.Id] = theUpdatedCard;
             }
         }

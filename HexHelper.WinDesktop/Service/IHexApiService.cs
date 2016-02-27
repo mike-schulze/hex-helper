@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using HexHelper.Hex;
 using HexHelper.JsonApi.HexApi;
@@ -12,5 +13,6 @@ namespace HexHelper.WinDesktop.Service
         Task<IMessage> ParseMessageString( string aMessageString, bool? aLogToFile = null );
         Task Shutdown();
         IEnumerable<Card> GetCards();
+        event EventHandler CollectionChanged;
     }
 }

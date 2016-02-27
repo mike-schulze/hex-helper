@@ -38,8 +38,25 @@ namespace HexHelper.WinDesktop.Service
         {
             var theMessage = Parser.ParseMessage( aMessageString, aLogToFile );
             await StoreMessage( theMessage, aMessageString );
+
+            var theCollectionMessage = ( CollectionMessage ) theMessage;
+            if( theMessage != null )
+            {
+                mRepo.UpdateInventory( theCollectionMessage.Complete, theCollectionMessage.CardsAdded, theCollectionMessage.CardsRemoved );
+                OnCollectionChanged();
+            }
+
             return theMessage;
         }
+
+        private void OnCollectionChanged()
+        {
+            if( CollectionChanged != null )
+            {
+                CollectionChanged( this, new EventArgs() );
+            }
+        }
+        public event EventHandler CollectionChanged;
 
         private async Task StoreMessage( IMessage aMessage, string aMessageString )
         {

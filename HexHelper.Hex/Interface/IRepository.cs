@@ -9,7 +9,7 @@ namespace HexHelper.Hex.Interface
     public interface IRepository
     {
         void UpdatePrices( IEnumerable<Card> aCards );
-        void UpdateInventory( IEnumerable<CardCount> aCardCount );
+        void UpdateInventory( IEnumerable<ObjectCount> aCollection, IEnumerable<ObjectCount> aAdded, IEnumerable<ObjectCount> aRemoved );
         IEnumerable<Card> AllCards();
         Task Initialize();
         Task Persist();

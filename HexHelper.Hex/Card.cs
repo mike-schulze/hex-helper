@@ -2,7 +2,7 @@
 
 namespace HexHelper.Hex
 {
-    public struct CardCount
+    public struct ObjectCount
     {
         public Guid Id;
         public int Count;
