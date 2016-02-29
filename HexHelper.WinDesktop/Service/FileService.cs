@@ -10,6 +10,11 @@ namespace HexHelper.WinDesktop.Service
 {
     public class FileService : IFileService
     {
+        public string FilePath( string aRelativeDirectory, string aFileName )
+        {
+            return Path.Combine( ConstructPath( aRelativeDirectory ), aFileName );
+        }
+
         public async Task<string> LoadFile( string aPath )
         {
             if( !File.Exists( aPath ) )

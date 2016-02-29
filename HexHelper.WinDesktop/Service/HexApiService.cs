@@ -29,8 +29,26 @@ namespace HexHelper.WinDesktop.Service
 
         public async Task UpdatePrices()
         {
-            var theCards = await AuctionHouseData.RetrievePriceList();
-            mRepo.UpdatePrices( theCards );
+            var theCachedPricesPath = mFileService.FilePath( "Prices", "cache.json" );
+            if( File.Exists( theCachedPricesPath ) )
+            {
+                var theFileInfo = new FileInfo( theCachedPricesPath );
+                var theDiff = DateTime.Now - theFileInfo.LastWriteTime;
+                if( theDiff.Hours < 8 )
+                {
+                    var theCards = AuctionHouseData.ParseJson( await mFileService.LoadFile( "Prices", "cache.json" ) );
+                    if( theCards != null )
+                    {
+                        mRepo.UpdatePrices( theCards );
+                        await mRepo.Persist();
+                        return;
+                    }
+                }
+            }
+
+            var theJson = await AuctionHouseData.DownloadPricelist();
+            await mFileService.SaveFile( "Prices", "cache.json", theJson );
+            mRepo.UpdatePrices( AuctionHouseData.ParseJson( theJson ) );
             await mRepo.Persist();
         }
 

@@ -9,41 +9,54 @@ namespace HexHelper.JsonApi.Prices
 {
     public static class AuctionHouseData
     {
-        public static async Task<IEnumerable<Card>> RetrievePriceList()
+        public static async Task<string> DownloadPricelist()
+        {
+            try
+            {
+                using( var theHttpClient = new HttpClient() )
+                {
+                    return await theHttpClient.GetStringAsync( scPriceListUrl );
+                }
+            }
+            catch
+            {
+            }
+
+            return null;
+        }
+
+        public static IEnumerable<Card> ParseJson( string aJson )
         {
             var theList = new List<Card>();
 
             try
             {
-                using( var theHttpClient = new HttpClient() )
+                var theJson = JObject.Parse( aJson );
+
+                foreach( var theCard in theJson["cards"] )
                 {
-                    var theJsonString = await theHttpClient.GetStringAsync( scPriceListUrl );
-                    var theJson = JObject.Parse( theJsonString );
-
-                    foreach( var theCard in theJson["cards"] )
+                    string theName = ( string ) theCard["name"];
+                    if( String.IsNullOrWhiteSpace( theName ) )
                     {
-                        string theName = (string) theCard["name"];
-                        if( String.IsNullOrWhiteSpace( theName ) )
-                        {
-                            continue;
-                        }
-
-                        Guid theGuid;
-                        if( !Guid.TryParse( (string ) theCard["uuid"], out theGuid ) )
-                        {
-                            continue;
-                        }
-
-                        theList.Add( new Card() {
-                            Name = theName,
-                            Id = theGuid,
-                            PricePlatinum = ( int) theCard["PLATINUM"]["avg"],
-                            SalesPlatinum = ( int ) theCard["PLATINUM"]["sample_size"],
-                            PriceGold = ( int ) theCard["GOLD"]["avg"],
-                            SalesGold = ( int ) theCard["GOLD"]["sample_size"]
-                        } );
-
+                        continue;
                     }
+
+                    Guid theGuid;
+                    if( !Guid.TryParse( ( string ) theCard["uuid"], out theGuid ) )
+                    {
+                        continue;
+                    }
+
+                    theList.Add( new Card()
+                    {
+                        Name = theName,
+                        Id = theGuid,
+                        PricePlatinum = ( int ) theCard["PLATINUM"]["avg"],
+                        SalesPlatinum = ( int ) theCard["PLATINUM"]["sample_size"],
+                        PriceGold = ( int ) theCard["GOLD"]["avg"],
+                        SalesGold = ( int ) theCard["GOLD"]["sample_size"]
+                    } );
+
                 }
             }
             catch

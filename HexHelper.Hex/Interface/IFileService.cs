@@ -11,5 +11,6 @@ namespace HexHelper.Hex.Interface
         Task SaveFile( string aRelativeDirectory, string aFileName, string aContent );
         Task<string> LoadFile( string aRelativeDirectory, string aFileName );
         Task<string> LoadFile( string aPath );
+        string FilePath( string aRelativeDirectory, string aFileName );
     }
 }
