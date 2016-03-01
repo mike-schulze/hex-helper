@@ -57,8 +57,8 @@ namespace HexHelper.WinDesktop.Service
             var theMessage = Parser.ParseMessage( aMessageString, aLogToFile );
             await StoreMessage( theMessage, aMessageString );
 
-            var theCollectionMessage = ( CollectionMessage ) theMessage;
-            if( theMessage != null )
+            var theCollectionMessage = theMessage as CollectionMessage;
+            if( theCollectionMessage != null )
             {
                 mRepo.UpdateInventory( theCollectionMessage.Complete, theCollectionMessage.CardsAdded, theCollectionMessage.CardsRemoved );
                 OnCollectionChanged();
