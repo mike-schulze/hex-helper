@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 using HexHelper.Hex;
 using Newtonsoft.Json.Linq;
 
@@ -9,22 +7,6 @@ namespace HexHelper.JsonApi.Prices
 {
     public static class AuctionHouseData
     {
-        public static async Task<string> DownloadPricelist()
-        {
-            try
-            {
-                using( var theHttpClient = new HttpClient() )
-                {
-                    return await theHttpClient.GetStringAsync( scPriceListUrl );
-                }
-            }
-            catch
-            {
-            }
-
-            return null;
-        }
-
         public static IEnumerable<Card> ParseJson( string aJson )
         {
             var theList = new List<Card>();
@@ -65,7 +47,5 @@ namespace HexHelper.JsonApi.Prices
 
             return theList;
         }
-
-        private const string scPriceListUrl = "http://doc-x.net/hex/all_prices_json.txt";
     }
 }

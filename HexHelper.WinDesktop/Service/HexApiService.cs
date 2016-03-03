@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 using HexHelper.Hex;
 using HexHelper.Hex.Interface;
 using HexHelper.JsonApi.HexApi;
 using HexHelper.JsonApi.Prices;
+using HexHelper.JsonApi.Utils;
 
 namespace HexHelper.WinDesktop.Service
 {
@@ -29,27 +29,12 @@ namespace HexHelper.WinDesktop.Service
 
         public async Task UpdatePrices()
         {
-            var theCachedPricesPath = mFileService.FilePath( "Prices", "cache.json" );
-            if( File.Exists( theCachedPricesPath ) )
+            var theFile = new CachedRemoteFile( "http://doc-x.net/hex/all_prices_json.txt", mFileService );
+            if( await theFile.DownloadFile() )
             {
-                var theFileInfo = new FileInfo( theCachedPricesPath );
-                var theDiff = DateTime.Now - theFileInfo.LastWriteTime;
-                if( theDiff.Hours < 8 )
-                {
-                    var theCards = AuctionHouseData.ParseJson( await mFileService.LoadFile( "Prices", "cache.json" ) );
-                    if( theCards != null )
-                    {
-                        mRepo.UpdatePrices( theCards );
-                        await mRepo.Persist();
-                        return;
-                    }
-                }
+                mRepo.UpdatePrices( AuctionHouseData.ParseJson( theFile.Content ) );
+                await mRepo.Persist();
             }
-
-            var theJson = await AuctionHouseData.DownloadPricelist();
-            await mFileService.SaveFile( "Prices", "cache.json", theJson );
-            mRepo.UpdatePrices( AuctionHouseData.ParseJson( theJson ) );
-            await mRepo.Persist();
         }
 
         public async Task<IMessage> ParseMessageString( string aMessageString, bool? aLogToFile = null )

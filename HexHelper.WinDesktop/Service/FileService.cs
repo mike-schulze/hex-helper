@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using HexHelper.Hex.Interface;
 
@@ -10,11 +7,6 @@ namespace HexHelper.WinDesktop.Service
 {
     public class FileService : IFileService
     {
-        public string FilePath( string aRelativeDirectory, string aFileName )
-        {
-            return Path.Combine( ConstructPath( aRelativeDirectory ), aFileName );
-        }
-
         public async Task<string> LoadFile( string aPath )
         {
             if( !File.Exists( aPath ) )
@@ -53,11 +45,23 @@ namespace HexHelper.WinDesktop.Service
             }
         }
 
+        public bool Exists( string aRelativeDirectory, string aFileName )
+        {
+            return File.Exists( Path.Combine( ConstructPath( aRelativeDirectory ), aFileName ) );
+        }
+
+        public DateTime LastWriteTime( string aRelativeDirectory, string aFileName )
+        {
+            var theFileInfo = new FileInfo( Path.Combine( ConstructPath( aRelativeDirectory ), aFileName ) );
+            return theFileInfo.LastWriteTime;
+        }
+
         private string ConstructPath( string aRelativeDirectory )
         {
             return Path.Combine( Environment.GetFolderPath( Environment.SpecialFolder.ApplicationData ),
                                  "HexHelper",
                                  aRelativeDirectory );
         }
+
     }
 }
