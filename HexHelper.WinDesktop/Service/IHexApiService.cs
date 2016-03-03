@@ -10,6 +10,7 @@ namespace HexHelper.WinDesktop.Service
     {
         Task Initialize();
         Task UpdatePrices();
+        Task UpdateItems();
         Task<IMessage> ParseMessageString( string aMessageString, bool? aLogToFile = null );
         Task Shutdown();
         IEnumerable<Card> GetCards();

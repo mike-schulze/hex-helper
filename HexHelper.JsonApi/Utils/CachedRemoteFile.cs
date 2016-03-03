@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using HexHelper.Hex.Interface;
 
@@ -20,6 +21,7 @@ namespace HexHelper.JsonApi.Utils
         {
             mUrl = aUrl;
             mFile = aFileService;
+            CacheFileName = Path.GetFileName( mUrl );
         }
 
         /// <summary>
@@ -28,16 +30,15 @@ namespace HexHelper.JsonApi.Utils
         /// <returns>true if file could be downloaded successfully</returns>
         public async Task<bool> DownloadFile()
         {
-            var theFileName = Path.GetFileName( mUrl );
             try
             {
-                if( mFile.Exists( scRelativeDirectory, theFileName ) )
+                if( mFile.Exists( scRelativeDirectory, CacheFileName ) )
                 {
-                    var theLastWriteTime = mFile.LastWriteTime( scRelativeDirectory, theFileName );
+                    var theLastWriteTime = mFile.LastWriteTime( scRelativeDirectory, CacheFileName );
                     var theDiff = DateTime.Now - theLastWriteTime;
                     if( theDiff < CacheExpiration )
                     {
-                        Content = await mFile.LoadFile( scRelativeDirectory, theFileName );
+                        Content = await mFile.LoadFile( scRelativeDirectory, CacheFileName );
                         return true;
                     }
                 }
@@ -48,21 +49,37 @@ namespace HexHelper.JsonApi.Utils
             {
                 using( var theHttpClient = new HttpClient() )
                 {
-                    Content = await theHttpClient.GetStringAsync( mUrl );
-                    try
+                    if( PostMessage != null )
                     {
-                        await mFile.SaveFile( scRelativeDirectory, theFileName, Content );
+                        var theMessage = await theHttpClient.PostAsync( mUrl, new StringContent( PostMessage, Encoding.UTF8, "application/json" ) );
+                        if( theMessage.IsSuccessStatusCode )
+                        {
+                            Content = await theMessage.Content.ReadAsStringAsync();
+                        }                        
                     }
-                    catch { }
+                    else
+                    {
+                        Content = await theHttpClient.GetStringAsync( mUrl );
+                    }
+                    
+                    if( HasContent )
+                    {
+                        try
+                        {
+                            await mFile.SaveFile( scRelativeDirectory, CacheFileName, Content );
+                        }
+                        catch { }
+
+                        return true;
+                    }
                 }
             }
             catch
             {
-                Content = null;
-                return false;
             }
 
-            return true;
+            Content = null;
+            return false;
         }
 
         /// <summary>
@@ -79,6 +96,14 @@ namespace HexHelper.JsonApi.Utils
                 return !String.IsNullOrWhiteSpace( Content );
             }
         }
+
+        /// <summary>
+        /// By default content will be retrieved via GET. If POST is needed, set this.
+        /// This is expected to be Json.
+        /// </summary>
+        public string PostMessage { get; set; } = null;
+
+        public string CacheFileName { get; set; }
 
         /// <summary>
         /// When cache will go stale.

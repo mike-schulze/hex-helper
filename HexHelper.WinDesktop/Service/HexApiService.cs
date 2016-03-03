@@ -35,6 +35,18 @@ namespace HexHelper.WinDesktop.Service
                 mRepo.UpdatePrices( AuctionHouseData.ParseJson( theFile.Content ) );
                 await mRepo.Persist();
             }
+
+        }
+
+        public async Task UpdateItems()
+        {
+            var theItemListFile = new CachedRemoteFile( "http://hexdbapi2.hexsales.net/v1/objects/search", mFileService );
+            theItemListFile.PostMessage = "{}";
+            theItemListFile.CacheFileName = "itemlist.json";
+            if( await theItemListFile.DownloadFile() )
+            {
+                // todo
+            }
         }
 
         public async Task<IMessage> ParseMessageString( string aMessageString, bool? aLogToFile = null )
