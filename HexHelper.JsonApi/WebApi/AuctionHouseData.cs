@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using HexHelper.Hex;
 using Newtonsoft.Json.Linq;
 
-namespace HexHelper.JsonApi.Prices
+namespace HexHelper.JsonApi.WebApi
 {
     public static class AuctionHouseData
     {

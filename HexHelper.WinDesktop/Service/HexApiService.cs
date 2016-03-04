@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using HexHelper.Hex;
 using HexHelper.Hex.Interface;
 using HexHelper.JsonApi.HexApi;
-using HexHelper.JsonApi.Prices;
 using HexHelper.JsonApi.Utils;
+using HexHelper.JsonApi.WebApi;
 
 namespace HexHelper.WinDesktop.Service
 {
@@ -45,7 +45,7 @@ namespace HexHelper.WinDesktop.Service
             theItemListFile.CacheFileName = "itemlist.json";
             if( await theItemListFile.DownloadFile() )
             {
-                // todo
+                var theItems = HexItemSearch.ParseJson( theItemListFile.Content );
             }
         }
 

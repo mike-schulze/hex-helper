@@ -37,9 +37,10 @@
     <Compile Include="HexApi\CollectionMessage.cs" />
     <Compile Include="HexApi\IMessage.cs" />
     <Compile Include="HexApi\Parser.cs" />
-    <Compile Include="Prices\AuctionHouseData.cs" />
+    <Compile Include="WebApi\AuctionHouseData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\CachedRemoteFile.cs" />
+    <Compile Include="WebApi\HexItemSearch.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
