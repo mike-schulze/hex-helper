@@ -35,13 +35,13 @@ namespace HexHelper.WinDesktop.ViewModel
             Status = "Initializing database...";
             await mHexApi.Initialize();
 
-            Status = "Updating prices...";
-            await mHexApi.UpdatePrices();
-
             Status = "Updating items...";
             await mHexApi.UpdateItems();
 
-            Cards = new ObservableCollection<Card>( mHexApi.GetCards() );
+            Status = "Updating prices...";
+            await mHexApi.UpdatePrices();
+
+            Cards = new ObservableCollection<Item>( mHexApi.GetCards() );
             Status = "Collection loaded.";
 
             mHexApi.CollectionChanged += HandleCollectionChanged;
@@ -49,7 +49,7 @@ namespace HexHelper.WinDesktop.ViewModel
 
         private void HandleCollectionChanged( object sender, EventArgs e )
         {
-            Cards = new ObservableCollection<Card>( mHexApi.GetCards() );
+            Cards = new ObservableCollection<Item>( mHexApi.GetCards() );
         }
 
         private void StartServer()
@@ -111,7 +111,7 @@ namespace HexHelper.WinDesktop.ViewModel
         }
         private string mStatus;
 
-        public ObservableCollection<Card> Cards
+        public ObservableCollection<Item> Cards
         {
             get {
                 return mCards;
@@ -121,7 +121,7 @@ namespace HexHelper.WinDesktop.ViewModel
                 Set( nameof( Cards ), ref mCards, value );
             }
         }
-        private ObservableCollection<Card> mCards;
+        private ObservableCollection<Item> mCards;
 
         public string MessageText
         {

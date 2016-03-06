@@ -41,26 +41,32 @@ namespace HexHelper.JsonApi.HexApi
             CardsRemoved = ParseArray( ( JArray ) aJson["CardsRemoved"] );
         }
 
-        private IEnumerable<ObjectCount> ParseArray( JArray aObjects )
+        private IDictionary<Guid, CollectionInfo> ParseArray( JArray aObjects )
         {
-            var theObjects = new List<ObjectCount>();
+            var theObjects = new Dictionary<Guid, CollectionInfo>();
             if( aObjects != null )
             {
                 foreach( var theObject in aObjects )
                 {
-                    theObjects.Add( new ObjectCount()
+                    Guid theId = new Guid( ( string ) theObject["Guid"]["m_Guid"] );
+                    int theCount = ( int ) theObject["Count"];
+
+                    if( !theObjects.ContainsKey( theId ) )
                     {
-                        Id = new Guid( ( string ) theObject["Guid"]["m_Guid"] ),
-                        Count = (int) theObject["Count"]
-                    } );
+                        theObjects.Add( theId, new CollectionInfo() { CopiesOwned = theCount } );
+                    }
+                    else
+                    {
+                        theObjects[theId].CopiesOwned += theCount;
+                    }
                 }
             }
             return theObjects;
         }
 
-        public IEnumerable<ObjectCount> Complete { get; private set; }
-        public IEnumerable<ObjectCount> CardsAdded { get; private set; }
-        public IEnumerable<ObjectCount> CardsRemoved { get; private set; }
+        public IDictionary<Guid, CollectionInfo> Complete { get; private set; }
+        public IDictionary<Guid, CollectionInfo> CardsAdded { get; private set; }
+        public IDictionary<Guid, CollectionInfo> CardsRemoved { get; private set; }
 
         public bool LogToFile { get; private set; }
         public MessageType Type { get; private set; } = MessageType.Collection;

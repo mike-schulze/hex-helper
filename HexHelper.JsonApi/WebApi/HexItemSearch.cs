@@ -7,9 +7,9 @@ namespace HexHelper.JsonApi.WebApi
 {
     public static class HexItemSearch
     {
-        public static IEnumerable<HexItemIdentifier> ParseJson( string aJson )
+        public static IDictionary<Guid, Info> ParseJson( string aJson )
         {
-            var theList = new List<HexItemIdentifier>();
+            var theList = new Dictionary<Guid, Info>();
 
             try
             {
@@ -29,7 +29,7 @@ namespace HexHelper.JsonApi.WebApi
                         continue;
                     }
 
-                    HexItemType theType = HexItemType.Unknown;
+                    ItemType theType = ItemType.Unknown;
                     var theTypes = ( JArray ) theItem["type"];
                     if( theTypes != null && theTypes.Count != 0  )
                     {
@@ -43,35 +43,34 @@ namespace HexHelper.JsonApi.WebApi
                             case "Quick Action":
                             case "Quick":
                             case "Resource":
-                                theType = HexItemType.Card;
+                                theType = ItemType.Card;
                                 break;
                             case "Champion":
-                                theType = HexItemType.Champion;
+                                theType = ItemType.Champion;
                                 break;
                             case "Equipment":
-                                theType = HexItemType.Equipment;
+                                theType = ItemType.Equipment;
                                 break;
                             case "Gem":
-                                theType = HexItemType.Gem;
+                                theType = ItemType.Gem;
                                 break;
                             case "Pack":
-                                theType = HexItemType.Pack;
+                                theType = ItemType.Pack;
                                 break;
                             case "Mod":
-                                theType = HexItemType.Mod;
+                                theType = ItemType.Mod;
                                 break;
                             case "Bane":
-                                theType = HexItemType.Bane;
+                                theType = ItemType.Bane;
                                 break;
                             default:
                                 break;
                         }
                     }
 
-                    theList.Add( new HexItemIdentifier()
+                    theList.Add( theGuid, new Info()
                     {
                         Name = theName,
-                        Id = theGuid,
                         Type = theType
                     } );
 

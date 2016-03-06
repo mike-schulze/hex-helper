@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using HexHelper.Hex.Interface;
 using Newtonsoft.Json;
@@ -14,96 +12,126 @@ namespace HexHelper.Hex
         public Repository( IFileService aFileService )
         {
             mFileService = aFileService;
-            mDb = new Dictionary<Guid, Card>();
-        }
 
-        public IEnumerable<Card> AllCards()
-        {
-            return mDb.Values;
+            mItemInfo = new Dictionary<Guid, Info>();
+            mCollectionData = new Dictionary<Guid, CollectionInfo>();
+            mAuctionHouseData = new Dictionary<Guid, AuctionHouseInfo>();
         }
 
         public async Task Initialize()
         {
-            string theFileContent = await mFileService.LoadFile( "Database", "db.json" );
-            if( theFileContent == null )
+            string theInfoFileContent = await mFileService.LoadFile( "Database", "item_info.json" );
+            if( theInfoFileContent == null )
             {
                 return;
             }
 
-            var theDatabase = JsonConvert.DeserializeObject<Dictionary<Guid, Card>>( theFileContent );
-            if( theDatabase != null )
+            var theInfo = JsonConvert.DeserializeObject<Dictionary<Guid, Info>>( theInfoFileContent );
+            if( theInfo != null )
             {
-                mDb = theDatabase;
+                mItemInfo = theInfo;
+            }
+
+            string theCollectionFileContent = await mFileService.LoadFile( "Database", "collection_info.json" );
+            if( theCollectionFileContent != null )
+            {
+                var theCollectionData = JsonConvert.DeserializeObject<Dictionary<Guid, CollectionInfo>>( theCollectionFileContent );
+                if( theCollectionData != null )
+                {
+                    mCollectionData = theCollectionData;
+                }
+            }
+
+            string theAuctionHouseFileContent = await mFileService.LoadFile( "Database", "ah_info.json" );
+            if( theAuctionHouseFileContent != null )
+            {
+                var theAuctionHouseData = JsonConvert.DeserializeObject<Dictionary<Guid, AuctionHouseInfo>>( theAuctionHouseFileContent );
+                if( theAuctionHouseData != null )
+                {
+                    mAuctionHouseData = theAuctionHouseData;
+                }
             }
         }
 
         public async Task Persist()
         {
-            await mFileService.SaveFile( "Database", "db.json", JsonConvert.SerializeObject( mDb ) );
+            await mFileService.SaveFile( "Database", "item_info.json", JsonConvert.SerializeObject( mItemInfo ) );
+            await mFileService.SaveFile( "Database", "collection_info.json", JsonConvert.SerializeObject( mCollectionData ) );
+            await mFileService.SaveFile( "Database", "ah_info.json", JsonConvert.SerializeObject( mAuctionHouseData ) );
         }
 
-        public void UpdateInventory( IEnumerable<ObjectCount> aCollection, IEnumerable<ObjectCount> aAdded, IEnumerable<ObjectCount> aRemoved )
+        public void UpdateItemInfo( IDictionary<Guid, Info> aInfo )
         {
-            foreach( var theCount in aCollection )
+            mItemInfo = (Dictionary<Guid, Info>)aInfo;
+        }
+
+        public void UpdatePrices( IDictionary<Guid, AuctionHouseInfo> aAuctionHouseData )
+        {            
+            foreach( var theCard in aAuctionHouseData )
             {
-                if( !mDb.ContainsKey( theCount.Id ) )
+                if( !mAuctionHouseData.ContainsKey( theCard.Key ) )
                 {
-                    Debug.WriteLine( String.Format( "Could not update card count for ID# {0}.", theCount.Id ) );
+                    mAuctionHouseData.Add( theCard.Key, theCard.Value );
                     continue;
                 }
 
-                Card theUpdatedCard = mDb[theCount.Id];
-                theUpdatedCard.CopiesOwned = theCount.Count;
-                mDb[theCount.Id] = theUpdatedCard;
-            }
-
-            foreach( var theCount in aAdded )
-            {
-                if( !mDb.ContainsKey( theCount.Id ) )
-                {
-                    Debug.WriteLine( String.Format( "Could not update card count for ID# {0}.", theCount.Id ) );
-                    continue;
-                }
-
-                Card theUpdatedCard = mDb[theCount.Id];
-                theUpdatedCard.CopiesOwned = theUpdatedCard.CopiesOwned + theCount.Count;
-                mDb[theCount.Id] = theUpdatedCard;
-            }
-
-            foreach( var theCount in aRemoved )
-            {
-                if( !mDb.ContainsKey( theCount.Id ) )
-                {
-                    Debug.WriteLine( String.Format( "Could not update card count for ID# {0}.", theCount.Id ) );
-                    continue;
-                }
-
-                Card theUpdatedCard = mDb[theCount.Id];
-                theUpdatedCard.CopiesOwned = theUpdatedCard.CopiesOwned - theCount.Count;
-                mDb[theCount.Id] = theUpdatedCard;
+                mAuctionHouseData[theCard.Key] = theCard.Value;
             }
         }
 
-        public void UpdatePrices( IEnumerable<Card> aCards )
+        public void UpdateInventory( IDictionary<Guid, CollectionInfo> aCollectionData )
         {
-            foreach( var theCard in aCards )
+            if( aCollectionData == null || !aCollectionData.Any() )
             {
-                if( !mDb.ContainsKey( theCard.Id ) )
-                {
-                    mDb.Add( theCard.Id, theCard );
-                    continue;
-                }
-
-                Card theUpdatedCard = mDb[theCard.Id];
-                theUpdatedCard.PriceGold = theCard.PriceGold;
-                theUpdatedCard.PricePlatinum = theCard.PricePlatinum;
-                theUpdatedCard.SalesGold = theCard.SalesGold;
-                theUpdatedCard.SalesPlatinum = theCard.SalesPlatinum;
-                mDb[theCard.Id] = theUpdatedCard;
+                return;
             }
+
+            mCollectionData = ( Dictionary<Guid, CollectionInfo> ) aCollectionData;
+        }
+
+        public void UpdateCopiesOwned( Guid aId, int aDelta )
+        {
+            if( mCollectionData.ContainsKey( aId ) )
+            {
+                mCollectionData[aId].CopiesOwned += aDelta;
+                return;
+            }
+
+            mCollectionData.Add( aId, new CollectionInfo() { CopiesOwned = Math.Max( 0, aDelta ) } );
+        }
+
+        IEnumerable<Item> IRepository.AllCards()
+        {
+            return from theInfo in mItemInfo
+                   where theInfo.Value.Type == ItemType.Card
+                   select CreateItem( theInfo.Key );
+        }
+
+        private Item CreateItem( Guid aId )
+        {         
+            if( !mItemInfo.ContainsKey( aId ) )
+            {
+                return null;
+            }
+             
+            CollectionInfo theCollection = null;
+            if( mCollectionData.ContainsKey( aId ) )
+            {
+                theCollection = mCollectionData[aId];
+            }
+
+            AuctionHouseInfo theAuctionHouse = null;
+            if( mAuctionHouseData.ContainsKey( aId ) )
+            {
+                theAuctionHouse = mAuctionHouseData[aId];
+            }
+
+            return new Item( aId, mItemInfo[aId], theCollection, theAuctionHouse );
         }
 
         private readonly IFileService mFileService;
-        private Dictionary<Guid, Card> mDb;
+        private Dictionary<Guid, Info> mItemInfo;
+        private Dictionary<Guid, CollectionInfo> mCollectionData;
+        private Dictionary<Guid, AuctionHouseInfo> mAuctionHouseData;
     }
 }

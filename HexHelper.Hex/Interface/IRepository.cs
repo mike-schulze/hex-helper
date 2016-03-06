@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace HexHelper.Hex.Interface
 {
     public interface IRepository
     {
-        void UpdatePrices( IEnumerable<Card> aCards );
-        void UpdateInventory( IEnumerable<ObjectCount> aCollection, IEnumerable<ObjectCount> aAdded, IEnumerable<ObjectCount> aRemoved );
-        IEnumerable<Card> AllCards();
+        void UpdateItemInfo( IDictionary<Guid, Info> aItemInfo );
+        void UpdatePrices( IDictionary<Guid, AuctionHouseInfo> aAuctionHouseData );
+        void UpdateInventory( IDictionary<Guid, CollectionInfo> aCollectionData );
+        void UpdateCopiesOwned( Guid aId, int aDelta );
+        IEnumerable<Item> AllCards();
         Task Initialize();
         Task Persist();
     }

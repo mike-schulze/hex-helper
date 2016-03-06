@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using HexHelper.Hex;
 using HexHelper.Hex.Interface;
@@ -46,6 +47,8 @@ namespace HexHelper.WinDesktop.Service
             if( await theItemListFile.DownloadFile() )
             {
                 var theItems = HexItemSearch.ParseJson( theItemListFile.Content );
+                mRepo.UpdateItemInfo( theItems );
+                await mRepo.Persist();
             }
         }
 
@@ -57,7 +60,21 @@ namespace HexHelper.WinDesktop.Service
             var theCollectionMessage = theMessage as CollectionMessage;
             if( theCollectionMessage != null )
             {
-                mRepo.UpdateInventory( theCollectionMessage.Complete, theCollectionMessage.CardsAdded, theCollectionMessage.CardsRemoved );
+                mRepo.UpdateInventory( theCollectionMessage.Complete );
+                if( theCollectionMessage.CardsAdded != null )
+                {
+                    foreach( var theItem in theCollectionMessage.CardsAdded )
+                    {
+                        mRepo.UpdateCopiesOwned( theItem.Key, theItem.Value.CopiesOwned );
+                    }
+                }
+                if( theCollectionMessage.CardsRemoved != null )
+                {
+                    foreach( var theItem in theCollectionMessage.CardsRemoved )
+                    {
+                        mRepo.UpdateCopiesOwned( theItem.Key, theItem.Value.CopiesOwned * -1 );
+                    }
+                }
                 OnCollectionChanged();
             }
 
@@ -84,7 +101,7 @@ namespace HexHelper.WinDesktop.Service
             await mFileService.SaveFile( "Message\\" + aMessage.Type.ToString(), theFileName, aMessageString );
         }
 
-        public IEnumerable<Card> GetCards()
+        public IEnumerable<Item> GetCards()
         {
             return mRepo.AllCards();
         }

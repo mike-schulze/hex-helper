@@ -7,9 +7,9 @@ namespace HexHelper.JsonApi.WebApi
 {
     public static class AuctionHouseData
     {
-        public static IEnumerable<Card> ParseJson( string aJson )
+        public static IDictionary<Guid, AuctionHouseInfo> ParseJson( string aJson )
         {
-            var theList = new List<Card>();
+            var theList = new Dictionary<Guid, AuctionHouseInfo>();
 
             try
             {
@@ -29,16 +29,13 @@ namespace HexHelper.JsonApi.WebApi
                         continue;
                     }
 
-                    theList.Add( new Card()
+                    theList.Add( theGuid, new AuctionHouseInfo()
                     {
-                        Name = theName,
-                        Id = theGuid,
                         PricePlatinum = ( int ) theCard["PLATINUM"]["avg"],
                         SalesPlatinum = ( int ) theCard["PLATINUM"]["sample_size"],
                         PriceGold = ( int ) theCard["GOLD"]["avg"],
                         SalesGold = ( int ) theCard["GOLD"]["sample_size"]
                     } );
-
                 }
             }
             catch
