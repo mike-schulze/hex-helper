@@ -10,7 +10,7 @@ namespace HexHelper.Hex.Interface
         void UpdatePrices( IDictionary<Guid, AuctionHouseInfo> aAuctionHouseData );
         void UpdateInventory( IDictionary<Guid, CollectionInfo> aCollectionData );
         void UpdateCopiesOwned( Guid aId, int aDelta );
-        IEnumerable<Item> AllCards();
+        IEnumerable<ItemViewModel> AllCards();
         Task Initialize();
         Task Persist();
     }

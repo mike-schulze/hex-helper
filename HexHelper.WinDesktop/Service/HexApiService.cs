@@ -101,7 +101,7 @@ namespace HexHelper.WinDesktop.Service
             await mFileService.SaveFile( "Message\\" + aMessage.Type.ToString(), theFileName, aMessageString );
         }
 
-        public IEnumerable<Item> GetCards()
+        public IEnumerable<ItemViewModel> GetCards()
         {
             return mRepo.AllCards();
         }

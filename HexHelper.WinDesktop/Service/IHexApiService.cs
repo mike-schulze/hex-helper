@@ -13,7 +13,7 @@ namespace HexHelper.WinDesktop.Service
         Task UpdateItems();
         Task<IMessage> ParseMessageString( string aMessageString, bool? aLogToFile = null );
         Task Shutdown();
-        IEnumerable<Item> GetCards();
+        IEnumerable<ItemViewModel> GetCards();
         event EventHandler CollectionChanged;
     }
 }

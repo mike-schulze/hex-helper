@@ -20,32 +20,32 @@
         <ListView.View>
             <GridView>
                 <GridView.Columns>
-                    <GridViewColumn DisplayMemberBinding="{Binding Info.Name}">
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}">
                         <GridViewColumn.Header>
                             <GridViewColumnHeader Content="Name" Click="HandleNameClick" />
                         </GridViewColumn.Header>
                     </GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding AuctionHouse.PricePlatinum}">
+                    <GridViewColumn DisplayMemberBinding="{Binding PricePlatinum}">
                         <GridViewColumn.Header>
                             <GridViewColumnHeader Content="Plat" Click="HandlePlatClick" />
                         </GridViewColumn.Header>
                     </GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding AuctionHouse.PriceGold}" Width="80">
+                    <GridViewColumn DisplayMemberBinding="{Binding PriceGold}" Width="80">
                         <GridViewColumn.Header>
                             <GridViewColumnHeader Content="Gold" Click="HandleGoldClick" />
                         </GridViewColumn.Header>
                     </GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding AuctionHouse.SalesPlatinum}">
+                    <GridViewColumn DisplayMemberBinding="{Binding SalesPlatinum}">
                         <GridViewColumn.Header>
                             <GridViewColumnHeader Content="Sales Plat" Click="HandlePlatSalesClick" />
                         </GridViewColumn.Header>
                     </GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding AuctionHouse.SalesGold}">
+                    <GridViewColumn DisplayMemberBinding="{Binding SalesGold}">
                         <GridViewColumn.Header>
                             <GridViewColumnHeader Content="Sales Gold" Click="HandleGoldSalesClick" />
                         </GridViewColumn.Header>
                     </GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Collection.CopiesOwned}">
+                    <GridViewColumn DisplayMemberBinding="{Binding CopiesOwned}">
                         <GridViewColumn.Header>
                             <GridViewColumnHeader Content="Owned" Click="HandleOwnedClick" />
                         </GridViewColumn.Header>

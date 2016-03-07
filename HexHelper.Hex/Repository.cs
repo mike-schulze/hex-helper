@@ -100,14 +100,14 @@ namespace HexHelper.Hex
             mCollectionData.Add( aId, new CollectionInfo() { CopiesOwned = Math.Max( 0, aDelta ) } );
         }
 
-        IEnumerable<Item> IRepository.AllCards()
+        IEnumerable<ItemViewModel> IRepository.AllCards()
         {
             return from theInfo in mItemInfo
                    where theInfo.Value.Type == ItemType.Card
-                   select CreateItem( theInfo.Key );
+                   select CreateItemViewModel( theInfo.Key );
         }
 
-        private Item CreateItem( Guid aId )
+        private ItemViewModel CreateItemViewModel( Guid aId )
         {         
             if( !mItemInfo.ContainsKey( aId ) )
             {
@@ -126,7 +126,7 @@ namespace HexHelper.Hex
                 theAuctionHouse = mAuctionHouseData[aId];
             }
 
-            return new Item( aId, mItemInfo[aId], theCollection, theAuctionHouse );
+            return new ItemViewModel( aId, mItemInfo[aId], theCollection, theAuctionHouse );
         }
 
         private readonly IFileService mFileService;

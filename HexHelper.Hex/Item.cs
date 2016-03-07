@@ -63,20 +63,54 @@ namespace HexHelper.Hex
 
     /// <summary>
     /// All information combined for a Hex item.
+    /// A lot repetition, but we makes sorting code easier.
     /// </summary>
-    public class Item
+    public class ItemViewModel
     {
-        public Item( Guid aId, Info aInfo, CollectionInfo aCollection, AuctionHouseInfo aAuctionHouse )
+        internal ItemViewModel( Guid aId, Info aInfo, CollectionInfo aCollection, AuctionHouseInfo aAuctionHouse )
         {
             Id = aId;
-            Info = aInfo;
-            Collection = aCollection;
-            AuctionHouse = aAuctionHouse;
+
+            if( aInfo != null )
+            {
+                Name = aInfo.Name;
+                Type = aInfo.Type;
+                CardType = aInfo.CardType;
+                IsQuick = aInfo.IsQuick;
+                IsArtifact = aInfo.IsArtifact;
+            }
+
+            if( aCollection != null )
+            {
+                CopiesOwned = aCollection.CopiesOwned;
+            }
+            
+            if( aAuctionHouse != null )
+            {
+                PricePlatinum = aAuctionHouse.PricePlatinum;
+                PriceGold = aAuctionHouse.PriceGold;
+                SalesPlatinum = aAuctionHouse.SalesPlatinum;
+                SalesGold = aAuctionHouse.SalesGold;
+            }
         }
 
+        // Id
         public Guid Id { get; private set; }
-        public Info Info { get; private set; }
-        public CollectionInfo Collection { get; private set; }
-        public AuctionHouseInfo AuctionHouse { get; private set; }
+
+        // Info
+        public string Name { get; set; }
+        public ItemType Type { get; set; }
+        public CardType CardType { get; set; }
+        public bool IsQuick { get; set; }
+        public bool IsArtifact { get; set; }
+
+        // Collection
+        public int CopiesOwned { get; set; }
+
+        // AuctionHouse
+        public int PricePlatinum { get; set; }
+        public int PriceGold { get; set; }
+        public int SalesPlatinum { get; set; }
+        public int SalesGold { get; set; }
     }
 }

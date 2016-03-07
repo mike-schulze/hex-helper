@@ -19,11 +19,11 @@ namespace HexHelper.WinDesktop.View
         }
 
         //--------------------------------------------------------------------------
-        public IList<Item> Cards
+        public IList<ItemViewModel> Cards
         {
             get
             {
-                return ( IList<Item> ) GetValue( CardsProperty );
+                return ( IList<ItemViewModel> ) GetValue( CardsProperty );
             }
             set
             {
@@ -33,7 +33,7 @@ namespace HexHelper.WinDesktop.View
         //--------------------------------------------------------------------------
         public static readonly DependencyProperty CardsProperty = DependencyProperty.Register(
             "Cards",
-            typeof( IList<Item> ),
+            typeof( IList<ItemViewModel> ),
             typeof( CardListControl ),
             new PropertyMetadata( OnCardsChanged ) );
 
@@ -64,32 +64,32 @@ namespace HexHelper.WinDesktop.View
 
         private void HandlePlatClick( object sender, RoutedEventArgs e )
         {
-            //SortList( nameof( Card.PricePlatinum ) );
+            SortList( nameof( ItemViewModel.PricePlatinum ) );
         }
 
         private void HandleGoldClick( object sender, RoutedEventArgs e )
         {
-            //SortList( nameof( Card.PriceGold ) );
+            SortList( nameof( ItemViewModel.PriceGold ) );
         }
 
         private void HandlePlatSalesClick( object sender, RoutedEventArgs e )
         {
-            //SortList( nameof( Card.SalesPlatinum ) );
+            SortList( nameof( ItemViewModel.SalesPlatinum ) );
         }
 
         private void HandleGoldSalesClick( object sender, RoutedEventArgs e )
         {
-            //SortList( nameof( Card.SalesGold ) );
+            SortList( nameof( ItemViewModel.SalesGold ) );
         }
 
         private void HandleNameClick( object sender, RoutedEventArgs e )
         {
-            //SortList( nameof( Info.Name ) );
+            SortList( nameof( ItemViewModel.Name ) );
         }
 
         private void HandleOwnedClick( object sender, RoutedEventArgs e )
         {
-            //SortList( nameof( Card.CopiesOwned ) );
+            SortList( nameof( ItemViewModel.CopiesOwned ) );
         }
 
         private void SortList( string aPropertyName )
@@ -100,7 +100,7 @@ namespace HexHelper.WinDesktop.View
             }
 
             var theView = ( ListCollectionView ) CollectionViewSource.GetDefaultView( mList.ItemsSource );
-            theView.CustomSort = new PropertySorter<Info>( aPropertyName, mIsAscending );
+            theView.CustomSort = new PropertySorter<ItemViewModel>( aPropertyName, mIsAscending );
             mIsAscending = !mIsAscending;
             mList.Items.Refresh();
         }
