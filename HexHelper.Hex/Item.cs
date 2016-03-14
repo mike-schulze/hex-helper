@@ -29,14 +29,27 @@ namespace HexHelper.Hex
         Action
     }
 
+    public enum RarityType
+    {
+        Unknown,
+        NonCollectible,
+        Common,
+        Uncommon,
+        Rare,
+        Legendary,
+        Epic,
+        Promo
+    }
+
     /// <summary>
-    /// Properties of an item that generally do never change.
+    /// Properties of an item that generally never change.
     /// </summary>
     public class Info
     {
         public string Name { get; set; }
         public ItemType Type { get; set; }
         public CardType CardType { get; set; }
+        public RarityType Rarity { get; set; }
 
         public bool IsQuick { get; set; }
         public bool IsArtifact { get; set; }
@@ -76,6 +89,7 @@ namespace HexHelper.Hex
                 Name = aInfo.Name;
                 Type = aInfo.Type;
                 CardType = aInfo.CardType;
+                Rarity = aInfo.Rarity;
                 IsQuick = aInfo.IsQuick;
                 IsArtifact = aInfo.IsArtifact;
             }
@@ -101,6 +115,7 @@ namespace HexHelper.Hex
         public string Name { get; set; }
         public ItemType Type { get; set; }
         public CardType CardType { get; set; }
+        public RarityType Rarity { get; set; }
         public bool IsQuick { get; set; }
         public bool IsArtifact { get; set; }
 

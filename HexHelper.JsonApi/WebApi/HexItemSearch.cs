@@ -29,7 +29,7 @@ namespace HexHelper.JsonApi.WebApi
                         continue;
                     }
 
-                    ItemType theType = ItemType.Unknown;
+                    ItemType theType = ItemType.Unknown;                    
                     var theTypes = ( JArray ) theItem["type"];
                     if( theTypes != null && theTypes.Count != 0  )
                     {
@@ -68,10 +68,41 @@ namespace HexHelper.JsonApi.WebApi
                         }
                     }
 
+                    RarityType theRarity = RarityType.Unknown;
+                    string theRarityString = ( string ) theItem["rarity"];
+                    switch( theRarityString )
+                    {
+                        case "Promo":
+                            theRarity = RarityType.Promo;
+                            break;
+                        case "Non-Collectible":
+                            theRarity = RarityType.NonCollectible;
+                            break;
+                        case "Common":
+                            theRarity = RarityType.Common;
+                            break;
+                        case "Uncommon":
+                            theRarity = RarityType.Uncommon;
+                            break;
+                        case "Rare":
+                            theRarity = RarityType.Rare;
+                            break;
+                        case "Legendary":
+                            theRarity = RarityType.Legendary;
+                            break;
+                        case "Epic":
+                            theRarity = RarityType.Epic;
+                            break;
+                        default:
+                            theRarity = RarityType.Unknown;
+                            break;
+                    }
+
                     theList.Add( theGuid, new Info()
                     {
                         Name = theName,
-                        Type = theType
+                        Type = theType,
+                        Rarity = theRarity
                     } );
 
                 }

@@ -103,7 +103,10 @@ namespace HexHelper.Hex
         IEnumerable<ItemViewModel> IRepository.AllCards()
         {
             return from theInfo in mItemInfo
-                   where theInfo.Value.Type == ItemType.Card
+                   where ( theInfo.Value.Type == ItemType.Card &&
+                           theInfo.Value.Rarity != RarityType.Unknown &&
+                           theInfo.Value.Rarity != RarityType.Promo && 
+                           theInfo.Value.Rarity != RarityType.NonCollectible )
                    select CreateItemViewModel( theInfo.Key );
         }
 
