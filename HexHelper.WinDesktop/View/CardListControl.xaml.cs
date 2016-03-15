@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using HexHelper.Hex;
 
 namespace HexHelper.WinDesktop.View
@@ -92,6 +93,28 @@ namespace HexHelper.WinDesktop.View
             SortList( nameof( ItemViewModel.CopiesOwned ) );
         }
 
+        private void HandleSearchKeyUp( object sender, KeyEventArgs e )
+        {
+            if( mList.ItemsSource == null )
+            {
+                return;
+            }
+
+            var theView = ( ListCollectionView ) CollectionViewSource.GetDefaultView( mList.ItemsSource );
+            theView.Filter = NameMatches;
+        }
+
+        private bool NameMatches( object aObject )
+        {
+            ItemViewModel theItem = ( ItemViewModel ) aObject;
+            if( theItem.Name.IndexOf( mSearch.Text.Trim(), StringComparison.OrdinalIgnoreCase ) >= 0 )
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         private void SortList( string aPropertyName )
         {
             if( mList.ItemsSource == null )
@@ -136,5 +159,6 @@ namespace HexHelper.WinDesktop.View
         };
 
         private bool mIsAscending = true;
+
     }
 }
