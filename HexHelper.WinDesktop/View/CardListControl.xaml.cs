@@ -61,6 +61,7 @@ namespace HexHelper.WinDesktop.View
             )
         {
             mList.ItemsSource = (IList) aArgs.NewValue;
+            SetFilter();
         }
 
         private void HandlePlatClick( object sender, RoutedEventArgs e )
@@ -94,6 +95,11 @@ namespace HexHelper.WinDesktop.View
         }
 
         private void HandleSearchKeyUp( object sender, KeyEventArgs e )
+        {
+            SetFilter();
+        }
+
+        private void SetFilter()
         {
             if( mList.ItemsSource == null )
             {
