@@ -12,23 +12,94 @@ namespace HexHelper.WinDesktop.Service
 {
     public sealed class HexApiService : IHexApiService
     {
-        public HexApiService( IFileService aFileService, IRepository aRepo )
+        public HexApiService( IFileService aFileService, IRepository aRepo, IServerService aServer )
         {
+            mServer = aServer;
+            mServer.DataPosted += HandleDataPosted;
+            mServer.ErrorOccurred += HandleErrorOccurred;
+
             mFileService = aFileService;
             mRepo = aRepo;
         }
 
         public async Task Initialize()
         {
+            mServer.Start();
+
+            OnStatusChanged( "Initializing database..." );
             await mRepo.Initialize();
+            
+            OnStatusChanged( "Updating items..." );
+            await UpdateItems();
+
+            OnStatusChanged( "Updating prices..." );
+            await UpdatePrices();
+        }
+
+        public async Task HandleMessage( string aMessageString, bool? aLogToFile = null )
+        {
+            var theMessage = await ParseMessageString( aMessageString, aLogToFile );
+            if( theMessage.Type == MessageType.Unknown )
+            {
+                OnStatusChanged( String.Format( "{0} - Unknown message received", DateTime.Now.ToShortTimeString() ) );
+            }
+            else
+            {
+                OnStatusChanged( String.Format( "{0} - {1} message received", DateTime.Now.ToShortTimeString(), theMessage.Type ) );
+            }
         }
 
         public async Task Shutdown()
         {
+            mServer.Stop();
             await mRepo.Persist();
         }
 
-        public async Task UpdatePrices()
+        private void OnCollectionChanged()
+        {
+            if( CollectionChanged != null )
+            {
+                CollectionChanged( this, new EventArgs() );
+            }
+        }
+        public event EventHandler CollectionChanged;
+
+        private void OnMessageReceived( IMessage aMessage )
+        {
+            if( MessageReceived != null )
+            {
+                MessageReceived( this, aMessage );
+            }
+        }
+        public event EventHandler<IMessage> MessageReceived;
+
+        private void OnStatusChanged( string aStatusText )
+        {
+            if( StatusChanged != null )
+            {
+                StatusChanged( this, aStatusText );
+            }
+        }
+        public event EventHandler<string> StatusChanged;
+
+        private async Task StoreMessage( IMessage aMessage, string aMessageString )
+        {
+            if( !aMessage.LogToFile )
+            {
+                return;
+            }
+
+            string theFileName = String.Format( "{0}.json", DateTime.Now.ToFileTimeUtc() );
+            await mFileService.SaveFile( "Message\\" + aMessage.Type.ToString(), theFileName, aMessageString );
+        }
+
+        public IEnumerable<ItemViewModel> GetCards()
+        {
+            OnStatusChanged( "Collection loaded." );
+            return mRepo.AllCards();
+        }
+
+        private async Task UpdatePrices()
         {
             var theFile = new CachedRemoteFile( "http://doc-x.net/hex/all_prices_json.txt", mFileService );
             if( await theFile.DownloadFile() )
@@ -36,10 +107,9 @@ namespace HexHelper.WinDesktop.Service
                 mRepo.UpdatePrices( AuctionHouseData.ParseJson( theFile.Content ) );
                 await mRepo.Persist();
             }
-
         }
 
-        public async Task UpdateItems()
+        private async Task UpdateItems()
         {
             var theItemListFile = new CachedRemoteFile( "http://hexdbapi2.hexsales.net/v1/objects/search", mFileService );
             theItemListFile.PostMessage = "{}";
@@ -52,7 +122,7 @@ namespace HexHelper.WinDesktop.Service
             }
         }
 
-        public async Task<IMessage> ParseMessageString( string aMessageString, bool? aLogToFile = null )
+        private async Task<IMessage> ParseMessageString( string aMessageString, bool? aLogToFile = null )
         {
             var theMessage = Parser.ParseMessage( aMessageString, aLogToFile );
             await StoreMessage( theMessage, aMessageString );
@@ -81,31 +151,17 @@ namespace HexHelper.WinDesktop.Service
             return theMessage;
         }
 
-        private void OnCollectionChanged()
+        private void HandleErrorOccurred( object sender, string e )
         {
-            if( CollectionChanged != null )
-            {
-                CollectionChanged( this, new EventArgs() );
-            }
-        }
-        public event EventHandler CollectionChanged;
 
-        private async Task StoreMessage( IMessage aMessage, string aMessageString )
-        {
-            if( !aMessage.LogToFile )
-            {
-                return;
-            }
-
-            string theFileName = String.Format( "{0}.json", DateTime.Now.ToFileTimeUtc() );
-            await mFileService.SaveFile( "Message\\" + aMessage.Type.ToString(), theFileName, aMessageString );
         }
 
-        public IEnumerable<ItemViewModel> GetCards()
+        private async void HandleDataPosted( object sender, string aMessageString )
         {
-            return mRepo.AllCards();
+            await HandleMessage( aMessageString );
         }
 
+        private readonly IServerService mServer;
         private readonly IRepository mRepo;
         private readonly IFileService mFileService;
     }

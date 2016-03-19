@@ -9,11 +9,13 @@ namespace HexHelper.WinDesktop.Service
     public interface IHexApiService
     {
         Task Initialize();
-        Task UpdatePrices();
-        Task UpdateItems();
-        Task<IMessage> ParseMessageString( string aMessageString, bool? aLogToFile = null );
+        Task HandleMessage( string aMessageString, bool? aLogToFile = null );
         Task Shutdown();
+
         IEnumerable<ItemViewModel> GetCards();
+
         event EventHandler CollectionChanged;
+        event EventHandler<IMessage> MessageReceived;
+        event EventHandler<string> StatusChanged;
     }
 }
