@@ -36,6 +36,7 @@ namespace HexHelper.WinDesktop.ViewModel
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<MessageViewModel>();
             SimpleIoc.Default.Register<IServerService, ServerService>();
             SimpleIoc.Default.Register<IHexApiService, HexApiService>();
             SimpleIoc.Default.Register<IFileService, FileService>();
@@ -50,7 +51,15 @@ namespace HexHelper.WinDesktop.ViewModel
                 return ServiceLocator.Current.GetInstance<MainViewModel>();
             }
         }
-        
+
+        public MessageViewModel Message
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<MessageViewModel>();
+            }
+        }
+
         public static async Task Cleanup()
         {
             await ServiceLocator.Current.GetInstance<MainViewModel>().Shutdown();

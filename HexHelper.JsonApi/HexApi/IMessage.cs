@@ -1,4 +1,6 @@
-﻿namespace HexHelper.JsonApi.HexApi
+﻿using System;
+
+namespace HexHelper.JsonApi.HexApi
 {
     public enum MessageType
     {
@@ -20,8 +22,10 @@
 
     public interface IMessage
     {
+        DateTime Date { get; }
         MessageType Type { get; }
-        bool LogToFile { get;  }
+        bool LogToFile { get; }
+        string Summary { get; }
     };
 
     public class GenericMessage : IMessage
@@ -32,8 +36,17 @@
             LogToFile = aLogToFile;
         }
 
+        public DateTime Date { get; private set; } = DateTime.Now;
+
         public bool LogToFile { get; private set; } = false;
 
         public MessageType Type { get; private set; } = MessageType.Collection;
+
+        public string Summary {
+            get
+            {
+                return Type.ToString();
+            }
+        }
     }
 }

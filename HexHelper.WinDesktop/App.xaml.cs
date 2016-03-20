@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using GalaSoft.MvvmLight.Threading;
 
 namespace HexHelper.WinDesktop
 {
@@ -9,6 +10,7 @@ namespace HexHelper.WinDesktop
     {
         private void HandleStartup( object sender, StartupEventArgs e )
         {
+            DispatcherHelper.Initialize();
             Current.DispatcherUnhandledException += HandleUnhandledException;
         }
 

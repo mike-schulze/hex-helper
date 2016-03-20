@@ -35,6 +35,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="HexApi\CollectionMessage.cs" />
+    <Compile Include="HexApi\DraftCardPickedMessage.cs" />
+    <Compile Include="HexApi\DraftPackMessage.cs" />
     <Compile Include="HexApi\IMessage.cs" />
     <Compile Include="HexApi\Parser.cs" />
     <Compile Include="WebApi\AuctionHouseData.cs" />

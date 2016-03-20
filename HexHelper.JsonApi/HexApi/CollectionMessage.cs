@@ -14,11 +14,29 @@ namespace HexHelper.JsonApi.HexApi
             Unknown
         }
 
-        public CollectionMessage( JObject aJson, bool aLogToFile = true )
+        public CollectionMessage( JObject aJson )
         {
-            LogToFile = aLogToFile;
             Parse( aJson );
+
+            string theSummary = Action.ToString() + ' ';
+            if( Complete.Count != 0 )
+            {
+                theSummary += String.Format( "Complete collection. {0} items. ", Complete.Count );
+            }
+            if( CardsAdded.Count != 0 )
+            {
+                theSummary += String.Format( "{0} item(s) added. ", CardsAdded.Count );
+            }
+            if( CardsRemoved.Count != 0 )
+            {
+                theSummary += String.Format( "{0} item(s) removed. ", CardsRemoved.Count );
+            }
+            Summary = theSummary;
         }
+
+        public DateTime Date { get; private set; } = DateTime.Now;
+
+        public string Summary { get; private set; }
 
         private void Parse( JObject aJson )
         {
@@ -68,7 +86,7 @@ namespace HexHelper.JsonApi.HexApi
         public IDictionary<Guid, CollectionInfo> CardsAdded { get; private set; }
         public IDictionary<Guid, CollectionInfo> CardsRemoved { get; private set; }
 
-        public bool LogToFile { get; private set; }
+        public bool LogToFile { get; private set; } = true;
         public MessageType Type { get; private set; } = MessageType.Collection;
         public CollectionAction Action { get; private set; }
     }

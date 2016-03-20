@@ -39,6 +39,11 @@ namespace HexHelper.WinDesktop.Service
         public async Task HandleMessage( string aMessageString, bool? aLogToFile = null )
         {
             var theMessage = await ParseMessageString( aMessageString, aLogToFile );
+            if( theMessage == null )
+            {
+                return;
+            }
+
             if( theMessage.Type == MessageType.Unknown )
             {
                 OnStatusChanged( String.Format( "{0} - Unknown message received", DateTime.Now.ToShortTimeString() ) );
@@ -47,6 +52,8 @@ namespace HexHelper.WinDesktop.Service
             {
                 OnStatusChanged( String.Format( "{0} - {1} message received", DateTime.Now.ToShortTimeString(), theMessage.Type ) );
             }
+
+            OnMessageReceived( theMessage );
         }
 
         public async Task Shutdown()

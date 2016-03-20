@@ -24,6 +24,11 @@
                 <view:CardListControl Cards="{Binding Cards}"
                               Margin="10" />
             </TabItem>
+
+            <TabItem Header="API">
+                <view:MessageListControl Margin="10" />
+            </TabItem>
+
             <TabItem Header="Test Message">
                 <Grid Margin="10">
                     <Grid.RowDefinitions>

@@ -17,15 +17,11 @@ namespace HexHelper.JsonApi.HexApi
                 switch( theType )
                 {
                     case MessageType.Collection:
-                        if( aLogToFile.HasValue )
-                        {
-                            return new CollectionMessage( theJson, aLogToFile.Value );
-                        }
-                        else
-                        {
-                            return new CollectionMessage( theJson );
-                        }
-                        
+                        return new CollectionMessage( theJson );
+                    case MessageType.DraftPack:
+                        return new DraftPackMessage( theJson );
+                    case MessageType.DraftCardPicked:
+                        return new DraftCardPickedMessage( theJson );
                     default:
                         break;
                 }
