@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 
 namespace HexHelper.JsonApi.HexApi
 {
-    public class CollectionMessage : IMessage
+    public sealed class CollectionMessage : MessageBase
     {
         public enum CollectionAction
         {
@@ -15,11 +15,9 @@ namespace HexHelper.JsonApi.HexApi
             Unknown
         }
 
-        public CollectionMessage( JObject aJson )
+        public CollectionMessage( JObject aJson ) : base( MessageType.Collection, true, aJson )
         {
-            Parse( aJson );
-
-            string theSummary = Action.ToString() + ' ';
+            string theSummary = String.Format( "[{0}] ", Action.ToString() );
             if( Complete.Count != 0 )
             {
                 theSummary += String.Format( "Complete collection. {0} items. ", Complete.Count );
@@ -35,11 +33,7 @@ namespace HexHelper.JsonApi.HexApi
             Summary = theSummary;
         }
 
-        public DateTime Date { get; private set; } = DateTime.Now;
-
-        public string Summary { get; private set; }
-
-        private void Parse( JObject aJson )
+        protected override void Parse( JObject aJson )
         {
             var theActionString = ( string ) aJson["Action"];
             CollectionAction theActionType;
@@ -84,8 +78,6 @@ namespace HexHelper.JsonApi.HexApi
         public IDictionary<Guid, CollectionInfo> CardsAdded { get; private set; }
         public IDictionary<Guid, CollectionInfo> CardsRemoved { get; private set; }
 
-        public bool LogToFile { get; private set; } = true;
-        public MessageType Type { get; private set; } = MessageType.Collection;
         public CollectionAction Action { get; private set; }
     }
 }
