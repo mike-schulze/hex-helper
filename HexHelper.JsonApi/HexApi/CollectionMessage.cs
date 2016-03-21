@@ -11,6 +11,7 @@ namespace HexHelper.JsonApi.HexApi
         {
             Overwrite,
             Complete,
+            Update,
             Unknown
         }
 
@@ -40,18 +41,15 @@ namespace HexHelper.JsonApi.HexApi
 
         private void Parse( JObject aJson )
         {
-            var theAction = ( string ) aJson["ActionTest"];
-            switch( theAction )
+            var theActionString = ( string ) aJson["Action"];
+            CollectionAction theActionType;
+            if( Enum.TryParse( theActionString , out theActionType ) )
             {
-                case "Overwrite":
-                    Action = CollectionAction.Overwrite;
-                    break;
-                case "Complete":
-                    Action = CollectionAction.Complete;
-                    break;
-                default:
-                    Action = CollectionAction.Unknown;
-                    break;
+                Action = theActionType;
+            }
+            else
+            {
+                Action = CollectionAction.Unknown;
             }
 
             Complete = ParseArray( ( JArray ) aJson["Complete"] );
