@@ -1,5 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Reflection;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -97,6 +98,13 @@ namespace HexHelper.WinDesktop.ViewModel
         }
         private string mMessageText;
 
+        public string Title
+        {
+            get
+            {
+                return String.Format( "Hex Helper v{0}", Assembly.GetEntryAssembly().GetName().Version );
+            }
+        }
 
         public RelayCommand PickMessageCommand { get; private set; }
 
