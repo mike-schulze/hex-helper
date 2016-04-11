@@ -29,6 +29,11 @@
                             <GridViewColumnHeader Content="Type" />
                         </GridViewColumn.Header>
                     </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding User}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="User" />
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding Summary}">
                         <GridViewColumn.Header>
                             <GridViewColumnHeader Width="200" Content="Summary" />

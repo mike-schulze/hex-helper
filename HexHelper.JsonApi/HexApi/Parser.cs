@@ -9,19 +9,21 @@ namespace HexHelper.JsonApi.HexApi
         public static IMessage ParseMessage( string aMessageString, bool? aLogToFile )
         {
             MessageType theType = MessageType.Unknown;
+            string theUser = null;
             try
             {
                 var theJson = JObject.Parse( aMessageString );
                 theType = TypeFromString( ( string ) theJson["Message"] );
+                theUser = ( string ) theJson["User"];
 
                 switch( theType )
                 {
                     case MessageType.Collection:
-                        return new CollectionMessage( theJson );
+                        return new CollectionMessage( theJson, theUser );
                     case MessageType.DraftPack:
-                        return new DraftPackMessage( theJson );
+                        return new DraftPackMessage( theJson, theUser );
                     case MessageType.DraftCardPicked:
-                        return new DraftCardPickedMessage( theJson );
+                        return new DraftCardPickedMessage( theJson, theUser );
                     default:
                         break;
                 }
@@ -33,10 +35,10 @@ namespace HexHelper.JsonApi.HexApi
 
             if( aLogToFile.HasValue )
             {
-                return new GenericMessage( theType, aLogToFile.Value );
+                return new GenericMessage( theType, theUser, aLogToFile.Value );
             }
 
-            return new GenericMessage( theType );
+            return new GenericMessage( theType, theUser );
         }
 
         private static MessageType TypeFromString( string aMessageTypeString )

@@ -15,7 +15,7 @@ namespace HexHelper.JsonApi.HexApi
             Unknown
         }
 
-        public CollectionMessage( JObject aJson ) : base( MessageType.Collection, true, aJson )
+        public CollectionMessage( JObject aJson, string aUser ) : base( MessageType.Collection, aUser, true, aJson )
         {
             string theSummary = String.Format( "[{0}] ", Action.ToString() );
             if( Complete.Count != 0 )

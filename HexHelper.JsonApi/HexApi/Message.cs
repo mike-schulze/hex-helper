@@ -27,13 +27,15 @@ namespace HexHelper.JsonApi.HexApi
         MessageType Type { get; }
         bool LogToFile { get; }
         string Summary { get; }
+        string User { get; }
     };
 
     public abstract class MessageBase : IMessage
     {
-        public MessageBase( MessageType aType, bool aLogToFile = false, JObject aJson = null )
+        public MessageBase( MessageType aType, string aUser, bool aLogToFile = false, JObject aJson = null )
         {
             Type = aType;
+            User = aUser;
             LogToFile = aLogToFile;
 
             if( aJson != null )
@@ -53,12 +55,14 @@ namespace HexHelper.JsonApi.HexApi
 
         public string Summary { get; protected set; }
 
+        public string User { get; private set; }
+
         public MessageType Type { get; protected set; } = MessageType.Unknown;
     }
 
     public sealed class GenericMessage : MessageBase
     {
-        public GenericMessage( MessageType aType, bool aLogToFile = false ) : base( aType, aLogToFile )
+        public GenericMessage( MessageType aType, string aUser, bool aLogToFile = false ) : base( aType, aUser, aLogToFile )
         {
             Summary = Type.ToString();
         }
