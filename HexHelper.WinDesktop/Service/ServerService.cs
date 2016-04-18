@@ -6,6 +6,9 @@ using System.Text;
 
 namespace HexHelper.WinDesktop.Service
 {
+    /// <summary>
+    /// Default implementation for local server that is listening for API messages
+    /// </summary>
     public sealed class ServerService : IServerService
     {
         public void Start( int aPort )

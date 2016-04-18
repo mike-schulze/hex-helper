@@ -28,7 +28,13 @@ namespace HexHelper.WinDesktop.Service
 
             OnStatusChanged( "Initializing database..." );
             await mRepo.Initialize();
-            
+
+            string theLastUser = ( string ) Properties.Settings.Default.LastUser;
+            if( theLastUser != null )
+            {
+                mCurrentUser = mRepo.AllUsers().FirstOrDefault( theUser => theUser.UserName == theLastUser );
+            }
+
             OnStatusChanged( "Updating items..." );
             await UpdateItems();
 
@@ -42,6 +48,21 @@ namespace HexHelper.WinDesktop.Service
             if( theMessage == null )
             {
                 return;
+            }
+
+            if( !String.IsNullOrEmpty( theMessage.User ) )
+            {
+                if( mCurrentUser == null || theMessage.User != mCurrentUser.UserName )
+                {
+                    var theUser = mRepo.AllUsers().FirstOrDefault( u => u.UserName == theMessage.User );
+                    if( theUser == null )
+                    {
+                        theUser = new User( theMessage.User );
+                    }
+
+                    SetCurrentUser( theUser );
+                    OnCollectionChanged();
+                }
             }
 
             if( theMessage.Type == MessageType.Unknown )
@@ -89,6 +110,15 @@ namespace HexHelper.WinDesktop.Service
         }
         public event EventHandler<string> StatusChanged;
 
+        private void OnUserChanged( User aUser )
+        {
+            if( UserChanged != null )
+            {
+                UserChanged( this, aUser );
+            }
+        }
+        public event EventHandler<User> UserChanged;
+
         private async Task StoreMessage( IMessage aMessage, string aMessageString )
         {
             if( !aMessage.LogToFile )
@@ -103,7 +133,30 @@ namespace HexHelper.WinDesktop.Service
         public IEnumerable<ItemViewModel> GetCards()
         {
             OnStatusChanged( "Collection loaded." );
-            return mRepo.AllCards();
+            return mRepo.AllCards( mCurrentUser != null ? mCurrentUser.UserName : null );
+        }
+
+        public IEnumerable<User> GetUsers()
+        {
+            return mRepo.AllUsers();
+        }
+
+        public User GetCurrentUser()
+        {
+            return mCurrentUser;
+        }
+
+        public void SetCurrentUser( User aUser )
+        {
+            if( !mRepo.AllUsers().Contains( aUser ) )
+            {
+                mRepo.AddOrUpdateUser( aUser );
+            }
+
+            mCurrentUser = aUser;
+            OnUserChanged( aUser );
+            Properties.Settings.Default.LastUser = aUser.UserName;
+            Properties.Settings.Default.Save();
         }
 
         private async Task UpdatePrices()
@@ -137,19 +190,19 @@ namespace HexHelper.WinDesktop.Service
             var theCollectionMessage = theMessage as CollectionMessage;
             if( theCollectionMessage != null )
             {
-                mRepo.UpdateInventory( theCollectionMessage.Complete );
+                mRepo.UpdateInventory( theMessage.User, theCollectionMessage.Complete );
                 if( theCollectionMessage.CardsAdded != null )
                 {
                     foreach( var theItem in theCollectionMessage.CardsAdded )
                     {
-                        mRepo.UpdateCopiesOwned( theItem.Key, theItem.Value.CopiesOwned );
+                        mRepo.UpdateCopiesOwned( theMessage.User, theItem.Key, theItem.Value.CopiesOwned );
                     }
                 }
                 if( theCollectionMessage.CardsRemoved != null )
                 {
                     foreach( var theItem in theCollectionMessage.CardsRemoved )
                     {
-                        mRepo.UpdateCopiesOwned( theItem.Key, theItem.Value.CopiesOwned * -1 );
+                        mRepo.UpdateCopiesOwned( theMessage.User, theItem.Key, theItem.Value.CopiesOwned * -1 );
                     }
                 }
                 OnCollectionChanged();
@@ -171,5 +224,7 @@ namespace HexHelper.WinDesktop.Service
         private readonly IServerService mServer;
         private readonly IRepository mRepo;
         private readonly IFileService mFileService;
+
+        private User mCurrentUser;
     }
 }

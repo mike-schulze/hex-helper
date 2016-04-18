@@ -29,16 +29,21 @@ namespace HexHelper.WinDesktop.ViewModel
 
             await mHexApi.Initialize();
 
+            CurrentUser = mHexApi.GetCurrentUser();
             Cards = new ObservableCollection<ItemViewModel>( mHexApi.GetCards() );
 
             mHexApi.CollectionChanged += HandleCollectionChanged;
+            mHexApi.UserChanged += HandleUserChanged;
         }
-
         private void HandleCollectionChanged( object sender, EventArgs e )
         {
             Cards = new ObservableCollection<ItemViewModel>( mHexApi.GetCards() );
         }
 
+        private void HandleUserChanged( object sender, User e )
+        {
+            CurrentUser = e;
+        }
         private void HandleStatusChanged( object sender, string e )
         {
             Status = e;
@@ -97,6 +102,20 @@ namespace HexHelper.WinDesktop.ViewModel
             }
         }
         private string mMessageText;
+
+        public User CurrentUser
+        {
+            get
+            {
+                return mCurrentUser;
+            }
+
+            set
+            {
+                Set( nameof( CurrentUser ), ref mCurrentUser, value );
+            }
+        }
+        private User mCurrentUser;
 
         public string Title
         {

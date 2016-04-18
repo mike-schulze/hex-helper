@@ -13,9 +13,13 @@ namespace HexHelper.WinDesktop.Service
         Task Shutdown();
 
         IEnumerable<ItemViewModel> GetCards();
+        IEnumerable<User> GetUsers();
+        User GetCurrentUser();
+        void SetCurrentUser( User aUserName );
 
         event EventHandler CollectionChanged;
         event EventHandler<IMessage> MessageReceived;
         event EventHandler<string> StatusChanged;
+        event EventHandler<User> UserChanged;
     }
 }

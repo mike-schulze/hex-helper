@@ -55,12 +55,28 @@
             </TabItem>
         </TabControl>
 
-        <TextBlock Grid.Row="1"                   
-                   Foreground="{StaticResource BlackBrush}"
-                   Background="{StaticResource AccentColorBrush}"
-                   VerticalAlignment="Center"
-                   FontSize="11"
-                   Padding="10,3"
-                   Text="{Binding Status}" />
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0"                   
+                       VerticalAlignment="Center"
+                       Foreground="{StaticResource BlackBrush}"
+                       Background="{StaticResource AccentColorBrush}"
+                       FontSize="11"
+                       Padding="10,3"
+                       Text="{Binding Status}" />
+
+            <TextBlock Grid.Column="1"                   
+                       VerticalAlignment="Center"
+                       Foreground="{StaticResource BlackBrush}"
+                       Background="{StaticResource AccentColorBrush}"
+                       FontSize="11"
+                       Padding="10, 3, 20, 3"
+                       Text="{Binding CurrentUser.UserName}" />
+        </Grid>
+        
     </Grid>
 </Controls:MetroWindow>

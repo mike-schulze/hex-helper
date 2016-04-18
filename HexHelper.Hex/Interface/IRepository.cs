@@ -8,9 +8,11 @@ namespace HexHelper.Hex.Interface
     {
         void UpdateItemInfo( IDictionary<Guid, Info> aItemInfo );
         void UpdatePrices( IDictionary<Guid, AuctionHouseInfo> aAuctionHouseData );
-        void UpdateInventory( IDictionary<Guid, CollectionInfo> aCollectionData );
-        void UpdateCopiesOwned( Guid aId, int aDelta );
-        IEnumerable<ItemViewModel> AllCards();
+        void UpdateInventory( string aUserName, IDictionary<Guid, CollectionInfo> aCollectionData );
+        void UpdateCopiesOwned( string aUserName, Guid aId, int aDelta );
+        void AddOrUpdateUser( User aUser );
+        IEnumerable<User> AllUsers();
+        IEnumerable<ItemViewModel> AllCards( string aUserName );
         Task Initialize();
         Task Persist();
     }
