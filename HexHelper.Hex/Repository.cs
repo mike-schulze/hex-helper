@@ -157,6 +157,16 @@ namespace HexHelper.Hex
             return mUserData.Values;
         }
 
+        public User UserFromName( string aUserName )
+        {
+            if( mUserData.ContainsKey( aUserName ) )
+            {
+                return mUserData[aUserName];
+            }
+
+            return null;
+        }
+
         private ItemViewModel CreateItemViewModel( string aUserName, Guid aId )
         {         
             if( !mItemInfo.ContainsKey( aId ) )

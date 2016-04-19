@@ -11,6 +11,7 @@ namespace HexHelper.Hex.Interface
         void UpdateInventory( string aUserName, IDictionary<Guid, CollectionInfo> aCollectionData );
         void UpdateCopiesOwned( string aUserName, Guid aId, int aDelta );
         void AddOrUpdateUser( User aUser );
+        User UserFromName( string aUserName );
         IEnumerable<User> AllUsers();
         IEnumerable<ItemViewModel> AllCards( string aUserName );
         Task Initialize();

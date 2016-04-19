@@ -6,6 +6,7 @@ namespace HexHelper.JsonApi.HexApi
     {
         public DraftCardPickedMessage( JObject aJson, string aUser ) : base( MessageType.DraftCardPicked, aUser, true, aJson )
         {
+            SupportsHexTcgBrowser = true;
         }
 
         protected override void Parse( JObject aJson )

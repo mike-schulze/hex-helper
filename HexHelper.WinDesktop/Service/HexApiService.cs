@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using HexHelper.Hex;
 using HexHelper.Hex.Interface;
@@ -32,7 +34,7 @@ namespace HexHelper.WinDesktop.Service
             string theLastUser = ( string ) Properties.Settings.Default.LastUser;
             if( theLastUser != null )
             {
-                mCurrentUser = mRepo.AllUsers().FirstOrDefault( theUser => theUser.UserName == theLastUser );
+                mCurrentUser = mRepo.UserFromName( theLastUser );
             }
 
             OnStatusChanged( "Updating items..." );
@@ -54,7 +56,7 @@ namespace HexHelper.WinDesktop.Service
             {
                 if( mCurrentUser == null || theMessage.User != mCurrentUser.UserName )
                 {
-                    var theUser = mRepo.AllUsers().FirstOrDefault( u => u.UserName == theMessage.User );
+                    var theUser = mRepo.UserFromName( theMessage.User );
                     if( theUser == null )
                     {
                         theUser = new User( theMessage.User );
@@ -186,6 +188,7 @@ namespace HexHelper.WinDesktop.Service
         {
             var theMessage = Parser.ParseMessage( aMessageString, aLogToFile );
             await StoreMessage( theMessage, aMessageString );
+            ForwardMessage( theMessage, aMessageString );
 
             var theCollectionMessage = theMessage as CollectionMessage;
             if( theCollectionMessage != null )
@@ -209,6 +212,33 @@ namespace HexHelper.WinDesktop.Service
             }
 
             return theMessage;
+        }
+
+        private async void ForwardMessage( IMessage aMessage, string aMessageString )
+        {
+            if( aMessage == null || String.IsNullOrWhiteSpace( aMessage.User ) || !aMessage.SupportsHexTcgBrowser )
+            {
+                return;
+            }
+
+            var theUser = mRepo.UserFromName( aMessage.User );
+            if( theUser == null || String.IsNullOrWhiteSpace( theUser.TcgBrowserSyncCode  ) )
+            {
+                return;
+            }
+
+            try
+            {
+                using( var theHttpClient = new HttpClient() )
+                {
+                    await theHttpClient.PostAsync(
+                        String.Format( "http://hex.tcgbrowser.com:8080/sync?{0}", theUser.TcgBrowserSyncCode ),
+                        new StringContent( aMessageString, Encoding.UTF8, "application/json" ) );
+                }
+            }
+            catch
+            {
+            }
         }
 
         private void HandleErrorOccurred( object sender, string e )

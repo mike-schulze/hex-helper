@@ -28,6 +28,7 @@ namespace HexHelper.JsonApi.HexApi
         bool LogToFile { get; }
         string Summary { get; }
         string User { get; }
+        bool SupportsHexTcgBrowser { get; }
     };
 
     public abstract class MessageBase : IMessage
@@ -49,15 +50,17 @@ namespace HexHelper.JsonApi.HexApi
 
         }
 
-        public DateTime Date { get; } = DateTime.Now;
-
-        public bool LogToFile { get; protected set; }
+        public DateTime Date { get; } = DateTime.Now;        
 
         public string Summary { get; protected set; }
 
         public string User { get; private set; }
 
         public MessageType Type { get; protected set; } = MessageType.Unknown;
+
+        public bool LogToFile { get; protected set; }
+
+        public bool SupportsHexTcgBrowser { get; protected set; } = false;
     }
 
     public sealed class GenericMessage : MessageBase
