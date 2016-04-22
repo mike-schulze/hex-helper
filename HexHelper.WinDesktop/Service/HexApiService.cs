@@ -173,7 +173,7 @@ namespace HexHelper.WinDesktop.Service
 
         private async Task UpdateItems()
         {
-            var theItemListFile = new CachedRemoteFile( "http://hexdbapi2.hexsales.net/v1/objects/search", mFileService );
+            var theItemListFile = new CachedRemoteFile( "http://hexdbapi.hexsales.net/v1/objects/search", mFileService );
             theItemListFile.PostMessage = "{}";
             theItemListFile.CacheFileName = "itemlist.json";
             if( await theItemListFile.DownloadFile() )
