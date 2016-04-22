@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace HexHelper.Hex.Interface
@@ -13,5 +10,11 @@ namespace HexHelper.Hex.Interface
         Task<string> LoadFile( string aPath );
         DateTime LastWriteTime( string aRelativeDirectory, string aFileName );
         bool Exists( string aRelativeDirectory, string aFileName );
+    }
+
+    public class FileInfo
+    {
+        public string RelativeFolder { get; set; }
+        public string FileName { get; set; }
     }
 }

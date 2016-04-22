@@ -52,7 +52,7 @@ namespace HexHelper.WinDesktop.Service
 
         public DateTime LastWriteTime( string aRelativeDirectory, string aFileName )
         {
-            var theFileInfo = new FileInfo( Path.Combine( ConstructPath( aRelativeDirectory ), aFileName ) );
+            var theFileInfo = new System.IO.FileInfo( Path.Combine( ConstructPath( aRelativeDirectory ), aFileName ) );
             return theFileInfo.LastWriteTime;
         }
 

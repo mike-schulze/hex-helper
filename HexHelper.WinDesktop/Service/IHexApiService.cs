@@ -9,7 +9,7 @@ namespace HexHelper.WinDesktop.Service
     public interface IHexApiService
     {
         Task Initialize();
-        Task HandleMessage( string aMessageString, bool? aLogToFile = null );
+        Task HandleMessage( string aMessageString );
         Task Shutdown();
 
         IEnumerable<ItemViewModel> GetCards();

@@ -6,7 +6,7 @@ namespace HexHelper.JsonApi.HexApi
 {
     public static class Parser
     {
-        public static IMessage ParseMessage( string aMessageString, bool? aLogToFile )
+        public static IMessage ParseMessage( string aMessageString )
         {
             MessageType theType = MessageType.Unknown;
             string theUser = null;
@@ -31,11 +31,6 @@ namespace HexHelper.JsonApi.HexApi
             catch
             {
 
-            }
-
-            if( aLogToFile.HasValue )
-            {
-                return new GenericMessage( theType, theUser, aLogToFile.Value );
             }
 
             return new GenericMessage( theType, theUser );

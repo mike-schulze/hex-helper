@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using HexHelper.Hex;
+using HexHelper.Hex.Interface;
 using Newtonsoft.Json.Linq;
 
 namespace HexHelper.JsonApi.HexApi
@@ -15,7 +16,7 @@ namespace HexHelper.JsonApi.HexApi
             Unknown
         }
 
-        public CollectionMessage( JObject aJson, string aUser ) : base( MessageType.Collection, aUser, true, aJson )
+        public CollectionMessage( JObject aJson, string aUser ) : base( MessageType.Collection, aUser, aJson )
         {
             string theSummary = String.Format( "[{0}] ", Action.ToString() );
             if( Complete.Count != 0 )

@@ -44,9 +44,9 @@ namespace HexHelper.WinDesktop.Service
             await UpdatePrices();
         }
 
-        public async Task HandleMessage( string aMessageString, bool? aLogToFile = null )
+        public async Task HandleMessage( string aMessageString )
         {
-            var theMessage = await ParseMessageString( aMessageString, aLogToFile );
+            var theMessage = await ParseMessageString( aMessageString );
             if( theMessage == null )
             {
                 return;
@@ -121,15 +121,12 @@ namespace HexHelper.WinDesktop.Service
         }
         public event EventHandler<User> UserChanged;
 
-        private async Task StoreMessage( IMessage aMessage, string aMessageString )
+        private async Task<FileInfo> StoreMessage( IMessage aMessage, string aMessageString )
         {
-            if( !aMessage.LogToFile )
-            {
-                return;
-            }
-
             string theFileName = String.Format( "{0}.json", DateTime.Now.ToFileTimeUtc() );
-            await mFileService.SaveFile( "Message\\" + aMessage.Type.ToString(), theFileName, aMessageString );
+            var theFileInfo = new FileInfo() { RelativeFolder = "Message\\" + aMessage.Type.ToString(), FileName = theFileName };
+            await mFileService.SaveFile( theFileInfo.RelativeFolder, theFileName, aMessageString );
+            return theFileInfo;
         }
 
         public IEnumerable<ItemViewModel> GetCards()
@@ -184,10 +181,10 @@ namespace HexHelper.WinDesktop.Service
             }
         }
 
-        private async Task<IMessage> ParseMessageString( string aMessageString, bool? aLogToFile = null )
+        private async Task<IMessage> ParseMessageString( string aMessageString )
         {
-            var theMessage = Parser.ParseMessage( aMessageString, aLogToFile );
-            await StoreMessage( theMessage, aMessageString );
+            var theMessage = Parser.ParseMessage( aMessageString );
+            theMessage.SourceFile = await StoreMessage( theMessage, aMessageString );
             ForwardMessage( theMessage, aMessageString );
 
             var theCollectionMessage = theMessage as CollectionMessage;

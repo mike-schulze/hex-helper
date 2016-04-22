@@ -1,4 +1,5 @@
 ﻿using System;
+using HexHelper.Hex.Interface;
 using Newtonsoft.Json.Linq;
 
 namespace HexHelper.JsonApi.HexApi
@@ -25,19 +26,18 @@ namespace HexHelper.JsonApi.HexApi
     {
         DateTime Date { get; }
         MessageType Type { get; }
-        bool LogToFile { get; }
         string Summary { get; }
         string User { get; }
         bool SupportsHexTcgBrowser { get; }
+        FileInfo SourceFile { get; set; }
     };
 
     public abstract class MessageBase : IMessage
     {
-        public MessageBase( MessageType aType, string aUser, bool aLogToFile = false, JObject aJson = null )
+        public MessageBase( MessageType aType, string aUser, JObject aJson = null )
         {
             Type = aType;
             User = aUser;
-            LogToFile = aLogToFile;
 
             if( aJson != null )
             {
@@ -58,14 +58,14 @@ namespace HexHelper.JsonApi.HexApi
 
         public MessageType Type { get; protected set; } = MessageType.Unknown;
 
-        public bool LogToFile { get; protected set; }
-
         public bool SupportsHexTcgBrowser { get; protected set; } = false;
+
+        public FileInfo SourceFile { get; set; }
     }
 
     public sealed class GenericMessage : MessageBase
     {
-        public GenericMessage( MessageType aType, string aUser, bool aLogToFile = false ) : base( aType, aUser, aLogToFile )
+        public GenericMessage( MessageType aType, string aUser ) : base( aType, aUser )
         {
             Summary = Type.ToString();
         }
