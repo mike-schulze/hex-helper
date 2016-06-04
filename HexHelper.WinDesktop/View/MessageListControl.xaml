@@ -8,6 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300"
              DataContext="{Binding Message, Source={StaticResource Locator}}">
     <ListView ItemsSource="{Binding Messages}"
+              x:Name="mListView"
               ScrollViewer.CanContentScroll="True">
 
         <ListView.ItemsPanel>
@@ -38,6 +39,15 @@
                         <GridViewColumn.Header>
                             <GridViewColumnHeader Width="200" Content="Summary" />
                         </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Address">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Show" 
+                                        Command="{Binding ElementName=mListView, Path=DataContext.ShowMessageCommand}"
+                                        CommandParameter="{Binding}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                 </GridView.Columns>
             </GridView>

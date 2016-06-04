@@ -10,6 +10,7 @@ namespace HexHelper.Hex.Interface
         Task<string> LoadFile( string aPath );
         DateTime LastWriteTime( string aRelativeDirectory, string aFileName );
         bool Exists( string aRelativeDirectory, string aFileName );
+        void OpenByOS( FileInfo aFileInfo );
     }
 
     public class FileInfo

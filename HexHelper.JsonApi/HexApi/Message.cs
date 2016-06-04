@@ -20,7 +20,8 @@ namespace HexHelper.JsonApi.HexApi
         PlayedUpdated,
         CardUpdated,
         PlayerUpdated,
-        Tournament
+        Tournament,
+        SaveTalents
     }
 
     public interface IMessage
