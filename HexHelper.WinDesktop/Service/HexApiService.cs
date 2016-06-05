@@ -9,6 +9,7 @@ using HexHelper.Hex.Interface;
 using HexHelper.JsonApi.HexApi;
 using HexHelper.JsonApi.Utils;
 using HexHelper.JsonApi.WebApi;
+using HexHelper.JsonApi.WebApiForward;
 
 namespace HexHelper.WinDesktop.Service
 {
@@ -213,28 +214,24 @@ namespace HexHelper.WinDesktop.Service
 
         private async void ForwardMessage( IMessage aMessage, string aMessageString )
         {
-            if( aMessage == null || String.IsNullOrWhiteSpace( aMessage.User ) || !aMessage.SupportsHexTcgBrowser )
+            if( aMessage == null || String.IsNullOrWhiteSpace( aMessage.User ) || String.IsNullOrWhiteSpace( aMessageString ) )
             {
                 return;
             }
 
             var theUser = mRepo.UserFromName( aMessage.User );
-            if( theUser == null || String.IsNullOrWhiteSpace( theUser.TcgBrowserSyncCode  ) )
+            if( theUser == null )
             {
                 return;
             }
 
-            try
+            var theHexSites = Forwarder.AllHexSites();
+            foreach( var theSite in theHexSites )
             {
-                using( var theHttpClient = new HttpClient() )
+                if( theSite.Value.SupportedMessages.Contains( aMessage.Type ) )
                 {
-                    await theHttpClient.PostAsync(
-                        String.Format( "http://hex.tcgbrowser.com:8080/sync?{0}", theUser.TcgBrowserSyncCode ),
-                        new StringContent( aMessageString, Encoding.UTF8, "application/json" ) );
+                    await Forwarder.ForwardMessage( theSite.Value, aMessageString, theUser );
                 }
-            }
-            catch
-            {
             }
         }
 

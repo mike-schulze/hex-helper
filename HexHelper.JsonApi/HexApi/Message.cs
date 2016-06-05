@@ -30,7 +30,6 @@ namespace HexHelper.JsonApi.HexApi
         MessageType Type { get; }
         string Summary { get; }
         string User { get; }
-        bool SupportsHexTcgBrowser { get; }
         FileInfo SourceFile { get; set; }
     };
 
@@ -59,8 +58,6 @@ namespace HexHelper.JsonApi.HexApi
         public string User { get; private set; }
 
         public MessageType Type { get; protected set; } = MessageType.Unknown;
-
-        public bool SupportsHexTcgBrowser { get; protected set; } = false;
 
         public FileInfo SourceFile { get; set; }
     }

@@ -40,7 +40,7 @@
                             <GridViewColumnHeader Width="200" Content="Summary" />
                         </GridViewColumn.Header>
                     </GridViewColumn>
-                    <GridViewColumn Header="Address">
+                    <GridViewColumn Header="Details">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Content="Show" 

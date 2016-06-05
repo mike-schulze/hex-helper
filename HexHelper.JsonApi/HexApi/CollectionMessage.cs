@@ -32,7 +32,6 @@ namespace HexHelper.JsonApi.HexApi
                 theSummary += String.Format( "{0} item(s) removed. ", CardsRemoved.Count );
             }
             Summary = theSummary;
-            SupportsHexTcgBrowser = true;
         }
 
         protected override void Parse( JObject aJson )
