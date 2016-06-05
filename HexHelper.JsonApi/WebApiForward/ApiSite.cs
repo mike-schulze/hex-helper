@@ -67,7 +67,7 @@ namespace HexHelper.JsonApi.WebApiForward
                     aRequiresKey: true,
                     aSupportedMessages: new List<MessageType>() { MessageType.Login, MessageType.DraftPack, MessageType.DraftCardPicked, MessageType.Collection, MessageType.Tournament, MessageType.SaveDeck },
                     aType: ApiSiteType.ShareYourDraft,
-                    aUri: "http://shareyourdraft.com/api/{0}" ) );
+                    aUri: "http://shareyourdraft.com/api/draft/{0}" ) );
             }
             return mAllHexSites;
         }
