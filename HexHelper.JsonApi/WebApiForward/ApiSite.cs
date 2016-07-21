@@ -53,7 +53,7 @@ namespace HexHelper.JsonApi.WebApiForward
 
                 mAllHexSites.Add( ApiSiteType.HexTcgBrowser, new ApiSite(
                     aRequiresKey: true,
-                    aSupportedMessages: new List<MessageType>() { MessageType.Collection, MessageType.DraftCardPicked, MessageType.DraftPack, MessageType.Inventory },
+                    aSupportedMessages: new List<MessageType>() { MessageType.Collection, MessageType.DraftCardPicked, MessageType.DraftPack, MessageType.Inventory, MessageType.SaveDeck },
                     aType: ApiSiteType.HexTcgBrowser,
                     aUri: "http://hex.tcgbrowser.com:8080/sync?{0}" ) );
 
