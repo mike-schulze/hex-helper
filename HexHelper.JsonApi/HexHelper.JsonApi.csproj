@@ -37,6 +37,7 @@
     <Compile Include="HexApi\CollectionMessage.cs" />
     <Compile Include="HexApi\DraftCardPickedMessage.cs" />
     <Compile Include="HexApi\DraftPackMessage.cs" />
+    <Compile Include="HexApi\LadderMessage.cs" />
     <Compile Include="HexApi\Message.cs" />
     <Compile Include="HexApi\Parser.cs" />
     <Compile Include="WebApiForward\ApiSite.cs" />

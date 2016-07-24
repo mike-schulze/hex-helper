@@ -29,6 +29,9 @@ namespace HexHelper.Hex
         Action
     }
 
+    /// <summary>
+    /// Rarities
+    /// </summary>
     public enum RarityType
     {
         Unknown,
@@ -39,6 +42,27 @@ namespace HexHelper.Hex
         Legendary,
         Epic,
         Promo
+    }
+
+    /// <summary>
+    /// Divsions
+    /// </summary>
+    public enum DivisionType
+    {
+        Bronze = 0,
+        Silver = 1,
+        Gold = 2,
+        Platinum = 3,
+        Cosmic = 4
+    }
+
+    /// <summary>
+    /// Formats
+    /// </summary>
+    public enum FormatType
+    {
+        Constructed,
+        Limited
     }
 
     /// <summary>
@@ -76,7 +100,7 @@ namespace HexHelper.Hex
 
     /// <summary>
     /// All information combined for a Hex item.
-    /// A lot repetition, but we makes sorting code easier.
+    /// A lot repetition, but makes sorting code easier.
     /// </summary>
     public class ItemViewModel
     {

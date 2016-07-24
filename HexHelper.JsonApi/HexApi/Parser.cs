@@ -24,6 +24,8 @@ namespace HexHelper.JsonApi.HexApi
                         return new DraftPackMessage( theJson, theUser );
                     case MessageType.DraftCardPicked:
                         return new DraftCardPickedMessage( theJson, theUser );
+                    case MessageType.Ladder:
+                        return new LadderMessage( theJson, theUser );
                     default:
                         break;
                 }

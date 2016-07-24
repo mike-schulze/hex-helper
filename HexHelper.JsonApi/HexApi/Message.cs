@@ -21,7 +21,8 @@ namespace HexHelper.JsonApi.HexApi
         CardUpdated,
         PlayerUpdated,
         Tournament,
-        SaveTalents
+        SaveTalents,
+        Ladder
     }
 
     public interface IMessage
@@ -42,13 +43,24 @@ namespace HexHelper.JsonApi.HexApi
 
             if( aJson != null )
             {
-                Parse( aJson );
-            }            
-        }
+                try
+                {
+                    Parse( aJson );
+                    CreateSummary();
+                }
+                catch
+                {
+                    Summary = "Error parsing message.";
+                }
+            }
+        }           
 
         protected virtual void Parse( JObject aJson )
         {
+        }
 
+        protected virtual void CreateSummary()
+        {
         }
 
         public DateTime Date { get; } = DateTime.Now;        

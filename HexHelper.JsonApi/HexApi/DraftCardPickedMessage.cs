@@ -12,5 +12,10 @@ namespace HexHelper.JsonApi.HexApi
         protected override void Parse( JObject aJson )
         {
         }
+
+        protected override void CreateSummary()
+        {
+            Summary = "Card Picked";
+        }
     }
 }
