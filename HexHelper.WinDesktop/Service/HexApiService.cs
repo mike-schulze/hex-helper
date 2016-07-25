@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using HexHelper.Hex;
 using HexHelper.Hex.Interface;
@@ -45,12 +43,13 @@ namespace HexHelper.WinDesktop.Service
             await UpdatePrices();
         }
 
-        public async Task HandleMessage( string aMessageString )
+        public IMessage HandleMessage( string aMessageString )
         {
-            var theMessage = await ParseMessageString( aMessageString );
+            var theMessage = ParseMessageString( aMessageString );
             if( theMessage == null )
             {
-                return;
+                OnStatusChanged( "Message could not be parsed successfully." );
+                return null;
             }
 
             if( !String.IsNullOrEmpty( theMessage.User ) )
@@ -78,6 +77,7 @@ namespace HexHelper.WinDesktop.Service
             }
 
             OnMessageReceived( theMessage );
+            return theMessage;
         }
 
         public async Task Shutdown()
@@ -88,47 +88,27 @@ namespace HexHelper.WinDesktop.Service
 
         private void OnCollectionChanged()
         {
-            if( CollectionChanged != null )
-            {
-                CollectionChanged( this, new EventArgs() );
-            }
+            CollectionChanged?.Invoke( this, new EventArgs() );
         }
         public event EventHandler CollectionChanged;
 
         private void OnMessageReceived( IMessage aMessage )
         {
-            if( MessageReceived != null )
-            {
-                MessageReceived( this, aMessage );
-            }
+            MessageReceived?.Invoke( this, aMessage );
         }
         public event EventHandler<IMessage> MessageReceived;
 
         private void OnStatusChanged( string aStatusText )
         {
-            if( StatusChanged != null )
-            {
-                StatusChanged( this, aStatusText );
-            }
+            StatusChanged?.Invoke( this, aStatusText );
         }
         public event EventHandler<string> StatusChanged;
 
         private void OnUserChanged( User aUser )
         {
-            if( UserChanged != null )
-            {
-                UserChanged( this, aUser );
-            }
+            UserChanged?.Invoke( this, aUser );
         }
         public event EventHandler<User> UserChanged;
-
-        private async Task<FileInfo> StoreMessage( IMessage aMessage, string aMessageString )
-        {
-            string theFileName = String.Format( "{0}.json", DateTime.Now.ToFileTimeUtc() );
-            var theFileInfo = new FileInfo() { RelativeFolder = "Message\\" + aMessage.Type.ToString(), FileName = theFileName };
-            await mFileService.SaveFile( theFileInfo.RelativeFolder, theFileName, aMessageString );
-            return theFileInfo;
-        }
 
         public IEnumerable<ItemViewModel> GetCards()
         {
@@ -182,11 +162,9 @@ namespace HexHelper.WinDesktop.Service
             }
         }
 
-        private async Task<IMessage> ParseMessageString( string aMessageString )
+        private IMessage ParseMessageString( string aMessageString )
         {
             var theMessage = Parser.ParseMessage( aMessageString );
-            theMessage.SourceFile = await StoreMessage( theMessage, aMessageString );
-            ForwardMessage( theMessage, aMessageString );
 
             var theCollectionMessage = theMessage as CollectionMessage;
             if( theCollectionMessage != null )
@@ -212,7 +190,7 @@ namespace HexHelper.WinDesktop.Service
             return theMessage;
         }
 
-        private async void ForwardMessage( IMessage aMessage, string aMessageString )
+        private async Task ForwardMessage( IMessage aMessage, string aMessageString )
         {
             if( aMessage == null || String.IsNullOrWhiteSpace( aMessage.User ) || String.IsNullOrWhiteSpace( aMessageString ) )
             {
@@ -235,6 +213,14 @@ namespace HexHelper.WinDesktop.Service
             }
         }
 
+        private async Task<FileInfo> StoreMessage( IMessage aMessage, string aMessageString )
+        {
+            string theFileName = String.Format( "{0}.json", DateTime.Now.ToFileTimeUtc() );
+            var theFileInfo = new FileInfo() { RelativeFolder = "Message\\" + aMessage.Type.ToString(), FileName = theFileName };
+            await mFileService.SaveFile( theFileInfo.RelativeFolder, theFileName, aMessageString );
+            return theFileInfo;
+        }
+
         private void HandleErrorOccurred( object sender, string e )
         {
 
@@ -242,7 +228,9 @@ namespace HexHelper.WinDesktop.Service
 
         private async void HandleDataPosted( object sender, string aMessageString )
         {
-            await HandleMessage( aMessageString );
+            var theMessage = HandleMessage( aMessageString );
+            theMessage.SourceFile = await StoreMessage( theMessage, aMessageString );
+            await ForwardMessage( theMessage, aMessageString );
         }
 
         private readonly IServerService mServer;

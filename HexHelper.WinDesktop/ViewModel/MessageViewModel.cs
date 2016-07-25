@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Threading;
@@ -29,7 +30,10 @@ namespace HexHelper.WinDesktop.ViewModel
 
         private void ShowMessage( IMessage aMessage )
         {
-            mFileService.OpenByOS( aMessage.SourceFile );
+            if( aMessage.SourceFile != null )
+            {
+                mFileService.OpenByOS( aMessage.SourceFile );
+            }
         }
 
         public ObservableCollection<IMessage> Messages

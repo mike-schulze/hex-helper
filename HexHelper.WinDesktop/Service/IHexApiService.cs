@@ -9,7 +9,13 @@ namespace HexHelper.WinDesktop.Service
     public interface IHexApiService
     {
         Task Initialize();
-        Task HandleMessage( string aMessageString );
+
+        /// <summary>
+        /// Processes a message. Does not Store/Forward.
+        /// </summary>
+        /// <param name="aMessageString"></param>
+        /// <returns></returns>
+        IMessage HandleMessage( string aMessageString );
         Task Shutdown();
 
         IEnumerable<ItemViewModel> GetCards();
