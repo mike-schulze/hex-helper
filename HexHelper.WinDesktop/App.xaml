@@ -5,6 +5,7 @@
              StartupUri="MainWindow.xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              d1p1:Ignorable="d" xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:cnv="clr-namespace:schulzem.XamlConverters;assembly=schulzem.XamlConverters"
              Startup="HandleStartup">
     <Application.Resources>
         <ResourceDictionary>
@@ -22,6 +23,24 @@
                 <ResourceDictionary>
                     <ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns="clr-namespace:HexHelper.WinDesktop.ViewModel" />
                 </ResourceDictionary>
+
+                <ResourceDictionary>
+                    <!--Bool to Visibility-->
+                    <cnv:BooleanToVisibilityConverter x:Key="BoolToVisibility" True="Visible" False="Collapsed" />
+                    <cnv:BooleanToVisibilityConverter x:Key="InverseBoolToVisibility" True="Collapsed" False="Visible" />
+                    <cnv:BooleanToVisibilityConverter x:Key="BoolToHidden" True="Visible" False="Hidden" />
+                    <cnv:BooleanToVisibilityConverter x:Key="InverseBoolToHidden" True="Hidden" False="Visible" />
+
+                    <!--Inverse Bool-->
+                    <cnv:InverseBooleanConverter x:Key="InverseBool" True="false" False="true" />
+
+                    <!--Null to Visibility-->
+                    <cnv:NullToVisibilityConverter x:Key="NullToVisibilityConverter" Null="Visible" NotNull="Collapsed" />
+                    <cnv:NullToVisibilityConverter x:Key="InverseNullToVisibilityConverter" Null="Collapsed" NotNull="Visible" />
+                    <cnv:NullToVisibilityConverter x:Key="NullToHiddenConverter" Null="Visible" NotNull="Hidden" />
+                    <cnv:NullToVisibilityConverter x:Key="InverseNullToHiddenConverter" Null="Hidden" NotNull="Visible" />
+                </ResourceDictionary>
+
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
