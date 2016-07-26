@@ -35,10 +35,10 @@
                     <cnv:InverseBooleanConverter x:Key="InverseBool" True="false" False="true" />
 
                     <!--Null to Visibility-->
-                    <cnv:NullToVisibilityConverter x:Key="NullToVisibilityConverter" Null="Visible" NotNull="Collapsed" />
-                    <cnv:NullToVisibilityConverter x:Key="InverseNullToVisibilityConverter" Null="Collapsed" NotNull="Visible" />
-                    <cnv:NullToVisibilityConverter x:Key="NullToHiddenConverter" Null="Visible" NotNull="Hidden" />
-                    <cnv:NullToVisibilityConverter x:Key="InverseNullToHiddenConverter" Null="Hidden" NotNull="Visible" />
+                    <cnv:NullToVisibilityConverter x:Key="NullToVisibility" Null="Visible" NotNull="Collapsed" />
+                    <cnv:NullToVisibilityConverter x:Key="InverseNullToVisibility" Null="Collapsed" NotNull="Visible" />
+                    <cnv:NullToVisibilityConverter x:Key="NullToHidden" Null="Visible" NotNull="Hidden" />
+                    <cnv:NullToVisibilityConverter x:Key="InverseNullToHidden" Null="Hidden" NotNull="Visible" />
                 </ResourceDictionary>
 
             </ResourceDictionary.MergedDictionaries>

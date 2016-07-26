@@ -43,7 +43,8 @@
                     <GridViewColumn Header="Details">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="Show" 
+                                <Button Content="Show"
+                                        Visibility="{Binding SourceFile, Converter={StaticResource InverseNullToVisibility} }"
                                         Command="{Binding ElementName=mListView, Path=DataContext.ShowMessageCommand}"
                                         CommandParameter="{Binding}"/>
                             </DataTemplate>
