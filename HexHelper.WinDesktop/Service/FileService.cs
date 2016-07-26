@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using HexHelper.Hex.Interface;
@@ -22,7 +23,7 @@ namespace HexHelper.WinDesktop.Service
 
         public async Task<string> LoadFile( string aRelativeDirectory, string aFileName )
         {
-            var thePath = ConstructPath( aRelativeDirectory );
+            var thePath = ConstructDirectoryPath( aRelativeDirectory );
             if( !Directory.Exists( thePath ) )
             {
                 return null;
@@ -34,7 +35,7 @@ namespace HexHelper.WinDesktop.Service
 
         public Task SaveFile( string aRelativeDirectory, string aFileName, string aContent )
         {
-            var thePath = ConstructPath( aRelativeDirectory );
+            var thePath = ConstructDirectoryPath( aRelativeDirectory );
             Directory.CreateDirectory( thePath );
 
             using( TextWriter theWriter = new StreamWriter( Path.Combine( thePath, aFileName ) ) )
@@ -47,21 +48,36 @@ namespace HexHelper.WinDesktop.Service
 
         public bool Exists( string aRelativeDirectory, string aFileName )
         {
-            return File.Exists( Path.Combine( ConstructPath( aRelativeDirectory ), aFileName ) );
+            return File.Exists( Path.Combine( ConstructDirectoryPath( aRelativeDirectory ), aFileName ) );
         }
 
         public DateTime LastWriteTime( string aRelativeDirectory, string aFileName )
         {
-            var theFileInfo = new System.IO.FileInfo( Path.Combine( ConstructPath( aRelativeDirectory ), aFileName ) );
+            var theFileInfo = new System.IO.FileInfo( ConstructFilePath( aRelativeDirectory, aFileName ) );
             return theFileInfo.LastWriteTime;
         }
 
-        private string ConstructPath( string aRelativeDirectory )
+        public void OpenByOS( Hex.Interface.FileInfo aFileInfo )
+        {
+            Process.Start( ConstructFilePath( aFileInfo ) );
+        }
+
+        private string ConstructDirectoryPath( string aRelativeDirectory )
         {
             return Path.Combine( Environment.GetFolderPath( Environment.SpecialFolder.ApplicationData ),
                                  "HexHelper",
                                  aRelativeDirectory );
         }
 
+        private string ConstructFilePath( string aRelativeDirectory, string aFileName )
+        {
+            return Path.Combine( ConstructDirectoryPath( aRelativeDirectory ), aFileName );
+        }
+
+
+        private string ConstructFilePath( Hex.Interface.FileInfo aFileInfo )
+        {
+            return ConstructFilePath( aFileInfo.RelativeFolder, aFileInfo.FileName );
+        }
     }
 }

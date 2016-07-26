@@ -7,11 +7,15 @@ namespace HexHelper.JsonApi.HexApi
     {
         public DraftPackMessage( JObject aJson, string aUser ) : base( MessageType.DraftPack, aUser, aJson )
         {
-            SupportsHexTcgBrowser = true;
         }
 
         protected override void Parse( JObject aJson )
         {
+        }
+
+        protected override void CreateSummary()
+        {
+            Summary = "New Draft Pack";
         }
     }
 }

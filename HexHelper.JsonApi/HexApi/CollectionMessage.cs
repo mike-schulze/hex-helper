@@ -18,21 +18,6 @@ namespace HexHelper.JsonApi.HexApi
 
         public CollectionMessage( JObject aJson, string aUser ) : base( MessageType.Collection, aUser, aJson )
         {
-            string theSummary = String.Format( "[{0}] ", Action.ToString() );
-            if( Complete.Count != 0 )
-            {
-                theSummary += String.Format( "Complete collection. {0} items. ", Complete.Count );
-            }
-            if( CardsAdded.Count != 0 )
-            {
-                theSummary += String.Format( "{0} item(s) added. ", CardsAdded.Count );
-            }
-            if( CardsRemoved.Count != 0 )
-            {
-                theSummary += String.Format( "{0} item(s) removed. ", CardsRemoved.Count );
-            }
-            Summary = theSummary;
-            SupportsHexTcgBrowser = true;
         }
 
         protected override void Parse( JObject aJson )
@@ -51,6 +36,24 @@ namespace HexHelper.JsonApi.HexApi
             Complete = ParseArray( ( JArray ) aJson["Complete"] );
             CardsAdded = ParseArray( ( JArray ) aJson["CardsAdded"] );
             CardsRemoved = ParseArray( ( JArray ) aJson["CardsRemoved"] );
+        }
+
+        protected override void CreateSummary()
+        {
+            string theSummary = String.Format( "[{0}] ", Action.ToString() );
+            if( Complete.Count != 0 )
+            {
+                theSummary += String.Format( "Complete collection. {0} items. ", Complete.Count );
+            }
+            if( CardsAdded.Count != 0 )
+            {
+                theSummary += String.Format( "{0} item(s) added. ", CardsAdded.Count );
+            }
+            if( CardsRemoved.Count != 0 )
+            {
+                theSummary += String.Format( "{0} item(s) removed. ", CardsRemoved.Count );
+            }
+            Summary = theSummary;
         }
 
         private IDictionary<Guid, CollectionInfo> ParseArray( JArray aObjects )

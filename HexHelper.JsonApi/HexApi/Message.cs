@@ -19,7 +19,10 @@ namespace HexHelper.JsonApi.HexApi
         GameEnded,
         PlayedUpdated,
         CardUpdated,
-        PlayerUpdated
+        PlayerUpdated,
+        Tournament,
+        SaveTalents,
+        Ladder
     }
 
     public interface IMessage
@@ -28,7 +31,6 @@ namespace HexHelper.JsonApi.HexApi
         MessageType Type { get; }
         string Summary { get; }
         string User { get; }
-        bool SupportsHexTcgBrowser { get; }
         FileInfo SourceFile { get; set; }
     };
 
@@ -41,13 +43,24 @@ namespace HexHelper.JsonApi.HexApi
 
             if( aJson != null )
             {
-                Parse( aJson );
-            }            
-        }
+                try
+                {
+                    Parse( aJson );
+                    CreateSummary();
+                }
+                catch
+                {
+                    Summary = "Error parsing message.";
+                }
+            }
+        }           
 
         protected virtual void Parse( JObject aJson )
         {
+        }
 
+        protected virtual void CreateSummary()
+        {
         }
 
         public DateTime Date { get; } = DateTime.Now;        
@@ -57,8 +70,6 @@ namespace HexHelper.JsonApi.HexApi
         public string User { get; private set; }
 
         public MessageType Type { get; protected set; } = MessageType.Unknown;
-
-        public bool SupportsHexTcgBrowser { get; protected set; } = false;
 
         public FileInfo SourceFile { get; set; }
     }

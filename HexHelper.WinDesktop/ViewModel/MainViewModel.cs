@@ -63,7 +63,7 @@ namespace HexHelper.WinDesktop.ViewModel
             }
 
             MessageText = await mFile.LoadFile( theFilePath );
-            await mHexApi.HandleMessage( MessageText );
+            mHexApi.HandleMessage( MessageText );
         }
 
         public string Status { 
