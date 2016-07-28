@@ -3,24 +3,16 @@ using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using HexHelper.Hex;
-using HexHelper.Hex.Interface;
 using HexHelper.WinDesktop.Service;
 
 namespace HexHelper.WinDesktop.ViewModel
 {
     public sealed class MainViewModel : ViewModelBase
     {
-        public MainViewModel( IHexApiService aHexApi, IDialogService aDialogs, IFileService aFile )
+        public MainViewModel( IHexApiService aHexApi, IDialogService aDialogs )
         {
             mHexApi = aHexApi;
-
-            mDialogs = aDialogs;
-
-            mFile = aFile;
-
-            PickMessageCommand = new RelayCommand( PickMessage );
         }
 
         public async Task Initialize()
@@ -52,18 +44,6 @@ namespace HexHelper.WinDesktop.ViewModel
         public async Task Shutdown()
         {
             await mHexApi.Shutdown();
-        }
-
-        private async void PickMessage()
-        {
-            var theFilePath = mDialogs.ShowFileOpenDialog( "Pick a Hex API json message", "*.json" );
-            if( String.IsNullOrWhiteSpace( theFilePath ) )
-            {
-                return;
-            }
-
-            MessageText = await mFile.LoadFile( theFilePath );
-            mHexApi.HandleMessage( MessageText );
         }
 
         public string Status { 
@@ -125,10 +105,6 @@ namespace HexHelper.WinDesktop.ViewModel
             }
         }
 
-        public RelayCommand PickMessageCommand { get; private set; }
-
         private readonly IHexApiService mHexApi;
-        private readonly IDialogService mDialogs;
-        private readonly IFileService mFile;
     }
 }

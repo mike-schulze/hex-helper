@@ -26,32 +26,8 @@
                               Margin="10" />
             </TabItem>
 
-            <TabItem Header="API">
+            <TabItem Header="Messages">
                 <view:MessageListControl Margin="10" />
-            </TabItem>
-
-            <TabItem Header="Test Message">
-                <Grid Margin="10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <TextBlock TextWrapping="Wrap"
-                               FontSize="16"
-                               Text="Browse to a JSON file of a HEX API message to test parsing." />
-
-                    <Button Grid.Row="1"
-                            HorizontalAlignment="Right"
-                            Margin="0,10,0,10"
-                            Content="Browse..."
-                            Command="{Binding PickMessageCommand}" />
-
-                    <TextBlock Grid.Row="2"
-                               TextWrapping="Wrap"
-                               Text="{Binding MessageText}" />
-                </Grid>
             </TabItem>
         </TabControl>
 
