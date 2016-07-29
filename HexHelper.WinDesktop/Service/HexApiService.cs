@@ -81,7 +81,6 @@ namespace HexHelper.WinDesktop.Service
                 OnStatusChanged( String.Format( "{0} message received. ({1})", theMessage.Type, theMessage.Summary ) );
             }
 
-            OnMessageReceived( theMessage );
             return theMessage;
         }
 
@@ -207,6 +206,7 @@ namespace HexHelper.WinDesktop.Service
         {
             var theMessage = HandleMessage( aMessageString );
             theMessage.SourceFile = await StoreMessage( theMessage, aMessageString );
+            OnMessageReceived( theMessage );
             await ForwardMessage( theMessage, aMessageString );
         }
 
