@@ -47,7 +47,8 @@ namespace HexHelper.WinDesktop.ViewModel
             }
 
             var theMessageText = await mFile.LoadFile( theFilePath );
-            mHexApi.HandleMessage( theMessageText );
+            var theMessage = mHexApi.HandleMessage( theMessageText );
+            Messages.Add( theMessage );
         }
 
         public ObservableCollection<IMessage> Messages
