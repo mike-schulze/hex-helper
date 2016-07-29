@@ -25,7 +25,7 @@ namespace HexHelper.JsonApi.HexApi
             }
             else
             {
-                Summary = String.Format( "Picked '{0}.'", CardPicked.Name );
+                Summary = String.Format( "Picked '{0}'.", CardPicked.Name );
             }
         }
 

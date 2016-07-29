@@ -96,9 +96,16 @@ namespace HexHelper.Hex
             return null;
         }
 
+        private void OnItemsChanged()
+        {
+            ItemsChanged?.Invoke( this, new EventArgs() );
+        }
+        public event EventHandler ItemsChanged;
+
         public void UpdateItemInfo( IDictionary<Guid, Info> aInfo )
         {
             mItemInfo = (Dictionary<Guid, Info>)aInfo;
+            OnItemsChanged();
         }
 
         public void UpdatePrices( IDictionary<Guid, AuctionHouseInfo> aAuctionHouseData )
@@ -113,6 +120,8 @@ namespace HexHelper.Hex
 
                 mAuctionHouseData[theCard.Key] = theCard.Value;
             }
+
+            OnItemsChanged();
         }
 
         public void UpdateInventory( string aUserName, IDictionary<Guid, CollectionInfo> aCollectionData )
@@ -123,6 +132,8 @@ namespace HexHelper.Hex
             }
 
             mCollectionData[aUserName] = ( Dictionary<Guid, CollectionInfo> ) aCollectionData;
+
+            OnItemsChanged();
         }
 
         public void UpdateCopiesOwned( string aUserName, Guid aId, int aDelta )
@@ -139,6 +150,8 @@ namespace HexHelper.Hex
             }
 
             mCollectionData[aUserName].Add( aId, new CollectionInfo() { CopiesOwned = Math.Max( 0, aDelta ) } );
+
+            OnItemsChanged();
         }
 
         public IEnumerable<ItemViewModel> AllCards( string aUserName )

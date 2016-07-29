@@ -38,6 +38,25 @@ namespace HexHelper.JsonApi.HexApi
             CardsRemoved = ParseArray( ( JArray ) aJson["CardsRemoved"] );
         }
 
+        protected override void UpdateRepository()
+        {
+            mRepo.UpdateInventory( User, Complete );
+            if( CardsAdded != null )
+            {
+                foreach( var theItem in CardsAdded )
+                {
+                    mRepo.UpdateCopiesOwned( User, theItem.Key, theItem.Value.CopiesOwned );
+                }
+            }
+            if( CardsRemoved != null )
+            {
+                foreach( var theItem in CardsRemoved )
+                {
+                    mRepo.UpdateCopiesOwned( User, theItem.Key, theItem.Value.CopiesOwned * -1 );
+                }
+            }
+        }
+
         protected override void CreateSummary()
         {
             string theSummary = String.Format( "[{0}] ", Action.ToString() );

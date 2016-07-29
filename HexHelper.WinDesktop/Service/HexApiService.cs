@@ -41,30 +41,35 @@ namespace HexHelper.WinDesktop.Service
 
             OnStatusChanged( "Updating prices..." );
             await UpdatePrices();
+
+            mRepo.ItemsChanged += HandleItemsChanged;
+        }
+
+        private void HandleItemsChanged( object sender, EventArgs e )
+        {
+            OnCollectionChanged();
         }
 
         public IMessage HandleMessage( string aMessageString )
         {
-            var theMessage = ParseMessageString( aMessageString );
+            var theMessage = Parser.ParseMessage( aMessageString, mRepo );
             if( theMessage == null )
             {
                 OnStatusChanged( "Message could not be parsed successfully." );
                 return null;
             }
 
-            if( !String.IsNullOrEmpty( theMessage.User ) )
+            if( !String.IsNullOrEmpty( theMessage.User ) && 
+                ( mCurrentUser == null || theMessage.User != mCurrentUser.UserName ) )
             {
-                if( mCurrentUser == null || theMessage.User != mCurrentUser.UserName )
+                var theUser = mRepo.UserFromName( theMessage.User );
+                if( theUser == null )
                 {
-                    var theUser = mRepo.UserFromName( theMessage.User );
-                    if( theUser == null )
-                    {
-                        theUser = new User( theMessage.User );
-                    }
-
-                    SetCurrentUser( theUser );
-                    OnCollectionChanged();
+                    theUser = new User( theMessage.User );
                 }
+
+                SetCurrentUser( theUser );
+                OnCollectionChanged();
             }
 
             if( theMessage.Type == MessageType.Unknown )
@@ -113,7 +118,7 @@ namespace HexHelper.WinDesktop.Service
         public IEnumerable<ItemViewModel> GetCards()
         {
             OnStatusChanged( "Collection loaded." );
-            return mRepo.AllCards( mCurrentUser != null ? mCurrentUser.UserName : null );
+            return mRepo.AllCards( mCurrentUser?.UserName );
         }
 
         public IEnumerable<User> GetUsers()
@@ -160,34 +165,6 @@ namespace HexHelper.WinDesktop.Service
                 mRepo.UpdateItemInfo( theItems );
                 await mRepo.Persist();
             }
-        }
-
-        private IMessage ParseMessageString( string aMessageString )
-        {
-            var theMessage = Parser.ParseMessage( aMessageString, mRepo );
-
-            var theCollectionMessage = theMessage as CollectionMessage;
-            if( theCollectionMessage != null )
-            {
-                mRepo.UpdateInventory( theMessage.User, theCollectionMessage.Complete );
-                if( theCollectionMessage.CardsAdded != null )
-                {
-                    foreach( var theItem in theCollectionMessage.CardsAdded )
-                    {
-                        mRepo.UpdateCopiesOwned( theMessage.User, theItem.Key, theItem.Value.CopiesOwned );
-                    }
-                }
-                if( theCollectionMessage.CardsRemoved != null )
-                {
-                    foreach( var theItem in theCollectionMessage.CardsRemoved )
-                    {
-                        mRepo.UpdateCopiesOwned( theMessage.User, theItem.Key, theItem.Value.CopiesOwned * -1 );
-                    }
-                }
-                OnCollectionChanged();
-            }
-
-            return theMessage;
         }
 
         private async Task ForwardMessage( IMessage aMessage, string aMessageString )

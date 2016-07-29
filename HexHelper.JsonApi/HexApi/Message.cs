@@ -53,6 +53,10 @@ namespace HexHelper.JsonApi.HexApi
                 try
                 {
                     Parse( aJson );
+                    if( mRepo != null )
+                    {
+                        UpdateRepository();
+                    }
                     CreateSummary();
                 }
                 catch
@@ -63,6 +67,10 @@ namespace HexHelper.JsonApi.HexApi
         }
 
         protected virtual void Parse( JObject aJson )
+        {
+        }
+
+        protected virtual void UpdateRepository()
         {
         }
 

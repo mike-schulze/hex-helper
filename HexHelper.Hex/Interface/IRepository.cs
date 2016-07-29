@@ -17,5 +17,7 @@ namespace HexHelper.Hex.Interface
         IEnumerable<ItemViewModel> AllCards( string aUserName );
         Task Initialize();
         Task Persist();
+
+        event EventHandler ItemsChanged;
     }
 }
