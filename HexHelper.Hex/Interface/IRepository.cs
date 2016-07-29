@@ -6,6 +6,7 @@ namespace HexHelper.Hex.Interface
 {
     public interface IRepository
     {
+        Info GetItem( string aGuid );
         void UpdateItemInfo( IDictionary<Guid, Info> aItemInfo );
         void UpdatePrices( IDictionary<Guid, AuctionHouseInfo> aAuctionHouseData );
         void UpdateInventory( string aUserName, IDictionary<Guid, CollectionInfo> aCollectionData );

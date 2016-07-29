@@ -1,12 +1,13 @@
 ﻿using System;
 using HexHelper.Hex;
+using HexHelper.Hex.Interface;
 using Newtonsoft.Json.Linq;
 
 namespace HexHelper.JsonApi.HexApi
 {
     public sealed class LadderMessage : MessageBase
     {
-        public LadderMessage( JObject aJson, string aUser ) : base( MessageType.Ladder, aUser, aJson )
+        public LadderMessage( JObject aJson, string aUser, IRepository aRepo ) : base( MessageType.Ladder, aUser, aRepo, aJson )
         {
         }
 

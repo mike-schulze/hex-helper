@@ -16,7 +16,7 @@ namespace HexHelper.JsonApi.HexApi
             Unknown
         }
 
-        public CollectionMessage( JObject aJson, string aUser ) : base( MessageType.Collection, aUser, aJson )
+        public CollectionMessage( JObject aJson, string aUser, IRepository aRepo ) : base( MessageType.Collection, aUser, aRepo, aJson )
         {
         }
 

@@ -36,11 +36,18 @@ namespace HexHelper.JsonApi.HexApi
 
     public abstract class MessageBase : IMessage
     {
-        public MessageBase( MessageType aType, string aUser, JObject aJson = null )
+        public MessageBase( MessageType aType, string aUser, IRepository aRepo, JObject aJson )
         {
             Type = aType;
             User = aUser;
 
+            mRepo = aRepo;
+
+            Setup( aJson );
+        }
+
+        private void Setup( JObject aJson )
+        {
             if( aJson != null )
             {
                 try
@@ -53,7 +60,7 @@ namespace HexHelper.JsonApi.HexApi
                     Summary = "Error parsing message.";
                 }
             }
-        }           
+        }
 
         protected virtual void Parse( JObject aJson )
         {
@@ -72,11 +79,13 @@ namespace HexHelper.JsonApi.HexApi
         public MessageType Type { get; protected set; } = MessageType.Unknown;
 
         public FileInfo SourceFile { get; set; }
+
+        protected readonly IRepository mRepo;
     }
 
     public sealed class GenericMessage : MessageBase
     {
-        public GenericMessage( MessageType aType, string aUser ) : base( aType, aUser )
+        public GenericMessage( MessageType aType, string aUser ) : base( aType, aUser, aRepo: null, aJson: null )
         {
             Summary = Type.ToString();
         }

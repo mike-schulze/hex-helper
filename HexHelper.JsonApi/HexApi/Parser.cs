@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
+using HexHelper.Hex.Interface;
 using Newtonsoft.Json.Linq;
 
 namespace HexHelper.JsonApi.HexApi
 {
     public static class Parser
     {
-        public static IMessage ParseMessage( string aMessageString )
+        public static IMessage ParseMessage( string aMessageString, IRepository aRepo )
         {
             MessageType theType = MessageType.Unknown;
             string theUser = null;
@@ -19,20 +20,20 @@ namespace HexHelper.JsonApi.HexApi
                 switch( theType )
                 {
                     case MessageType.Collection:
-                        return new CollectionMessage( theJson, theUser );
+                        return new CollectionMessage( theJson, theUser, aRepo );
                     case MessageType.DraftPack:
-                        return new DraftPackMessage( theJson, theUser );
+                        return new DraftPackMessage( theJson, theUser, aRepo );
                     case MessageType.DraftCardPicked:
-                        return new DraftCardPickedMessage( theJson, theUser );
+                        return new DraftCardPickedMessage( theJson, theUser, aRepo );
                     case MessageType.Ladder:
-                        return new LadderMessage( theJson, theUser );
+                        return new LadderMessage( theJson, theUser, aRepo: null );
                     default:
                         break;
                 }
             }
             catch
             {
-
+                // Fall back to generic message
             }
 
             return new GenericMessage( theType, theUser );

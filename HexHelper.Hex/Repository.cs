@@ -84,6 +84,18 @@ namespace HexHelper.Hex
             await mFileService.SaveFile( "Database", "ah_info.json", JsonConvert.SerializeObject( mAuctionHouseData ) );
         }
 
+        public Info GetItem( string aGuid )
+        {
+            Guid theGuid;
+            if( Guid.TryParse( aGuid, out theGuid ) && 
+                mItemInfo.ContainsKey( theGuid ) )
+            {
+                return mItemInfo[theGuid];
+            }
+
+            return null;
+        }
+
         public void UpdateItemInfo( IDictionary<Guid, Info> aInfo )
         {
             mItemInfo = (Dictionary<Guid, Info>)aInfo;

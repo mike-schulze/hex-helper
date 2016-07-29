@@ -5,7 +5,7 @@ namespace HexHelper.JsonApi.HexApi
 {
     public sealed class DraftPackMessage : MessageBase
     {
-        public DraftPackMessage( JObject aJson, string aUser ) : base( MessageType.DraftPack, aUser, aJson )
+        public DraftPackMessage( JObject aJson, string aUser, IRepository aRepo ) : base( MessageType.DraftPack, aUser, aRepo, aJson )
         {
         }
 

@@ -38,7 +38,7 @@ namespace HexHelper.WinDesktop.ViewModel
         }
         private void HandleStatusChanged( object sender, string e )
         {
-            Status = e;
+            Status = String.Format( "{0} - {1}", DateTime.Now.ToShortTimeString() , e);
         }
 
         public async Task Shutdown()
@@ -69,19 +69,6 @@ namespace HexHelper.WinDesktop.ViewModel
             }
         }
         private ObservableCollection<ItemViewModel> mCards;
-
-        public string MessageText
-        {
-            get
-            {
-                return mMessageText;
-            }
-            set
-            {
-                Set( nameof( MessageText ), ref mMessageText, value );
-            }
-        }
-        private string mMessageText;
 
         public User CurrentUser
         {

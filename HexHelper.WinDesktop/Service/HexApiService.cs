@@ -69,11 +69,11 @@ namespace HexHelper.WinDesktop.Service
 
             if( theMessage.Type == MessageType.Unknown )
             {
-                OnStatusChanged( String.Format( "{0} - Unknown message received", DateTime.Now.ToShortTimeString() ) );
+                OnStatusChanged( "Unknown message received." );
             }
             else
             {
-                OnStatusChanged( String.Format( "{0} - {1} message received", DateTime.Now.ToShortTimeString(), theMessage.Type ) );
+                OnStatusChanged( String.Format( "{0} message received. ({1})", theMessage.Type, theMessage.Summary ) );
             }
 
             OnMessageReceived( theMessage );
@@ -164,7 +164,7 @@ namespace HexHelper.WinDesktop.Service
 
         private IMessage ParseMessageString( string aMessageString )
         {
-            var theMessage = Parser.ParseMessage( aMessageString );
+            var theMessage = Parser.ParseMessage( aMessageString, mRepo );
 
             var theCollectionMessage = theMessage as CollectionMessage;
             if( theCollectionMessage != null )
