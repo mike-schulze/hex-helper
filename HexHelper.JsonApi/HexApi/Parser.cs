@@ -21,10 +21,14 @@ namespace HexHelper.JsonApi.HexApi
                 {
                     case MessageType.Collection:
                         return new CollectionMessage( theJson, theUser, aRepo );
-                    case MessageType.DraftPack:
-                        return new DraftPackMessage( theJson, theUser, aRepo );
                     case MessageType.DraftCardPicked:
                         return new DraftCardPickedMessage( theJson, theUser, aRepo );
+                    case MessageType.DraftPack:
+                        return new DraftPackMessage( theJson, theUser, aRepo );
+                    case MessageType.GameEnded:
+                        return new GameEndedMessage( theJson, theUser, null );
+                    case MessageType.GameStarted:
+                        return new GameStartedMessage( theJson, theUser, null );
                     case MessageType.Ladder:
                         return new LadderMessage( theJson, theUser, aRepo: null );
                     default:

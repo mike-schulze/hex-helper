@@ -167,7 +167,7 @@ namespace HexHelper.WinDesktop.Service
             }
             else
             {
-                OnStatusChanged( String.Format( "{0} message received. ({1})", theMessage.Type, theMessage.Summary ) );
+                OnStatusChanged( theMessage.Summary );
             }
 
             return theMessage;
