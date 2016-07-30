@@ -27,7 +27,7 @@ namespace HexHelper.JsonApi.HexApi
 
     public interface IMessage
     {
-        DateTime Date { get; }
+        DateTime Date { get; set; }
         MessageType Type { get; }
         string Summary { get; }
         string User { get; }
@@ -78,7 +78,7 @@ namespace HexHelper.JsonApi.HexApi
         {
         }
 
-        public DateTime Date { get; } = DateTime.Now;        
+        public DateTime Date { get; set; } = DateTime.Now;        
 
         public string Summary { get; protected set; }
 

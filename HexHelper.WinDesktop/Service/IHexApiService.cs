@@ -15,7 +15,7 @@ namespace HexHelper.WinDesktop.Service
         /// </summary>
         /// <param name="aMessageString"></param>
         /// <returns></returns>
-        IMessage HandleMessage( string aMessageString );
+        IMessage HandleMessageFromFile( string aMessageString, DateTime aDateTime );
         Task Shutdown();
 
         IEnumerable<ItemViewModel> GetCards();

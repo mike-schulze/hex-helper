@@ -51,10 +51,30 @@ namespace HexHelper.WinDesktop.Service
             return File.Exists( Path.Combine( ConstructDirectoryPath( aRelativeDirectory ), aFileName ) );
         }
 
+        public DateTime LastWriteTime( string aPath )
+        {
+            DateTime theReturn = DateTime.MinValue;
+            try
+            {
+                var theFileInfo = new System.IO.FileInfo( aPath );
+                theReturn = theFileInfo.LastWriteTime;
+            }
+            catch
+            {
+                // Fall back to default
+            }
+
+            return theReturn;
+        }
+
         public DateTime LastWriteTime( string aRelativeDirectory, string aFileName )
         {
-            var theFileInfo = new System.IO.FileInfo( ConstructFilePath( aRelativeDirectory, aFileName ) );
-            return theFileInfo.LastWriteTime;
+            return LastWriteTime( ConstructFilePath( aRelativeDirectory, aFileName ) );
+        }
+
+        public DateTime LastWriteTime( Hex.Interface.FileInfo aFileInfo )
+        {
+            return LastWriteTime( aFileInfo.RelativeFolder, aFileInfo.FileName );
         }
 
         public void OpenByOS( Hex.Interface.FileInfo aFileInfo )

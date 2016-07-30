@@ -45,43 +45,16 @@ namespace HexHelper.WinDesktop.Service
             mRepo.ItemsChanged += HandleItemsChanged;
         }
 
+        public IMessage HandleMessageFromFile( string aMessageString, DateTime aDateTime )
+        {
+            var theMessage = HandleMessage( aMessageString );
+            theMessage.Date = aDateTime;
+            return theMessage;
+        }
+
         private void HandleItemsChanged( object sender, EventArgs e )
         {
             OnCollectionChanged();
-        }
-
-        public IMessage HandleMessage( string aMessageString )
-        {
-            var theMessage = Parser.ParseMessage( aMessageString, mRepo );
-            if( theMessage == null )
-            {
-                OnStatusChanged( "Message could not be parsed successfully." );
-                return null;
-            }
-
-            if( !String.IsNullOrEmpty( theMessage.User ) && 
-                ( mCurrentUser == null || theMessage.User != mCurrentUser.UserName ) )
-            {
-                var theUser = mRepo.UserFromName( theMessage.User );
-                if( theUser == null )
-                {
-                    theUser = new User( theMessage.User );
-                }
-
-                SetCurrentUser( theUser );
-                OnCollectionChanged();
-            }
-
-            if( theMessage.Type == MessageType.Unknown )
-            {
-                OnStatusChanged( "Unknown message received." );
-            }
-            else
-            {
-                OnStatusChanged( String.Format( "{0} message received. ({1})", theMessage.Type, theMessage.Summary ) );
-            }
-
-            return theMessage;
         }
 
         public async Task Shutdown()
@@ -164,6 +137,40 @@ namespace HexHelper.WinDesktop.Service
                 mRepo.UpdateItemInfo( theItems );
                 await mRepo.Persist();
             }
+        }
+
+        private IMessage HandleMessage( string aMessageString )
+        {
+            var theMessage = Parser.ParseMessage( aMessageString, mRepo );
+            if( theMessage == null )
+            {
+                OnStatusChanged( "Message could not be parsed successfully." );
+                return null;
+            }
+
+            if( !String.IsNullOrEmpty( theMessage.User ) &&
+                ( mCurrentUser == null || theMessage.User != mCurrentUser.UserName ) )
+            {
+                var theUser = mRepo.UserFromName( theMessage.User );
+                if( theUser == null )
+                {
+                    theUser = new User( theMessage.User );
+                }
+
+                SetCurrentUser( theUser );
+                OnCollectionChanged();
+            }
+
+            if( theMessage.Type == MessageType.Unknown )
+            {
+                OnStatusChanged( "Unknown message received." );
+            }
+            else
+            {
+                OnStatusChanged( String.Format( "{0} message received. ({1})", theMessage.Type, theMessage.Summary ) );
+            }
+
+            return theMessage;
         }
 
         private async Task ForwardMessage( IMessage aMessage, string aMessageString )
