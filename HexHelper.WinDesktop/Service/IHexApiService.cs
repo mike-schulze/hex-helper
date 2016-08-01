@@ -19,6 +19,7 @@ namespace HexHelper.WinDesktop.Service
         Task Shutdown();
 
         IEnumerable<ItemViewModel> GetCards();
+        IEnumerable<ItemViewModel> GetInventory();
         IEnumerable<User> GetUsers();
         User GetCurrentUser();
         void SetCurrentUser( User aUserName );

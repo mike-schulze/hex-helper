@@ -29,6 +29,8 @@ namespace HexHelper.JsonApi.HexApi
                         return new GameEndedMessage( theJson, theUser, null );
                     case MessageType.GameStarted:
                         return new GameStartedMessage( theJson, theUser, null );
+                    case MessageType.Inventory:
+                        return new InventoryMessage( theJson, theUser, aRepo );
                     case MessageType.Ladder:
                         return new LadderMessage( theJson, theUser, aRepo: null );
                     default:

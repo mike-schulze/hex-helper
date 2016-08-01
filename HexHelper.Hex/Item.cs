@@ -84,7 +84,7 @@ namespace HexHelper.Hex
     /// </summary>
     public class CollectionInfo
     {
-        public int CopiesOwned { get; set; }
+        public int QuantityOwned { get; set; }
     }
 
     /// <summary>
@@ -120,7 +120,7 @@ namespace HexHelper.Hex
 
             if( aCollection != null )
             {
-                CopiesOwned = aCollection.CopiesOwned;
+                QuantityOwned = aCollection.QuantityOwned;
             }
             
             if( aAuctionHouse != null )
@@ -144,7 +144,7 @@ namespace HexHelper.Hex
         public bool IsArtifact { get; set; }
 
         // Collection
-        public int CopiesOwned { get; set; }
+        public int QuantityOwned { get; set; }
 
         // AuctionHouse
         public int PricePlatinum { get; set; }

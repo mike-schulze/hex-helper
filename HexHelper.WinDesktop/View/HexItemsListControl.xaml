@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="HexHelper.WinDesktop.View.CardListControl"
+﻿<UserControl x:Class="HexHelper.WinDesktop.View.HexItemsListControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -51,7 +51,7 @@
                                 <GridViewColumnHeader Content="Sales Gold" Click="HandleGoldSalesClick" />
                             </GridViewColumn.Header>
                         </GridViewColumn>
-                        <GridViewColumn DisplayMemberBinding="{Binding CopiesOwned}">
+                        <GridViewColumn DisplayMemberBinding="{Binding QuantityOwned}">
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader Content="Owned" Click="HandleOwnedClick" />
                             </GridViewColumn.Header>

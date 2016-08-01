@@ -93,6 +93,12 @@ namespace HexHelper.WinDesktop.Service
             return mRepo.AllCards( mCurrentUser?.UserName );
         }
 
+        public IEnumerable<ItemViewModel> GetInventory()
+        {
+            OnStatusChanged( "Inventory loaded." );
+            return mRepo.AllInventory( mCurrentUser?.UserName );
+        }
+
         public IEnumerable<User> GetUsers()
         {
             return mRepo.AllUsers();

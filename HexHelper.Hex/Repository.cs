@@ -16,7 +16,8 @@ namespace HexHelper.Hex
 
             mItemInfo = new Dictionary<Guid, Info>();
             mUserData = new Dictionary<string, User>();
-            mCollectionData = new Dictionary<string, Dictionary<Guid, CollectionInfo>>();
+            mCardCollection = new Dictionary<string, Dictionary<Guid, CollectionInfo>>();
+            mInventoryCollection = new Dictionary<string, Dictionary<Guid, CollectionInfo>>();
             mAuctionHouseData = new Dictionary<Guid, AuctionHouseInfo>();
         }
 
@@ -52,14 +53,27 @@ namespace HexHelper.Hex
                     var theCollectionData = JsonConvert.DeserializeObject<Dictionary<Guid, CollectionInfo>>( theCollectionFileContent );
                     if( theCollectionData != null )
                     {
-                        mCollectionData[theUser.Key] = theCollectionData;
+                        mCardCollection[theUser.Key] = theCollectionData;
                     }
                     else
                     {
-                        mCollectionData[theUser.Key] = new Dictionary<Guid, CollectionInfo>();
+                        mCardCollection[theUser.Key] = new Dictionary<Guid, CollectionInfo>();
                     }
                 }
 
+                string theInventoryFileContent = await mFileService.LoadFile( Path.Combine( "Database", theUser.Key ), "inventory_info.json" );
+                if( theInventoryFileContent != null )
+                {
+                    var theCollectionData = JsonConvert.DeserializeObject<Dictionary<Guid, CollectionInfo>>( theInventoryFileContent );
+                    if( theCollectionData != null )
+                    {
+                        mInventoryCollection[theUser.Key] = theCollectionData;
+                    }
+                    else
+                    {
+                        mInventoryCollection[theUser.Key] = new Dictionary<Guid, CollectionInfo>();
+                    }
+                }
             }
 
             string theAuctionHouseFileContent = await mFileService.LoadFile( "Database", "ah_info.json" );
@@ -77,10 +91,14 @@ namespace HexHelper.Hex
         {
             await mFileService.SaveFile( "Database", "item_info.json", JsonConvert.SerializeObject( mItemInfo ) );
             await mFileService.SaveFile( "Database", "users.json", JsonConvert.SerializeObject( mUserData ) );
-            foreach( var theUserCollection in mCollectionData )
+            foreach( var theUserCollection in mCardCollection )
             {
                 await mFileService.SaveFile( Path.Combine( "Database", theUserCollection.Key ), "collection_info.json", JsonConvert.SerializeObject( theUserCollection.Value ) );
-            }            
+            }
+            foreach( var theUserCollection in mInventoryCollection )
+            {
+                await mFileService.SaveFile( Path.Combine( "Database", theUserCollection.Key ), "inventory_info.json", JsonConvert.SerializeObject( theUserCollection.Value ) );
+            }
             await mFileService.SaveFile( "Database", "ah_info.json", JsonConvert.SerializeObject( mAuctionHouseData ) );
         }
 
@@ -124,32 +142,62 @@ namespace HexHelper.Hex
             OnItemsChanged();
         }
 
-        public void UpdateInventory( string aUserName, IDictionary<Guid, CollectionInfo> aCollectionData )
+        public void UpdateUserCardCollection( string aUserName, IDictionary<Guid, CollectionInfo> aCollectionData )
         {
             if( aCollectionData == null || !aCollectionData.Any() )
             {
                 return;
             }
 
-            mCollectionData[aUserName] = ( Dictionary<Guid, CollectionInfo> ) aCollectionData;
+            mCardCollection[aUserName] = ( Dictionary<Guid, CollectionInfo> ) aCollectionData;
 
             OnItemsChanged();
         }
 
-        public void UpdateCopiesOwned( string aUserName, Guid aId, int aDelta )
+        public void UpdateUserInventory( string aUserName, IDictionary<Guid, CollectionInfo> aCollectionData )
         {
-            if( !mCollectionData.ContainsKey( aUserName ) )
+            if( aCollectionData == null || !aCollectionData.Any() )
             {
                 return;
             }
 
-            if( mCollectionData[aUserName].ContainsKey( aId ) )
+            mInventoryCollection[aUserName] = ( Dictionary<Guid, CollectionInfo> ) aCollectionData;
+
+            OnItemsChanged();
+        }
+
+        public void UpdateCardQuantities( string aUserName, Guid aId, int aDelta )
+        {
+            if( !mCardCollection.ContainsKey( aUserName ) )
             {
-                mCollectionData[aUserName][aId].CopiesOwned += aDelta;
                 return;
             }
 
-            mCollectionData[aUserName].Add( aId, new CollectionInfo() { CopiesOwned = Math.Max( 0, aDelta ) } );
+            if( mCardCollection[aUserName].ContainsKey( aId ) )
+            {
+                mCardCollection[aUserName][aId].QuantityOwned += aDelta;
+                return;
+            }
+
+            mCardCollection[aUserName].Add( aId, new CollectionInfo() { QuantityOwned = Math.Max( 0, aDelta ) } );
+
+            OnItemsChanged();
+        }
+
+        public void UpdateInventoryQuantities( string aUserName, Guid aId, int aDelta )
+        {
+            if( !mInventoryCollection.ContainsKey( aUserName ) )
+            {
+                return;
+            }
+
+            if( mInventoryCollection[aUserName].ContainsKey( aId ) )
+            {
+                mInventoryCollection[aUserName][aId].QuantityOwned += aDelta;
+                return;
+            }
+
+            mInventoryCollection[aUserName].Add( aId, new CollectionInfo() { QuantityOwned = Math.Max( 0, aDelta ) } );
 
             OnItemsChanged();
         }
@@ -159,8 +207,15 @@ namespace HexHelper.Hex
             return from theInfo in mItemInfo
                    where ( theInfo.Value.Type == ItemType.Card &&
                            theInfo.Value.Rarity != RarityType.Unknown &&
-                           theInfo.Value.Rarity != RarityType.Promo && 
+                           theInfo.Value.Rarity != RarityType.Promo &&
                            theInfo.Value.Rarity != RarityType.NonCollectible )
+                   select CreateItemViewModel( aUserName, theInfo.Key );
+        }
+
+        public IEnumerable<ItemViewModel> AllInventory( string aUserName )
+        {
+            return from theInfo in mItemInfo
+                   where ( theInfo.Value.Type != ItemType.Card )
                    select CreateItemViewModel( aUserName, theInfo.Key );
         }
 
@@ -173,7 +228,8 @@ namespace HexHelper.Hex
             else if( !String.IsNullOrEmpty( aUser.UserName ) )
             {
                 mUserData.Add( aUser.UserName, aUser );
-                mCollectionData.Add( aUser.UserName, new Dictionary<Guid, CollectionInfo>() );
+                mCardCollection.Add( aUser.UserName, new Dictionary<Guid, CollectionInfo>() );
+                mInventoryCollection.Add( aUser.UserName, new Dictionary<Guid, CollectionInfo>() );
             }
         }
 
@@ -200,9 +256,17 @@ namespace HexHelper.Hex
             }
              
             CollectionInfo theCollection = null;
-            if( aUserName != null && mCollectionData.ContainsKey( aUserName ) && mCollectionData[aUserName].ContainsKey( aId ) )
+            if( aUserName != null )
             {
-                theCollection = mCollectionData[aUserName][aId];
+                if( mCardCollection.ContainsKey( aUserName ) && mCardCollection[aUserName].ContainsKey( aId ) )
+                {
+                    theCollection = mCardCollection[aUserName][aId];
+                }
+
+                if( mInventoryCollection.ContainsKey( aUserName ) && mInventoryCollection[aUserName].ContainsKey( aId ) )
+                {
+                    theCollection = mInventoryCollection[aUserName][aId];
+                }
             }
 
             AuctionHouseInfo theAuctionHouse = null;
@@ -217,7 +281,8 @@ namespace HexHelper.Hex
         private readonly IFileService mFileService;
         private Dictionary<Guid, Info> mItemInfo;        
         private Dictionary<string, User> mUserData;
-        private Dictionary<string, Dictionary<Guid, CollectionInfo>> mCollectionData;
+        private Dictionary<string, Dictionary<Guid, CollectionInfo>> mCardCollection;
+        private Dictionary<string, Dictionary<Guid, CollectionInfo>> mInventoryCollection;
         private Dictionary<Guid, AuctionHouseInfo> mAuctionHouseData;
     }
 }

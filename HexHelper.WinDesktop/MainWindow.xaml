@@ -21,9 +21,14 @@
         </Grid.RowDefinitions>
 
         <TabControl>
-            <TabItem Header="Collection">
-                <view:CardListControl Cards="{Binding Cards}"
-                              Margin="10" />
+            <TabItem Header="Cards">
+                <view:HexItemsListControl Items="{Binding Cards}"
+                                          Margin="10" />
+            </TabItem>
+
+            <TabItem Header="Inventory">
+                <view:HexItemsListControl Items="{Binding Inventory}"
+                                          Margin="10" />
             </TabItem>
 
             <TabItem Header="Messages">

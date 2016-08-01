@@ -23,6 +23,7 @@ namespace HexHelper.WinDesktop.ViewModel
 
             CurrentUser = mHexApi.GetCurrentUser();
             Cards = new ObservableCollection<ItemViewModel>( mHexApi.GetCards() );
+            Inventory = new ObservableCollection<ItemViewModel>( mHexApi.GetInventory() );
 
             mHexApi.CollectionChanged += HandleCollectionChanged;
             mHexApi.UserChanged += HandleUserChanged;
@@ -30,6 +31,7 @@ namespace HexHelper.WinDesktop.ViewModel
         private void HandleCollectionChanged( object sender, EventArgs e )
         {
             Cards = new ObservableCollection<ItemViewModel>( mHexApi.GetCards() );
+            Inventory = new ObservableCollection<ItemViewModel>( mHexApi.GetInventory() );
         }
 
         private void HandleUserChanged( object sender, User e )
@@ -69,6 +71,20 @@ namespace HexHelper.WinDesktop.ViewModel
             }
         }
         private ObservableCollection<ItemViewModel> mCards;
+
+        public ObservableCollection<ItemViewModel> Inventory
+        {
+            get
+            {
+                return mInventory;
+            }
+            set
+            {
+                Set( nameof( Inventory ), ref mInventory, value );
+            }
+        }
+        private ObservableCollection<ItemViewModel> mInventory;
+
 
         public User CurrentUser
         {

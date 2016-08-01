@@ -10,52 +10,52 @@ using HexHelper.Hex;
 namespace HexHelper.WinDesktop.View
 {
     /// <summary>
-    /// Interaction logic for CardListControl.xaml
+    /// Interaction logic for HexItemsListControl.xaml
     /// </summary>
-    public partial class CardListControl : UserControl
+    public partial class HexItemsListControl : UserControl
     {
-        public CardListControl()
+        public HexItemsListControl()
         {
             InitializeComponent();
         }
 
         //--------------------------------------------------------------------------
-        public IList<ItemViewModel> Cards
+        public IList<ItemViewModel> Items
         {
             get
             {
-                return ( IList<ItemViewModel> ) GetValue( CardsProperty );
+                return ( IList<ItemViewModel> ) GetValue( ItemsProperty );
             }
             set
             {
-                SetValue( CardsProperty, value );
+                SetValue( ItemsProperty, value );
             }
         }
         //--------------------------------------------------------------------------
-        public static readonly DependencyProperty CardsProperty = DependencyProperty.Register(
-            "Cards",
+        public static readonly DependencyProperty ItemsProperty = DependencyProperty.Register(
+            "Items",
             typeof( IList<ItemViewModel> ),
-            typeof( CardListControl ),
-            new PropertyMetadata( OnCardsChanged ) );
+            typeof( HexItemsListControl ),
+            new PropertyMetadata( OnItemsChanged ) );
 
         //--------------------------------------------------------------------------
         private static void
-        OnCardsChanged
+        OnItemsChanged
             (
             DependencyObject aObject,
             DependencyPropertyChangedEventArgs aArgs
             )
         {
-            var theControl = aObject as CardListControl;
+            var theControl = aObject as HexItemsListControl;
             if( theControl != null )
             {
-                theControl.OnCardsChanged( aArgs );
+                theControl.OnItemsChanged( aArgs );
             }
         }
 
         //--------------------------------------------------------------------------
         private void
-        OnCardsChanged
+        OnItemsChanged
             (
             DependencyPropertyChangedEventArgs aArgs
             )
@@ -91,7 +91,7 @@ namespace HexHelper.WinDesktop.View
 
         private void HandleOwnedClick( object sender, RoutedEventArgs e )
         {
-            SortList( nameof( ItemViewModel.CopiesOwned ) );
+            SortList( nameof( ItemViewModel.QuantityOwned ) );
         }
 
         private void HandleSearchKeyUp( object sender, KeyEventArgs e )

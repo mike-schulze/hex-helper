@@ -25,6 +25,14 @@ namespace HexHelper.JsonApi.HexApi
         Ladder
     }
 
+    public enum CollectionAction
+    {
+        Overwrite,
+        Complete,
+        Update,
+        Unknown
+    }
+
     public interface IMessage
     {
         DateTime Date { get; set; }
