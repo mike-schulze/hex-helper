@@ -13,10 +13,9 @@
 */
 
 using System.Threading.Tasks;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
-using HexHelper.Hex;
 using HexHelper.Hex.Interface;
+using HexHelper.JsonApi;
 using HexHelper.WinDesktop.Service;
 using Microsoft.Practices.ServiceLocation;
 

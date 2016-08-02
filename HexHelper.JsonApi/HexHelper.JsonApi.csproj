@@ -42,6 +42,7 @@
     <Compile Include="HexApi\LadderMessage.cs" />
     <Compile Include="HexApi\Message.cs" />
     <Compile Include="HexApi\Parser.cs" />
+    <Compile Include="Repository.cs" />
     <Compile Include="WebApiForward\ApiSite.cs" />
     <Compile Include="WebApi\AuctionHouseData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,9 +64,7 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

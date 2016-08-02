@@ -104,7 +104,7 @@ namespace HexHelper.Hex
     /// </summary>
     public class ItemViewModel
     {
-        internal ItemViewModel( Guid aId, Info aInfo, CollectionInfo aCollection, AuctionHouseInfo aAuctionHouse )
+        public ItemViewModel( Guid aId, Info aInfo, CollectionInfo aCollection, AuctionHouseInfo aAuctionHouse )
         {
             Id = aId;
 

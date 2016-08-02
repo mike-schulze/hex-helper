@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using HexHelper.Hex;
 using HexHelper.Hex.Interface;
 using Newtonsoft.Json;
 
-namespace HexHelper.Hex
+namespace HexHelper.JsonApi
 {
     public class Repository : IRepository
     {
