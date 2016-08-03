@@ -42,6 +42,7 @@
     <Compile Include="HexApi\LadderMessage.cs" />
     <Compile Include="HexApi\Message.cs" />
     <Compile Include="HexApi\Parser.cs" />
+    <Compile Include="HexApi\TournamentMessage.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="WebApiForward\ApiSite.cs" />
     <Compile Include="WebApi\AuctionHouseData.cs" />

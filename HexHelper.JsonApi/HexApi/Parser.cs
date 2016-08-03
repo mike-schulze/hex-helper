@@ -33,6 +33,8 @@ namespace HexHelper.JsonApi.HexApi
                         return new InventoryMessage( theJson, theUser, aRepo );
                     case MessageType.Ladder:
                         return new LadderMessage( theJson, theUser, aRepo: null );
+                    case MessageType.Tournament:
+                        return new TournamentMessage( theJson, theUser, null );
                     default:
                         break;
                 }
