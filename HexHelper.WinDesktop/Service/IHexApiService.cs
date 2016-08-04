@@ -22,7 +22,7 @@ namespace HexHelper.WinDesktop.Service
         IEnumerable<ItemViewModel> GetInventory();
         IEnumerable<User> GetUsers();
         User GetCurrentUser();
-        void SetCurrentUser( User aUserName );
+        void SetCurrentUser( string aUserName );
 
         event EventHandler CollectionChanged;
         event EventHandler<IMessage> MessageReceived;

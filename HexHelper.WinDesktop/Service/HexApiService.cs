@@ -30,10 +30,11 @@ namespace HexHelper.WinDesktop.Service
             OnStatusChanged( "Initializing database..." );
             await mRepo.Initialize();
 
-            string theLastUser = ( string ) Properties.Settings.Default.LastUser;
-            if( theLastUser != null )
+            var theLastUser = Properties.Settings.Default.LastUser;
+            mCurrentUser = mRepo.UserFromName( theLastUser );
+            if( mCurrentUser == null )
             {
-                mCurrentUser = mRepo.UserFromName( theLastUser );
+                mCurrentUser = mRepo.AllUsers().FirstOrDefault();
             }
 
             OnStatusChanged( "Updating items..." );
@@ -109,17 +110,37 @@ namespace HexHelper.WinDesktop.Service
             return mCurrentUser;
         }
 
-        public void SetCurrentUser( User aUser )
+        public void SetCurrentUser( string aUserName )
         {
-            if( !mRepo.AllUsers().Contains( aUser ) )
+            // Login messages contains user email, not user name
+            // Hex user names cannot contain special characters
+            // So this should be safe
+            if( aUserName.Contains( "@" ) )
             {
-                mRepo.AddOrUpdateUser( aUser );
+                return;
             }
 
-            mCurrentUser = aUser;
-            OnUserChanged( aUser );
-            Properties.Settings.Default.LastUser = aUser.UserName;
-            Properties.Settings.Default.Save();
+            if( !String.IsNullOrEmpty( aUserName ) &&
+                ( mCurrentUser == null || aUserName != mCurrentUser.UserName ) )
+            {
+                var theUser = mRepo.UserFromName( aUserName );
+                if( theUser == null )
+                {
+                    theUser = new User( aUserName );
+                }
+
+                if( !mRepo.AllUsers().Contains( theUser ) )
+                {
+                    mRepo.AddOrUpdateUser( theUser );
+                }
+
+                mCurrentUser = theUser;
+                OnUserChanged( theUser );
+                Properties.Settings.Default.LastUser = theUser.UserName;
+                Properties.Settings.Default.Save();
+
+                OnCollectionChanged();
+            }
         }
 
         private async Task UpdatePrices()
@@ -154,18 +175,7 @@ namespace HexHelper.WinDesktop.Service
                 return null;
             }
 
-            if( !String.IsNullOrEmpty( theMessage.User ) &&
-                ( mCurrentUser == null || theMessage.User != mCurrentUser.UserName ) )
-            {
-                var theUser = mRepo.UserFromName( theMessage.User );
-                if( theUser == null )
-                {
-                    theUser = new User( theMessage.User );
-                }
-
-                SetCurrentUser( theUser );
-                OnCollectionChanged();
-            }
+            SetCurrentUser( theMessage.User );
 
             if( theMessage.Type == MessageType.Unknown )
             {

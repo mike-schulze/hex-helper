@@ -241,7 +241,7 @@ namespace HexHelper.JsonApi
 
         public User UserFromName( string aUserName )
         {
-            if( mUserData.ContainsKey( aUserName ) )
+            if( aUserName != null && mUserData.ContainsKey( aUserName ) )
             {
                 return mUserData[aUserName];
             }
