@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexHelper.Hex", "HexHelper.Hex\HexHelper.Hex.csproj", "{5F61AD0C-F121-4DA5-A385-8BA2F4FAB50E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexHelper.JsonApi", "HexHelper.JsonApi\HexHelper.JsonApi.csproj", "{A94FC616-2AB3-444A-B034-D7FDE6AAF4F9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexHelper.Libs", "HexHelper.Libs\HexHelper.Libs.csproj", "{A94FC616-2AB3-444A-B034-D7FDE6AAF4F9}"
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "HexHelper.Installer", "HexHelper.Installer\HexHelper.Installer.wixproj", "{5498DB0F-12D1-4948-AC22-46DB15BBB4C6}"
 EndProject
@@ -21,14 +19,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5F61AD0C-F121-4DA5-A385-8BA2F4FAB50E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5F61AD0C-F121-4DA5-A385-8BA2F4FAB50E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5F61AD0C-F121-4DA5-A385-8BA2F4FAB50E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{5F61AD0C-F121-4DA5-A385-8BA2F4FAB50E}.Debug|x86.Build.0 = Debug|Any CPU
-		{5F61AD0C-F121-4DA5-A385-8BA2F4FAB50E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5F61AD0C-F121-4DA5-A385-8BA2F4FAB50E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5F61AD0C-F121-4DA5-A385-8BA2F4FAB50E}.Release|x86.ActiveCfg = Release|Any CPU
-		{5F61AD0C-F121-4DA5-A385-8BA2F4FAB50E}.Release|x86.Build.0 = Release|Any CPU
 		{A94FC616-2AB3-444A-B034-D7FDE6AAF4F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A94FC616-2AB3-444A-B034-D7FDE6AAF4F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A94FC616-2AB3-444A-B034-D7FDE6AAF4F9}.Debug|x86.ActiveCfg = Debug|Any CPU

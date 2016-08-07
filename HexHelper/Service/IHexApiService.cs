@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using HexHelper.Hex;
-using HexHelper.JsonApi.HexApi;
+using HexHelper.Libs.HexApi;
+using HexHelper.Libs.Model;
 
 namespace HexHelper.Service
 {

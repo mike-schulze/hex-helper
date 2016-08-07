@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HexHelper.Hex;
-using HexHelper.Hex.Interface;
-using HexHelper.JsonApi.HexApi;
-using HexHelper.JsonApi.Utils;
-using HexHelper.JsonApi.WebApi;
-using HexHelper.JsonApi.WebApiForward;
+using HexHelper.Libs.HexApi;
+using HexHelper.Libs.Model;
+using HexHelper.Libs.Persistance;
+using HexHelper.Libs.Service;
+using HexHelper.Libs.Utils;
+using HexHelper.Libs.WebApi;
+using HexHelper.Libs.WebApiForward;
 
 namespace HexHelper.Service
 {

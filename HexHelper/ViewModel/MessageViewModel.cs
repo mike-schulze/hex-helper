@@ -3,8 +3,8 @@ using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Threading;
-using HexHelper.Hex.Interface;
-using HexHelper.JsonApi.HexApi;
+using HexHelper.Libs.HexApi;
+using HexHelper.Libs.Service;
 using HexHelper.Service;
 
 namespace HexHelper.ViewModel

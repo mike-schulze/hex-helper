@@ -3,7 +3,8 @@ using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
-using HexHelper.Hex;
+using HexHelper.Libs.Model;
+using HexHelper.Libs.Service;
 using HexHelper.Service;
 
 namespace HexHelper.ViewModel

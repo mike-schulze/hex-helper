@@ -63,17 +63,14 @@
             <Component Id="schulzem.XamlConverters.dll" Guid="28671cf7-9d59-4a77-9898-a858c5ae7887">
                 <File Id="schulzem.XamlConverters.dll" Name="schulzem.XamlConverters.dll" Source="$(var.HexHelper.TargetDir)schulzem.XamlConverters.dll" />
             </Component>
-            <Component Id="HexHelper.Hex.dll" Guid="3c4cda3f-196f-4f40-b74c-fff2551fc9d0">
-                <File Id="HexHelper.Hex.dll" Name="HexHelper.Hex.dll" Source="$(var.HexHelper.TargetDir)HexHelper.Hex.dll" />
-            </Component>
-            <Component Id="HexHelper.JsonApi.dll" Guid="8f6cd0a1-85c8-4cb2-855f-ce0dfb3691d2">
-                <File Id="HexHelper.JsonApi.dll" Name="HexHelper.JsonApi.dll" Source="$(var.HexHelper.TargetDir)HexHelper.JsonApi.dll" />
-            </Component>
             <Component Id="HexHelper.exe" Guid="d35bc70c-9da4-4b63-a6c6-9fa4843f6d0f">
                 <File Id="HexHelper.exe" Name="HexHelper.exe" Source="$(var.HexHelper_TargetDir)HexHelper.exe" />
             </Component>
             <Component Id="HexHelper.exe.config" Guid="da97793d-228f-4b78-8822-5cd936658337">
                 <File Id="HexHelper.exe.config" Name="HexHelper.exe.config" Source="$(var.HexHelper_TargetDir)HexHelper.exe.config" />
+            </Component>
+            <Component Id="HexHelper.Libs.dll" Guid="c6b46df0-5bfe-47ac-b523-2b0d3d941a24">
+                <File Id="HexHelper.Libs.dll" Name="HexHelper.Libs.dll" Source="$(var.HexHelper_TargetDir)HexHelper.Libs.dll" />
             </Component>
         </ComponentGroup>
     </Fragment>

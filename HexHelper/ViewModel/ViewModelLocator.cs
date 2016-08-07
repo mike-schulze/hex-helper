@@ -14,8 +14,8 @@
 
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Ioc;
-using HexHelper.Hex.Interface;
-using HexHelper.JsonApi;
+using HexHelper.Libs.Persistance;
+using HexHelper.Libs.Service;
 using HexHelper.Service;
 using Microsoft.Practices.ServiceLocation;
 

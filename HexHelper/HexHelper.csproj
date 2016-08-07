@@ -117,13 +117,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Service\FileService.cs" />
     <Compile Include="Service\HexApiService.cs" />
     <Compile Include="Service\IDialogService.cs" />
     <Compile Include="Service\IHexApiService.cs" />
-    <Compile Include="Service\IServerService.cs" />
     <Compile Include="Service\MetroDialogService.cs" />
-    <Compile Include="Service\ServerService.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\MessageViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
@@ -187,13 +184,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HexHelper.Hex\HexHelper.Hex.csproj">
-      <Project>{5f61ad0c-f121-4da5-a385-8ba2f4fab50e}</Project>
-      <Name>HexHelper.Hex</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HexHelper.JsonApi\HexHelper.JsonApi.csproj">
+    <ProjectReference Include="..\HexHelper.Libs\HexHelper.Libs.csproj">
       <Project>{a94fc616-2ab3-444a-b034-d7fde6aaf4f9}</Project>
-      <Name>HexHelper.JsonApi</Name>
+      <Name>HexHelper.Libs</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
