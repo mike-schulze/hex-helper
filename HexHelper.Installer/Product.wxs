@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <?define HexHelper.WinDesktop_TargetDir=$(var.HexHelper.WinDesktop.TargetDir)?>
-    <Product Id="*" Name="HEX Helper" Language="1033" Version="!(bind.fileVersion.HexHelper.WinDesktop.exe)" Manufacturer="Mike Schulze" UpgradeCode="{6BD44D62-805B-4CFD-AC60-81F42B05D327}">
+    <?define HexHelper_TargetDir=$(var.HexHelper.TargetDir)?>
+    <Product Id="*" Name="HEX Helper" Language="1033" Version="!(bind.fileVersion.HexHelper.exe)" Manufacturer="Mike Schulze" UpgradeCode="{6BD44D62-805B-4CFD-AC60-81F42B05D327}">
 
         <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
@@ -40,40 +40,40 @@
         <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
 
             <Component Id="Microsoft.Practices.ServiceLocation.dll" Guid="3ca42438-6021-4f55-8f79-962ce600a788">
-                <File Id="Microsoft.Practices.ServiceLocation.dll" Name="Microsoft.Practices.ServiceLocation.dll" Source="$(var.HexHelper.WinDesktop_TargetDir)Microsoft.Practices.ServiceLocation.dll" />
+                <File Id="Microsoft.Practices.ServiceLocation.dll" Name="Microsoft.Practices.ServiceLocation.dll" Source="$(var.HexHelper_TargetDir)Microsoft.Practices.ServiceLocation.dll" />
             </Component>
             <Component Id="MahApps.Metro.dll" Guid="0ac25e9f-0408-4b89-8bd4-302993722460">
-                <File Id="MahApps.Metro.dll" Name="MahApps.Metro.dll" Source="$(var.HexHelper.WinDesktop_TargetDir)MahApps.Metro.dll" />
+                <File Id="MahApps.Metro.dll" Name="MahApps.Metro.dll" Source="$(var.HexHelper.TargetDir)MahApps.Metro.dll" />
             </Component>
             <Component Id="GalaSoft.MvvmLight.dll" Guid="8c2e4caf-dc8d-436a-a6ec-0d7aa97a5951">
-                <File Id="GalaSoft.MvvmLight.dll" Name="GalaSoft.MvvmLight.dll" Source="$(var.HexHelper.WinDesktop_TargetDir)GalaSoft.MvvmLight.dll" />
+                <File Id="GalaSoft.MvvmLight.dll" Name="GalaSoft.MvvmLight.dll" Source="$(var.HexHelper.TargetDir)GalaSoft.MvvmLight.dll" />
             </Component>
             <Component Id="GalaSoft.MvvmLight.Extras.dll" Guid="0a73c63f-ef63-4ba3-b18d-11ea09662430">
-                <File Id="GalaSoft.MvvmLight.Extras.dll" Name="GalaSoft.MvvmLight.Extras.dll" Source="$(var.HexHelper.WinDesktop_TargetDir)GalaSoft.MvvmLight.Extras.dll" />
+                <File Id="GalaSoft.MvvmLight.Extras.dll" Name="GalaSoft.MvvmLight.Extras.dll" Source="$(var.HexHelper.TargetDir)GalaSoft.MvvmLight.Extras.dll" />
             </Component>
             <Component Id="GalaSoft.MvvmLight.Platform.dll" Guid="51284bf1-a577-4a57-a7ab-12b053ea9524">
-                <File Id="GalaSoft.MvvmLight.Platform.dll" Name="GalaSoft.MvvmLight.Platform.dll" Source="$(var.HexHelper.WinDesktop_TargetDir)GalaSoft.MvvmLight.Platform.dll" />
+                <File Id="GalaSoft.MvvmLight.Platform.dll" Name="GalaSoft.MvvmLight.Platform.dll" Source="$(var.HexHelper.TargetDir)GalaSoft.MvvmLight.Platform.dll" />
             </Component>
             <Component Id="System.Windows.Interactivity.dll" Guid="92a04be9-cd7d-49b2-a89e-a6e22e6a600f">
-                <File Id="System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="$(var.HexHelper.WinDesktop_TargetDir)System.Windows.Interactivity.dll" />
+                <File Id="System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="$(var.HexHelper.TargetDir)System.Windows.Interactivity.dll" />
             </Component>
             <Component Id="Newtonsoft.Json.dll" Guid="c750e92c-eecc-4652-a584-a3b8aeebc772">
-                <File Id="Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="$(var.HexHelper.WinDesktop_TargetDir)Newtonsoft.Json.dll" />
+                <File Id="Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="$(var.HexHelper.TargetDir)Newtonsoft.Json.dll" />
             </Component>
             <Component Id="schulzem.XamlConverters.dll" Guid="28671cf7-9d59-4a77-9898-a858c5ae7887">
-                <File Id="schulzem.XamlConverters.dll" Name="schulzem.XamlConverters.dll" Source="$(var.HexHelper.WinDesktop_TargetDir)schulzem.XamlConverters.dll" />
+                <File Id="schulzem.XamlConverters.dll" Name="schulzem.XamlConverters.dll" Source="$(var.HexHelper.TargetDir)schulzem.XamlConverters.dll" />
             </Component>
             <Component Id="HexHelper.Hex.dll" Guid="3c4cda3f-196f-4f40-b74c-fff2551fc9d0">
-                <File Id="HexHelper.Hex.dll" Name="HexHelper.Hex.dll" Source="$(var.HexHelper.WinDesktop_TargetDir)HexHelper.Hex.dll" />
+                <File Id="HexHelper.Hex.dll" Name="HexHelper.Hex.dll" Source="$(var.HexHelper.TargetDir)HexHelper.Hex.dll" />
             </Component>
             <Component Id="HexHelper.JsonApi.dll" Guid="8f6cd0a1-85c8-4cb2-855f-ce0dfb3691d2">
-                <File Id="HexHelper.JsonApi.dll" Name="HexHelper.JsonApi.dll" Source="$(var.HexHelper.WinDesktop_TargetDir)HexHelper.JsonApi.dll" />
+                <File Id="HexHelper.JsonApi.dll" Name="HexHelper.JsonApi.dll" Source="$(var.HexHelper.TargetDir)HexHelper.JsonApi.dll" />
             </Component>
-            <Component Id="HexHelper.WinDesktop.exe" Guid="3b3b56e8-bcda-4a29-837a-5f62e5247fe5">
-                <File Id="HexHelper.WinDesktop.exe" Name="HexHelper.WinDesktop.exe" Source="$(var.HexHelper.WinDesktop_TargetDir)HexHelper.WinDesktop.exe" />
+            <Component Id="HexHelper.exe" Guid="d35bc70c-9da4-4b63-a6c6-9fa4843f6d0f">
+                <File Id="HexHelper.exe" Name="HexHelper.exe" Source="$(var.HexHelper_TargetDir)HexHelper.exe" />
             </Component>
-            <Component Id="HexHelper.WinDesktop.exe.config" Guid="0f754fc5-8cd6-443e-8f80-be027b3845f2">
-                <File Id="HexHelper.WinDesktop.exe.config" Name="HexHelper.WinDesktop.exe.config" Source="$(var.HexHelper.WinDesktop_TargetDir)HexHelper.WinDesktop.exe.config" />
+            <Component Id="HexHelper.exe.config" Guid="da97793d-228f-4b78-8822-5cd936658337">
+                <File Id="HexHelper.exe.config" Name="HexHelper.exe.config" Source="$(var.HexHelper_TargetDir)HexHelper.exe.config" />
             </Component>
         </ComponentGroup>
     </Fragment>
