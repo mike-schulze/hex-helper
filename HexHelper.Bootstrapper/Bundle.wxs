@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
-	<Bundle Name="HEX Helper" Version="!(bind.packageVersion.Installer)" Manufacturer="Mike Schulze" UpgradeCode="f7cbcb6e-f119-409c-a1bb-59f0af4529cf">
+	<Bundle Name="HEX Helper"
+            Version="!(bind.packageVersion.Installer)"
+            Manufacturer="Mike Schulze"
+            UpgradeCode="f7cbcb6e-f119-409c-a1bb-59f0af4529cf"
+            IconSourceFile="..\HexHelper\Application.ico">
         <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.HyperlinkLicense">
             <bal:WixStandardBootstrapperApplication
                 LogoFile="res/banner.png"
