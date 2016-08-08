@@ -9,9 +9,13 @@
         <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.HyperlinkLicense">
             <bal:WixStandardBootstrapperApplication
                 LogoFile="res/banner.png"
+                LaunchTarget="[ProgramFilesFolder]\HEX Helper\HexHelper.exe"
+                LaunchWorkingFolder="[ProgramFilesFolder]\HEX Helper"
                 ThemeFile="res/ClassicTheme.xml"
-                LocalizationFile="res/ClassicTheme.wxl"
-                LicenseUrl="" />
+                LocalizationFile="res/ClassicTheme.wxl"                
+                LicenseUrl=""
+                SuppressOptionsUI="yes"
+                SuppressRepair="yes"/>
         </BootstrapperApplicationRef>
 
 		<Chain>
