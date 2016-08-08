@@ -16,6 +16,7 @@
 
         <Feature Id="ProductFeature" Title="HexHelper.Installer" Level="1">
             <ComponentGroupRef Id="ProductComponents" />
+            <ComponentGroupRef Id="Deliverables" />
         </Feature>
 
         <!-- UX to be used -->
@@ -33,12 +34,34 @@
             <Directory Id="ProgramFilesFolder">
                 <Directory Id="INSTALLFOLDER" Name="HEX Helper" />
             </Directory>
+
+            <Directory Id="ProgramMenuFolder">
+                <Directory Id="HexHelperFolder" Name="HEX Helper"/>
+            </Directory>
         </Directory>
     </Fragment>
 
     <Fragment>
         <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+            <!-- Shortcut for Start Menu -->
+            <Component Id="HexHelperStartShortcut" Guid="{8385766E-B3CC-4373-B77D-43D804DF0644}">
+                <!-- Shortcut itself -->
+                <Shortcut Id="HexHelperShortcut"
+                          Name="HEX Helper"
+                          Description="Enhance your HEX - Shards of Fate experience"
+                          Target="[INSTALLFOLDER]HexHelper.exe"
+                          Directory="HexHelperFolder">
+                    <Icon Id="VirbEditShortcutIcon" SourceFile="..\HexHelper\Application.ico" />
+                </Shortcut>
+                <!-- Required for shortcut to work -->
+                <RemoveFolder Id="RemoveApplicationShortcut" Directory="HexHelperFolder" On="uninstall" />
+                <!-- Required for shortcut to work -->
+                <RegistryValue Root="HKCU" Key="Software\HEX Helper" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+            </Component>
+        </ComponentGroup>
 
+        <ComponentGroup Id="Deliverables" Directory="INSTALLFOLDER">
+            
             <Component Id="Microsoft.Practices.ServiceLocation.dll" Guid="3ca42438-6021-4f55-8f79-962ce600a788">
                 <File Id="Microsoft.Practices.ServiceLocation.dll" Name="Microsoft.Practices.ServiceLocation.dll" Source="$(var.HexHelper_TargetDir)Microsoft.Practices.ServiceLocation.dll" />
             </Component>
