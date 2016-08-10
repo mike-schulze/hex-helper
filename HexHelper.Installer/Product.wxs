@@ -59,7 +59,7 @@
                 <RegistryValue Root="HKCU" Key="Software\HEX Helper" Name="installed" Type="integer" Value="1" KeyPath="yes" />
             </Component>
         </ComponentGroup>
-
+        
         <ComponentGroup Id="Deliverables" Directory="INSTALLFOLDER">
             
             <Component Id="Microsoft.Practices.ServiceLocation.dll" Guid="3ca42438-6021-4f55-8f79-962ce600a788">
@@ -94,6 +94,9 @@
             </Component>
             <Component Id="HexHelper.Libs.dll" Guid="c6b46df0-5bfe-47ac-b523-2b0d3d941a24">
                 <File Id="HexHelper.Libs.dll" Name="HexHelper.Libs.dll" Source="$(var.HexHelper_TargetDir)HexHelper.Libs.dll" />
+            </Component>
+            <Component Id="MahApps.Metro.SimpleChildWindow.dll" Guid="6c225d5b-3ad7-4b0e-8d9c-76ad4d817731">
+                <File Id="MahApps.Metro.SimpleChildWindow.dll" Name="MahApps.Metro.SimpleChildWindow.dll" Source="$(var.HexHelper_TargetDir)MahApps.Metro.SimpleChildWindow.dll" />
             </Component>
         </ComponentGroup>
     </Fragment>

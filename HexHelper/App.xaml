@@ -41,6 +41,9 @@
                     <cnv:NullToVisibilityConverter x:Key="InverseNullToHidden" Null="Hidden" NotNull="Visible" />
                 </ResourceDictionary>
 
+                <!--Icons-->
+                <ResourceDictionary Source="/Resources/Icons.xaml" />
+
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

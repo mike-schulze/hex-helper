@@ -6,6 +6,7 @@
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:local="clr-namespace:HexHelper"
                       xmlns:view="clr-namespace:HexHelper.View"
+                      xmlns:simpleChildWindow="clr-namespace:MahApps.Metro.SimpleChildWindow;assembly=MahApps.Metro.SimpleChildWindow"
                       mc:Ignorable="d"
                       Title="{Binding Title}"
                       TitleCaps="False"
@@ -14,12 +15,42 @@
                       EnableDWMDropShadow="True"
                       MinHeight="450" MinWidth="725"
                       DataContext="{Binding Main, Source={StaticResource Locator}}">
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button Command="{Binding OpenSettingsCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="20"
+                               Height="20"
+                               Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_cog}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Margin="4 0 0 0"
+                               VerticalAlignment="Center"
+                               Text="Settings" />
+                </StackPanel>
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <simpleChildWindow:ChildWindow IsOpen="{Binding SettingsVisible}"
+                                       CloseButtonCommand="{Binding CloseSettingsCommand}"
+                                       ShowCloseButton="True"
+                                       CloseByEscape="True"
+                                       HorizontalContentAlignment="Stretch"
+                                       VerticalContentAlignment="Stretch"
+                                       Padding="15"
+                                       Title="Settings">
+            <view:SettingsControl />
+        </simpleChildWindow:ChildWindow>
+        
         <TabControl>
             <TabItem Header="Cards">
                 <view:HexItemsListControl Items="{Binding Cards}"
@@ -56,7 +87,7 @@
                        Background="{StaticResource AccentColorBrush}"
                        FontSize="11"
                        Padding="10, 3, 20, 3"
-                       Text="{Binding CurrentUser.UserName}" />
+                       Text="{Binding Settings.CurrentUser.UserName, Source={StaticResource Locator}}" />
         </Grid>
         
     </Grid>

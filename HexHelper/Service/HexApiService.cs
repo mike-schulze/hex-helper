@@ -37,6 +37,7 @@ namespace HexHelper.Service
             {
                 mCurrentUser = mRepo.AllUsers().FirstOrDefault();
             }
+            OnUserChanged( mCurrentUser );
 
             OnStatusChanged( "Updating items..." );
             await UpdateItems();
