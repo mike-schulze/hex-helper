@@ -27,7 +27,7 @@ namespace HexHelper.Libs.HexApi
             }
             else
             {
-                Summary = String.Format( "Constructed Ladder (Cosmic Rank {0})", CosmicRank );
+                Summary = String.Format( "{0} Ladder (Cosmic Rank {1})", Format.ToString(), CosmicRank );
             }            
         }
 
