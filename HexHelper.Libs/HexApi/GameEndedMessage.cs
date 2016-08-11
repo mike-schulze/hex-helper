@@ -8,7 +8,7 @@ namespace HexHelper.Libs.HexApi
 {
     public sealed class GameEndedMessage : MessageBase
     {
-        public GameEndedMessage( JObject aJson, string aUser, IRepository aRepo ) : base( MessageType.GameEnded, aUser, aRepo, aJson )
+        public GameEndedMessage( JObject aJson, string aUser, IRepository aRepo ) : base( EMessageType.GameEnded, aUser, aRepo, aJson )
         {
         }
 

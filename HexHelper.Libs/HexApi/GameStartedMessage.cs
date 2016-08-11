@@ -6,7 +6,7 @@ namespace HexHelper.Libs.HexApi
 {
     public sealed class GameStartedMessage : MessageBase
     {
-        public GameStartedMessage( JObject aJson, string aUser, IRepository aRepo ) : base( MessageType.GameStarted, aUser, aRepo, aJson )
+        public GameStartedMessage( JObject aJson, string aUser, IRepository aRepo ) : base( EMessageType.GameStarted, aUser, aRepo, aJson )
         {
         }
 

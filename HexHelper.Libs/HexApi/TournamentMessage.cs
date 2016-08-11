@@ -59,7 +59,7 @@ namespace HexHelper.Libs.HexApi
             public int MatchWins { get; private set; }
         }
 
-        public TournamentMessage( JObject aJson, string aUser, IRepository aRepo ) : base( MessageType.Tournament, aUser, aRepo, aJson )
+        public TournamentMessage( JObject aJson, string aUser, IRepository aRepo ) : base( EMessageType.Tournament, aUser, aRepo, aJson )
         {
         }
 

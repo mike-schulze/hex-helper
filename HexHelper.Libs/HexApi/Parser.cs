@@ -9,7 +9,7 @@ namespace HexHelper.Libs.HexApi
     {
         public static IMessage ParseMessage( string aMessageString, IRepository aRepo )
         {
-            MessageType theType = MessageType.Unknown;
+            EMessageType theType = EMessageType.Unknown;
             string theUser = null;
             try
             {
@@ -19,21 +19,21 @@ namespace HexHelper.Libs.HexApi
 
                 switch( theType )
                 {
-                    case MessageType.Collection:
+                    case EMessageType.Collection:
                         return new CollectionMessage( theJson, theUser, aRepo );
-                    case MessageType.DraftCardPicked:
+                    case EMessageType.DraftCardPicked:
                         return new DraftCardPickedMessage( theJson, theUser, aRepo );
-                    case MessageType.DraftPack:
+                    case EMessageType.DraftPack:
                         return new DraftPackMessage( theJson, theUser, aRepo );
-                    case MessageType.GameEnded:
+                    case EMessageType.GameEnded:
                         return new GameEndedMessage( theJson, theUser, null );
-                    case MessageType.GameStarted:
+                    case EMessageType.GameStarted:
                         return new GameStartedMessage( theJson, theUser, null );
-                    case MessageType.Inventory:
+                    case EMessageType.Inventory:
                         return new InventoryMessage( theJson, theUser, aRepo );
-                    case MessageType.Ladder:
+                    case EMessageType.Ladder:
                         return new LadderMessage( theJson, theUser, aRepo: null );
-                    case MessageType.Tournament:
+                    case EMessageType.Tournament:
                         return new TournamentMessage( theJson, theUser, null );
                     default:
                         break;
@@ -47,16 +47,16 @@ namespace HexHelper.Libs.HexApi
             return new GenericMessage( theType, theUser );
         }
 
-        private static MessageType TypeFromString( string aMessageTypeString )
+        private static EMessageType TypeFromString( string aMessageTypeString )
         {
-            MessageType theType;
+            EMessageType theType;
             if( Enum.TryParse( aMessageTypeString, out theType ) )
             {
                 return theType;
             }
 
             Debug.WriteLine( String.Format( "Unknown message type: {0}", aMessageTypeString ) );
-            return MessageType.Unknown;
+            return EMessageType.Unknown;
         }
     }
 }

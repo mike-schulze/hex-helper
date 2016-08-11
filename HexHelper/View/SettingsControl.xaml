@@ -9,16 +9,23 @@
              DataContext="{Binding Settings, Source={StaticResource Locator}}">
 
     <TabControl>
-        <TabItem Header="User">
+        <TabItem Header="Users">
             <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
 
                 <ListView ItemsSource="{Binding AllUsers}"
-                  SelectedItem="{Binding CurrentUser}"
-                  DisplayMemberPath="UserName" />
+                          SelectedItem="{Binding CurrentUser}"
+                          DisplayMemberPath="UserName" />
+
+                <ListView Grid.Column="1"
+                          Margin="10,0"
+                          ItemsSource="{Binding Sites}"
+                          SelectedItem="{Binding CurrentSite}"
+                          DisplayMemberPath="Name" />
             </Grid>
         </TabItem>
     </TabControl>

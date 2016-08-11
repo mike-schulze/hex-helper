@@ -7,7 +7,7 @@ namespace HexHelper.Libs.HexApi
 {
     public sealed class DraftCardPickedMessage : MessageBase
     {
-        public DraftCardPickedMessage( JObject aJson, string aUser, IRepository aRepo ) : base( MessageType.DraftCardPicked, aUser, aRepo, aJson )
+        public DraftCardPickedMessage( JObject aJson, string aUser, IRepository aRepo ) : base( EMessageType.DraftCardPicked, aUser, aRepo, aJson )
         {
         }
 

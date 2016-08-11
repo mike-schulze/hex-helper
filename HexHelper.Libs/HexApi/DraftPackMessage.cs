@@ -9,7 +9,7 @@ namespace HexHelper.Libs.HexApi
 {
     public sealed class DraftPackMessage : MessageBase
     {
-        public DraftPackMessage( JObject aJson, string aUser, IRepository aRepo ) : base( MessageType.DraftPack, aUser, aRepo, aJson )
+        public DraftPackMessage( JObject aJson, string aUser, IRepository aRepo ) : base( EMessageType.DraftPack, aUser, aRepo, aJson )
         {
         }
 

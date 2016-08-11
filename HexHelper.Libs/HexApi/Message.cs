@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 
 namespace HexHelper.Libs.HexApi
 {
-    public enum MessageType
+    public enum EMessageType
     {
         Unknown,
         Talents,
@@ -26,7 +26,7 @@ namespace HexHelper.Libs.HexApi
         Ladder
     }
 
-    public enum CollectionAction
+    public enum ECollectionAction
     {
         Overwrite,
         Complete,
@@ -37,7 +37,7 @@ namespace HexHelper.Libs.HexApi
     public interface IMessage
     {
         DateTime Date { get; set; }
-        MessageType Type { get; }
+        EMessageType Type { get; }
         string Summary { get; }
         string User { get; }
         FileInfo SourceFile { get; set; }
@@ -45,7 +45,7 @@ namespace HexHelper.Libs.HexApi
 
     public abstract class MessageBase : IMessage
     {
-        public MessageBase( MessageType aType, string aUser, IRepository aRepo, JObject aJson )
+        public MessageBase( EMessageType aType, string aUser, IRepository aRepo, JObject aJson )
         {
             Type = aType;
             User = aUser;
@@ -93,7 +93,7 @@ namespace HexHelper.Libs.HexApi
 
         public string User { get; private set; }
 
-        public MessageType Type { get; protected set; } = MessageType.Unknown;
+        public EMessageType Type { get; protected set; } = EMessageType.Unknown;
 
         public FileInfo SourceFile { get; set; }
 
@@ -102,7 +102,7 @@ namespace HexHelper.Libs.HexApi
 
     public sealed class GenericMessage : MessageBase
     {
-        public GenericMessage( MessageType aType, string aUser ) : base( aType, aUser, aRepo: null, aJson: null )
+        public GenericMessage( EMessageType aType, string aUser ) : base( aType, aUser, aRepo: null, aJson: null )
         {
             Summary = Type.ToString();
         }

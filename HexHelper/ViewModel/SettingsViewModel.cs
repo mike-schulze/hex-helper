@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using GalaSoft.MvvmLight;
 using HexHelper.Libs.Model;
+using HexHelper.Libs.WebApiForward;
 using HexHelper.Service;
 
 namespace HexHelper.ViewModel
@@ -32,7 +33,15 @@ namespace HexHelper.ViewModel
             {
                 if( Set( nameof( CurrentUser ), ref mCurrentUser, value ) )
                 {
-                    mHexApi.SetCurrentUser( value.UserName );
+                    if( value == null )
+                    {
+                        Sites = null;
+                    }
+                    else
+                    {
+                        Sites = Forwarder.AllHexSites().Values;
+                        mHexApi.SetCurrentUser( value.UserName );
+                    }
                 }
             }
         }
@@ -51,6 +60,31 @@ namespace HexHelper.ViewModel
         }
         private IEnumerable<User> mAllUsers = null;
 
+        public ApiSite CurrentSite
+        {
+            get
+            {
+                return mCurrentSite;
+            }
+            set
+            {
+                Set( nameof( CurrentSite ), ref mCurrentSite, value );
+            }
+        }
+        private ApiSite mCurrentSite = null;
+
+        public IEnumerable<ApiSite> Sites
+        {
+            get
+            {
+                return mSites;
+            }
+            set
+            {
+                Set( nameof( Sites ), ref mSites, value );
+            }
+        }
+        private IEnumerable<ApiSite> mSites = null;
 
         private readonly IHexApiService mHexApi;
     }

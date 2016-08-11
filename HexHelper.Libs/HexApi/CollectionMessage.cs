@@ -8,21 +8,21 @@ namespace HexHelper.Libs.HexApi
 {
     public sealed class CollectionMessage : MessageBase
     {
-        public CollectionMessage( JObject aJson, string aUser, IRepository aRepo ) : base( MessageType.Collection, aUser, aRepo, aJson )
+        public CollectionMessage( JObject aJson, string aUser, IRepository aRepo ) : base( EMessageType.Collection, aUser, aRepo, aJson )
         {
         }
 
         protected override void Parse( JObject aJson )
         {
             var theActionString = ( string ) aJson["Action"];
-            CollectionAction theActionType;
+            ECollectionAction theActionType;
             if( Enum.TryParse( theActionString , out theActionType ) )
             {
                 Action = theActionType;
             }
             else
             {
-                Action = CollectionAction.Unknown;
+                Action = ECollectionAction.Unknown;
             }
 
             Complete = ParseArray( ( JArray ) aJson["Complete"] );
@@ -94,6 +94,6 @@ namespace HexHelper.Libs.HexApi
         public IDictionary<Guid, CollectionInfo> CardsAdded { get; private set; }
         public IDictionary<Guid, CollectionInfo> CardsRemoved { get; private set; }
 
-        public CollectionAction Action { get; private set; }
+        public ECollectionAction Action { get; private set; }
     }
 }

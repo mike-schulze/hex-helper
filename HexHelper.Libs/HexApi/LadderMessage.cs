@@ -7,7 +7,7 @@ namespace HexHelper.Libs.HexApi
 {
     public sealed class LadderMessage : MessageBase
     {
-        public LadderMessage( JObject aJson, string aUser, IRepository aRepo ) : base( MessageType.Ladder, aUser, aRepo, aJson )
+        public LadderMessage( JObject aJson, string aUser, IRepository aRepo ) : base( EMessageType.Ladder, aUser, aRepo, aJson )
         {
         }
 

@@ -179,7 +179,7 @@ namespace HexHelper.Service
 
             SetCurrentUser( theMessage.User );
 
-            if( theMessage.Type == MessageType.Unknown )
+            if( theMessage.Type == EMessageType.Unknown )
             {
                 OnStatusChanged( "Unknown message received." );
             }
@@ -204,14 +204,7 @@ namespace HexHelper.Service
                 return;
             }
 
-            var theHexSites = Forwarder.AllHexSites();
-            foreach( var theSite in theHexSites )
-            {
-                if( theSite.Value.SupportedMessages.Contains( aMessage.Type ) )
-                {
-                    await Forwarder.ForwardMessage( theSite.Value, aMessageString, theUser );
-                }
-            }
+            await Forwarder.ForwardMessage( aMessage, aMessageString, theUser );
         }
 
         private async Task<FileInfo> StoreMessage( IMessage aMessage, string aMessageString )

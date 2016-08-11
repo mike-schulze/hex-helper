@@ -1,21 +1,25 @@
 ﻿using System.Collections.Generic;
+using HexHelper.Libs.HexApi;
+using HexHelper.Libs.WebApiForward;
 
 namespace HexHelper.Libs.Model
 {
     public sealed class User
     {
-        public User( string aUserName, string aTcgBrowserSyncCode = null )
+        public sealed class UserApiForward
+        {
+            public EApiSites Type { get; set; }
+            public string ApiKey { get; set; }
+            public List<EMessageType> Messages { get; set; }
+        }
+
+        public User( string aUserName )
         {
             UserName = aUserName;
         }
 
         public string UserName { get; set; }
 
-        /// <summary>
-        /// Which Hex API sites does user want to forward data to.
-        /// First: enum value as string, Second: API key (or emptry if no key needed)
-        /// TODO: use enum instead of string,
-        /// </summary>
-        public Dictionary<string, string> ApiSites { get; } = new Dictionary<string, string>();
+        public List<UserApiForward> Forwards { get; } = new List<UserApiForward>();
     }
 }
