@@ -74,19 +74,49 @@ namespace HexHelper.Libs.HexApi
 
         protected override void CreateSummary()
         {
-            string theSummary = String.Format( "[{0}] ", Action.ToString() );
-            if( Complete.Count != 0 )
+            string theSummary;
+
+            int theAdditionsAndRemovals = ItemsAdded.Count + ItemsRemoved.Count;
+            if( Complete.Count == 0 && theAdditionsAndRemovals >= 0 && theAdditionsAndRemovals <= 3 )
             {
-                theSummary += String.Format( "Complete inventory. {0} items. ", Complete.Count );
+                var theChanges = new List<string>();
+                foreach( var theAddedItem in ItemsAdded )
+                {
+                    var theItem = mRepo.GetItem( theAddedItem.Key.ToString() );
+                    if( theItem != null )
+                    {
+                        theChanges.Add( String.Format( "'{0}' added", theItem.Name ) );
+                    }
+                }
+
+                foreach( var theRemovedItem in ItemsRemoved )
+                {
+                    var theItem = mRepo.GetItem( theRemovedItem.Key.ToString() );
+                    if( theItem != null )
+                    {
+                        theChanges.Add( String.Format( "'{0}' removed", theItem.Name ) );
+                    }
+                }
+
+                theSummary = String.Join( ", ", theChanges );
             }
-            if( ItemsAdded.Count != 0 )
+            else
             {
-                theSummary += String.Format( "{0} inventory item(s) added. ", ItemsAdded.Count );
+                theSummary = String.Format( "[{0}] ", Action.ToString() );
+                if( Complete.Count != 0 )
+                {
+                    theSummary += String.Format( "Complete inventory. {0} items. ", Complete.Count );
+                }
+                if( ItemsAdded.Count != 0 )
+                {
+                    theSummary += String.Format( "{0} inventory item(s) added. ", ItemsAdded.Count );
+                }
+                if( ItemsRemoved.Count != 0 )
+                {
+                    theSummary += String.Format( "{0} inventory item(s) removed. ", ItemsRemoved.Count );
+                }
             }
-            if( ItemsRemoved.Count != 0 )
-            {
-                theSummary += String.Format( "{0} inventory item(s) removed. ", ItemsRemoved.Count );
-            }
+
             Summary = theSummary;
         }
 

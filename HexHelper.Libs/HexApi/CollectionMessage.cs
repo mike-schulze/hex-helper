@@ -51,18 +51,48 @@ namespace HexHelper.Libs.HexApi
 
         protected override void CreateSummary()
         {
-            string theSummary = String.Format( "[{0}] ", Action.ToString() );
-            if( Complete.Count != 0 )
+            string theSummary;
+
+            int theAdditionsAndRemovals = CardsAdded.Count + CardsRemoved.Count;
+            if( Complete.Count == 0 && theAdditionsAndRemovals >= 0 && theAdditionsAndRemovals <= 3 )
             {
-                theSummary += String.Format( "Complete collection. {0} items. ", Complete.Count );
+                var theChanges = new List<string>();
+                foreach( var theCard in CardsAdded )
+                {
+                    var theItem = mRepo.GetItem( theCard.Key.ToString() );
+                    if( theItem != null )
+                    {
+                        theChanges.Add( String.Format( "'{0}' added", theItem.Name ) );
+                    }                    
+                }
+
+                foreach( var theCard in CardsRemoved )
+                {
+                    var theItem = mRepo.GetItem( theCard.Key.ToString() );
+                    if( theItem != null )
+                    {
+                        theChanges.Add( String.Format( "'{0}' removed", theItem.Name ) );
+                    }
+                }
+
+                theSummary = String.Join( ", ", theChanges );
             }
-            if( CardsAdded.Count != 0 )
+            else
             {
-                theSummary += String.Format( "{0} item(s) added. ", CardsAdded.Count );
-            }
-            if( CardsRemoved.Count != 0 )
-            {
-                theSummary += String.Format( "{0} item(s) removed. ", CardsRemoved.Count );
+                theSummary = String.Format( "[{0}] ", Action.ToString() );
+
+                if( Complete.Count != 0 )
+                {
+                    theSummary += String.Format( "Complete collection. {0} items. ", Complete.Count );
+                }
+                if( CardsAdded.Count != 0 )
+                {
+                    theSummary += String.Format( "{0} item(s) added. ", CardsAdded.Count );
+                }
+                if( CardsRemoved.Count != 0 )
+                {
+                    theSummary += String.Format( "{0} item(s) removed. ", CardsRemoved.Count );
+                }
             }
             Summary = theSummary;
         }
