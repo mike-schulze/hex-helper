@@ -66,7 +66,7 @@ namespace HexHelper.Libs.WebApiForward
                         }
                     }
 
-                    if( theApiForward != null /*&& theApiForward.Messages.Contains( aMessage.Type) */ )
+                    if( theApiForward != null && theApiForward.Messages.Contains( aMessage.Type) )
                     {
                         await ForwardToSite( theSite.Value, theApiForward, aMessageString );
                     }
