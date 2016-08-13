@@ -12,7 +12,6 @@ namespace HexHelper.Libs.HexApi
     public enum EMessageType
     {
         Unknown,
-        Talents,
         Inventory,
         Collection,
         Login,
@@ -22,7 +21,6 @@ namespace HexHelper.Libs.HexApi
         DraftCardPicked,
         GameStarted,
         GameEnded,
-        PlayedUpdated,
         CardUpdated,
         PlayerUpdated,
         Tournament,
