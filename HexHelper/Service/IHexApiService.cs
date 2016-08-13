@@ -16,17 +16,26 @@ namespace HexHelper.Service
         /// <param name="aMessageString"></param>
         /// <returns></returns>
         IMessage HandleMessageFromFile( string aMessageString, DateTime aDateTime );
-        Task Shutdown();
+
+        event EventHandler<IMessage> MessageReceived;
+
 
         IEnumerable<ItemViewModel> GetCards();
         IEnumerable<ItemViewModel> GetInventory();
+
+        event EventHandler CollectionChanged;
+
+
         IEnumerable<User> GetUsers();
         User GetCurrentUser();
         void SetCurrentUser( string aUserName );
+        void UpdateUser( User aUser );
 
-        event EventHandler CollectionChanged;
-        event EventHandler<IMessage> MessageReceived;
-        event EventHandler<string> StatusChanged;
         event EventHandler<User> UserChanged;
+
+        
+        event EventHandler<string> StatusChanged;
+
+        Task Shutdown();
     }
 }

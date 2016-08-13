@@ -17,6 +17,7 @@ using GalaSoft.MvvmLight.Ioc;
 using HexHelper.Libs.Persistance;
 using HexHelper.Libs.Service;
 using HexHelper.Service;
+using HexHelper.ViewModel.Settings;
 using Microsoft.Practices.ServiceLocation;
 
 namespace HexHelper.ViewModel

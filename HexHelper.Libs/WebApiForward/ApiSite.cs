@@ -1,8 +1,12 @@
 ﻿using System.Collections.Generic;
 using HexHelper.Libs.HexApi;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace HexHelper.Libs.WebApiForward
 {
+
+    [JsonConverter( typeof( StringEnumConverter ) )]
     public enum EApiSites
     {
         HexTcgBrowser,

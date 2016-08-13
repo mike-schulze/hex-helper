@@ -145,6 +145,11 @@ namespace HexHelper.Service
             }
         }
 
+        public void UpdateUser( User aUser )
+        {
+            mRepo.AddOrUpdateUser( aUser );
+        }
+
         private async Task UpdatePrices()
         {
             var theFile = new CachedRemoteFile( "http://doc-x.net/hex/all_prices_json.txt", mFileService );

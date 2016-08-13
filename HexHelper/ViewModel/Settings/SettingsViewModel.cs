@@ -4,7 +4,7 @@ using HexHelper.Libs.Model;
 using HexHelper.Libs.WebApiForward;
 using HexHelper.Service;
 
-namespace HexHelper.ViewModel
+namespace HexHelper.ViewModel.Settings
 {
     public sealed class SettingsViewModel : ViewModelBase
     {
@@ -21,6 +21,14 @@ namespace HexHelper.ViewModel
         {
             CurrentUser = e;
             AllUsers = mHexApi.GetUsers();
+        }
+
+        private void UpdateForward()
+        {
+            if( CurrentUser != null && CurrentSite != null )    
+            {
+                ApiForward = new UserApiForwardViewModel( mHexApi, CurrentUser, CurrentSite );
+            }        
         }
 
         public User CurrentUser
@@ -41,6 +49,7 @@ namespace HexHelper.ViewModel
                     {
                         Sites = Forwarder.AllHexSites().Values;
                         mHexApi.SetCurrentUser( value.UserName );
+                        UpdateForward();
                     }
                 }
             }
@@ -68,7 +77,10 @@ namespace HexHelper.ViewModel
             }
             set
             {
-                Set( nameof( CurrentSite ), ref mCurrentSite, value );
+                if( Set( nameof( CurrentSite ), ref mCurrentSite, value ) )
+                {
+                    UpdateForward();
+                }
             }
         }
         private ApiSite mCurrentSite = null;
@@ -85,6 +97,21 @@ namespace HexHelper.ViewModel
             }
         }
         private IEnumerable<ApiSite> mSites = null;
+
+
+        public UserApiForwardViewModel ApiForward
+        {
+            get
+            {
+                return mApiForward;
+            }
+            set
+            {
+                Set( nameof( ApiForward ), ref mApiForward, value );
+            }
+        }
+        private UserApiForwardViewModel mApiForward = null;
+
 
         private readonly IHexApiService mHexApi;
     }

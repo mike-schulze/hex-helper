@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using HexHelper.Libs.Persistance;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 
 namespace HexHelper.Libs.HexApi
 {
     public sealed class TournamentMessage : MessageBase
     {
+
+
+        [JsonConverter( typeof( StringEnumConverter ) )]
         public enum EFormats
         {
             Constructed = 0,
@@ -16,6 +21,7 @@ namespace HexHelper.Libs.HexApi
             Unknown = 99
         }
 
+        [JsonConverter( typeof( StringEnumConverter ) )]
         public enum EStyles
         {
             SingleElimination = 0,

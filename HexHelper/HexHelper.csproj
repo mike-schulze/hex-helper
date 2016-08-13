@@ -127,7 +127,8 @@
     <Compile Include="Service\MetroDialogService.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\MessageViewModel.cs" />
-    <Compile Include="ViewModel\SettingsViewModel.cs" />
+    <Compile Include="ViewModel\Settings\SettingsViewModel.cs" />
+    <Compile Include="ViewModel\Settings\UserApiForwardViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\HexItemsListControl.xaml.cs">
       <DependentUpon>HexItemsListControl.xaml</DependentUpon>

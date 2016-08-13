@@ -11,6 +11,7 @@ namespace HexHelper.Libs.Model
             public EApiSites Type { get; set; }
             public string ApiKey { get; set; }
             public List<EMessageType> Messages { get; set; }
+            public bool ForwardToThis { get; set; }
         }
 
         public User( string aUserName )

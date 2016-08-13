@@ -1,10 +1,14 @@
 ﻿using System;
 using HexHelper.Libs.Persistance;
 using HexHelper.Libs.Service;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 
 namespace HexHelper.Libs.HexApi
 {
+
+    [JsonConverter( typeof( StringEnumConverter ) )]
     public enum EMessageType
     {
         Unknown,
@@ -26,6 +30,7 @@ namespace HexHelper.Libs.HexApi
         Ladder
     }
 
+    [JsonConverter( typeof( StringEnumConverter ) )]
     public enum ECollectionAction
     {
         Overwrite,

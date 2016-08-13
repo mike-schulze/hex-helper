@@ -1,10 +1,13 @@
 ﻿using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace HexHelper.Libs.Model
 {
     /// <summary>
     /// Type of Hex item.
     /// </summary>
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum ItemType
     {
         Card,
@@ -20,6 +23,7 @@ namespace HexHelper.Libs.Model
     /// <summary>
     /// Card item.
     /// </summary>
+    [JsonConverter( typeof( StringEnumConverter ) )]
     public enum CardType
     {
         DoesNotApply,
@@ -32,6 +36,7 @@ namespace HexHelper.Libs.Model
     /// <summary>
     /// Rarities
     /// </summary>
+    [JsonConverter( typeof( StringEnumConverter ) )]
     public enum RarityType
     {
         Unknown,
@@ -47,6 +52,7 @@ namespace HexHelper.Libs.Model
     /// <summary>
     /// Divsions
     /// </summary>
+    [JsonConverter( typeof( StringEnumConverter ) )]
     public enum DivisionType
     {
         Bronze = 0,
@@ -59,6 +65,7 @@ namespace HexHelper.Libs.Model
     /// <summary>
     /// Formats
     /// </summary>
+    [JsonConverter( typeof( StringEnumConverter ) )]
     public enum FormatType
     {
         Constructed,
