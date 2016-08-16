@@ -206,17 +206,17 @@ namespace HexHelper.Libs.Persistance
         public IEnumerable<ItemViewModel> AllCards( string aUserName )
         {
             return from theInfo in mItemInfo
-                   where ( theInfo.Value.Type == ItemType.Card &&
-                           theInfo.Value.Rarity != RarityType.Unknown &&
-                           theInfo.Value.Rarity != RarityType.Promo &&
-                           theInfo.Value.Rarity != RarityType.NonCollectible )
+                   where ( theInfo.Value.Type == EItemType.Card &&
+                           theInfo.Value.Rarity != ERarity.Unknown &&
+                           theInfo.Value.Rarity != ERarity.Promo &&
+                           theInfo.Value.Rarity != ERarity.NonCollectible )
                    select CreateItemViewModel( aUserName, theInfo.Key );
         }
 
         public IEnumerable<ItemViewModel> AllInventory( string aUserName )
         {
             return from theInfo in mItemInfo
-                   where ( theInfo.Value.Type != ItemType.Card )
+                   where ( theInfo.Value.Type != EItemType.Card )
                    select CreateItemViewModel( aUserName, theInfo.Key );
         }
 

@@ -15,8 +15,8 @@ namespace HexHelper.Libs.HexApi
         {
             Tier = ( int ) aJson["Tier"];
             CosmicRank = ( int ) aJson["CosmicRank"];
-            Division = (DivisionType) Enum.Parse( typeof( DivisionType ), (string) aJson["Division"] );
-            Format = ( FormatType ) Enum.Parse( typeof( FormatType ), ( string ) aJson["Type"] );
+            Division = ( EDivision ) Enum.Parse( typeof( EDivision ), (string) aJson["Division"] );
+            Format = ( EFormat ) Enum.Parse( typeof( EFormat ), ( string ) aJson["Type"] );
         }
 
         protected override void CreateSummary()
@@ -32,8 +32,8 @@ namespace HexHelper.Libs.HexApi
         }
 
         public int Tier { get; private set; }
-        public DivisionType Division { get; private set; }
-        public FormatType Format { get; private set; }
+        public EDivision Division { get; private set; }
+        public EFormat Format { get; private set; }
         public int CosmicRank { get; private set; }
     }
 }

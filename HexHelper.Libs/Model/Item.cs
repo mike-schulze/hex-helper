@@ -8,7 +8,7 @@ namespace HexHelper.Libs.Model
     /// Type of Hex item.
     /// </summary>
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum ItemType
+    public enum EItemType
     {
         Card,
         Champion,
@@ -24,7 +24,7 @@ namespace HexHelper.Libs.Model
     /// Card item.
     /// </summary>
     [JsonConverter( typeof( StringEnumConverter ) )]
-    public enum CardType
+    public enum ECardType
     {
         DoesNotApply,
         Troop,
@@ -37,7 +37,7 @@ namespace HexHelper.Libs.Model
     /// Rarities
     /// </summary>
     [JsonConverter( typeof( StringEnumConverter ) )]
-    public enum RarityType
+    public enum ERarity
     {
         Unknown,
         NonCollectible,
@@ -53,7 +53,7 @@ namespace HexHelper.Libs.Model
     /// Divsions
     /// </summary>
     [JsonConverter( typeof( StringEnumConverter ) )]
-    public enum DivisionType
+    public enum EDivision
     {
         Bronze = 0,
         Silver = 1,
@@ -66,10 +66,31 @@ namespace HexHelper.Libs.Model
     /// Formats
     /// </summary>
     [JsonConverter( typeof( StringEnumConverter ) )]
-    public enum FormatType
+    public enum EFormat
     {
         Constructed,
         Limited
+    }
+
+    [JsonConverter( typeof( StringEnumConverter ) )]
+    public enum ERace
+    {
+        Human = 1,
+        Elf = 2,
+        Coyotle = 3,
+        Orc = 4,
+        Dwarf = 5,
+        Shinhare = 6,
+        Vennen = 7,
+        Necrotic = 8
+    }
+
+    [JsonConverter( typeof( StringEnumConverter ) )]
+    public enum EClass
+    {
+        Mage = 1,
+        Warrior = 2,
+        Cleric = 3
     }
 
     /// <summary>
@@ -78,9 +99,9 @@ namespace HexHelper.Libs.Model
     public class Info
     {
         public string Name { get; set; }
-        public ItemType Type { get; set; }
-        public CardType CardType { get; set; }
-        public RarityType Rarity { get; set; }
+        public EItemType Type { get; set; }
+        public ECardType CardType { get; set; }
+        public ERarity Rarity { get; set; }
 
         public bool IsQuick { get; set; }
         public bool IsArtifact { get; set; }
@@ -144,9 +165,9 @@ namespace HexHelper.Libs.Model
 
         // Info
         public string Name { get; set; }
-        public ItemType Type { get; set; }
-        public CardType CardType { get; set; }
-        public RarityType Rarity { get; set; }
+        public EItemType Type { get; set; }
+        public ECardType CardType { get; set; }
+        public ERarity Rarity { get; set; }
         public bool IsQuick { get; set; }
         public bool IsArtifact { get; set; }
 

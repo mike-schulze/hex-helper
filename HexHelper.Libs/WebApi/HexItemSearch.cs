@@ -29,7 +29,7 @@ namespace HexHelper.Libs.WebApi
                         continue;
                     }
 
-                    ItemType theType = ItemType.Unknown;                    
+                    EItemType theType = EItemType.Unknown;                    
                     var theTypes = ( JArray ) theItem["type"];
                     if( theTypes != null && theTypes.Count != 0  )
                     {
@@ -43,58 +43,58 @@ namespace HexHelper.Libs.WebApi
                             case "Quick Action":
                             case "Quick":
                             case "Resource":
-                                theType = ItemType.Card;
+                                theType = EItemType.Card;
                                 break;
                             case "Champion":
-                                theType = ItemType.Champion;
+                                theType = EItemType.Champion;
                                 break;
                             case "Equipment":
-                                theType = ItemType.Equipment;
+                                theType = EItemType.Equipment;
                                 break;
                             case "Gem":
-                                theType = ItemType.Gem;
+                                theType = EItemType.Gem;
                                 break;
                             case "Pack":
-                                theType = ItemType.Pack;
+                                theType = EItemType.Pack;
                                 break;
                             case "Mod":
-                                theType = ItemType.Mod;
+                                theType = EItemType.Mod;
                                 break;
                             case "Bane":
-                                theType = ItemType.Bane;
+                                theType = EItemType.Bane;
                                 break;
                             default:
                                 break;
                         }
                     }
 
-                    RarityType theRarity = RarityType.Unknown;
+                    ERarity theRarity = ERarity.Unknown;
                     string theRarityString = ( string ) theItem["rarity"];
                     switch( theRarityString )
                     {
                         case "Promo":
-                            theRarity = RarityType.Promo;
+                            theRarity = ERarity.Promo;
                             break;
                         case "Non-Collectible":
-                            theRarity = RarityType.NonCollectible;
+                            theRarity = ERarity.NonCollectible;
                             break;
                         case "Common":
-                            theRarity = RarityType.Common;
+                            theRarity = ERarity.Common;
                             break;
                         case "Uncommon":
-                            theRarity = RarityType.Uncommon;
+                            theRarity = ERarity.Uncommon;
                             break;
                         case "Rare":
-                            theRarity = RarityType.Rare;
+                            theRarity = ERarity.Rare;
                             break;
                         case "Legendary":
-                            theRarity = RarityType.Legendary;
+                            theRarity = ERarity.Legendary;
                             break;
                         case "Epic":
-                            theRarity = RarityType.Epic;
+                            theRarity = ERarity.Epic;
                             break;
                         default:
-                            theRarity = RarityType.Unknown;
+                            theRarity = ERarity.Unknown;
                             break;
                     }
 
