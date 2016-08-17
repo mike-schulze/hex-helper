@@ -38,6 +38,7 @@ namespace HexHelper.ViewModel
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<MessageViewModel>();
             SimpleIoc.Default.Register<SettingsViewModel>();
+            SimpleIoc.Default.Register<AuctionHouseViewModel>();
             SimpleIoc.Default.Register<IServerService, ServerService>();
             SimpleIoc.Default.Register<IHexApiService, HexApiService>();
             SimpleIoc.Default.Register<IFileService, FileService>();
@@ -66,6 +67,14 @@ namespace HexHelper.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<SettingsViewModel>();
+            }
+        }
+
+        public AuctionHouseViewModel AuctionHouse
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<AuctionHouseViewModel>();
             }
         }
 

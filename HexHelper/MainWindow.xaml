@@ -62,6 +62,10 @@
                                           Margin="10" />
             </TabItem>
 
+            <TabItem Header="Auctions">
+                <view:AuctionHouseControl Margin="10" />
+            </TabItem>
+
             <TabItem Header="Messages">
                 <view:MessageListControl Margin="10" />
             </TabItem>
