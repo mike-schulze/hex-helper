@@ -36,6 +36,8 @@ namespace HexHelper.Service
         
         event EventHandler<string> StatusChanged;
 
+        event EventHandler InitializationCompleted;
+
         Task Shutdown();
     }
 }

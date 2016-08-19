@@ -12,8 +12,12 @@ namespace HexHelper.ViewModel
         {
             mHexApi = aHexApi;
 
-            Update();
+            mHexApi.InitializationCompleted += HandleInitializationCompleted;
+        }
 
+        private void HandleInitializationCompleted( object sender, EventArgs e )
+        {
+            Update();
             mHexApi.CollectionChanged += HandleCollectionChanged;
         }
 

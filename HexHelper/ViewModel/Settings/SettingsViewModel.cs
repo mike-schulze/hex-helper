@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GalaSoft.MvvmLight;
 using HexHelper.Libs.Model;
 using HexHelper.Libs.WebApiForward;
@@ -12,6 +13,11 @@ namespace HexHelper.ViewModel.Settings
         {
             mHexApi = aHexApi;
 
+            mHexApi.InitializationCompleted += HandleInitializationCompleted;
+        }
+
+        private void HandleInitializationCompleted( object sender, EventArgs e )
+        {
             CurrentUser = mHexApi.GetCurrentUser();
             AllUsers = mHexApi.GetUsers();
             mHexApi.UserChanged += HandleUserChanged;

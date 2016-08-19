@@ -17,12 +17,17 @@ namespace HexHelper.ViewModel
             mFile = aFileService;
             mDialogs = aDialogs;
 
+            ShowMessageCommand = new RelayCommand<IMessage>( ShowMessage );
+            PickMessageCommand = new RelayCommand( PickMessage );
+
+            mHexApi.InitializationCompleted += HandleInitializationCompleted;
+        }
+
+        private void HandleInitializationCompleted( object sender, EventArgs e )
+        {
             Messages = new ObservableCollection<IMessage>();
 
             mHexApi.MessageReceived += HandleMessageReceived;
-
-            ShowMessageCommand = new RelayCommand<IMessage>( ShowMessage );
-            PickMessageCommand = new RelayCommand( PickMessage );
         }
 
         private void HandleMessageReceived( object sender, IMessage e )

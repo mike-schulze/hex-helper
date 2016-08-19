@@ -37,7 +37,6 @@ namespace HexHelper.Service
             {
                 mCurrentUser = mRepo.AllUsers().FirstOrDefault();
             }
-            OnUserChanged( mCurrentUser );
 
             OnStatusChanged( "Updating items..." );
             await UpdateItems();
@@ -46,7 +45,11 @@ namespace HexHelper.Service
             await UpdatePrices();
 
             mRepo.ItemsChanged += HandleItemsChanged;
+
+            InitializationCompleted?.Invoke( this, new EventArgs() );
         }
+
+        public event EventHandler InitializationCompleted;
 
         public IMessage HandleMessageFromFile( string aMessageString, DateTime aDateTime )
         {
@@ -57,6 +60,8 @@ namespace HexHelper.Service
 
         private void HandleItemsChanged( object sender, EventArgs e )
         {
+            mCards = null;
+            mInventory = null;
             OnCollectionChanged();
         }
 
@@ -93,7 +98,11 @@ namespace HexHelper.Service
         public IEnumerable<ItemViewModel> GetCards()
         {
             OnStatusChanged( "Collection loaded." );
-            return mRepo.AllCards( mCurrentUser?.UserName );
+            if( mCards == null )
+            {
+                mCards = mRepo.AllCards( mCurrentUser?.UserName );
+            }
+            return mCards;
         }
 
         public IEnumerable<ItemViewModel> GetInventory()
@@ -236,6 +245,9 @@ namespace HexHelper.Service
         private readonly IServerService mServer;
         private readonly IRepository mRepo;
         private readonly IFileService mFileService;
+
+        private IEnumerable<ItemViewModel> mCards;
+        private IEnumerable<ItemViewModel> mInventory;
 
         private User mCurrentUser;
     }

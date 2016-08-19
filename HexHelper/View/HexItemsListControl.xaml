@@ -13,8 +13,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ListView ItemsSource="{Binding Cards}"
-                  ScrollViewer.CanContentScroll="True"
+        <ListView ScrollViewer.CanContentScroll="True"
                   x:Name="mList">
 
             <ListView.ItemsPanel>
