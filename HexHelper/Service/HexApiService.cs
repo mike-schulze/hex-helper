@@ -108,7 +108,11 @@ namespace HexHelper.Service
         public IEnumerable<ItemViewModel> GetInventory()
         {
             OnStatusChanged( "Inventory loaded." );
-            return mRepo.AllInventory( mCurrentUser?.UserName );
+            if( mInventory == null )
+            {
+                mInventory = mRepo.AllInventory( mCurrentUser?.UserName );
+            }
+            return mInventory;
         }
 
         public IEnumerable<User> GetUsers()
@@ -150,6 +154,8 @@ namespace HexHelper.Service
                 Properties.Settings.Default.LastUser = theUser.UserName;
                 Properties.Settings.Default.Save();
 
+                mCards = null;
+                mInventory = null;
                 OnCollectionChanged();
             }
         }
