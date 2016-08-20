@@ -9,6 +9,7 @@
              d:DesignHeight="300" d:DesignWidth="300"
              DataContext="{Binding AuctionHouse, Source={StaticResource Locator}}">
     <Grid>
-        <view:HexItemsListControl Items="{Binding Items}" />
+        <view:HexItemsListControl Items="{Binding Items}"
+                                  DefaultSortColumn="PricePlatinum"/>
     </Grid>
 </UserControl>

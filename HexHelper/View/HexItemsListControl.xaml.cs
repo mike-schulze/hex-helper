@@ -19,7 +19,6 @@ namespace HexHelper.View
             InitializeComponent();
         }
 
-        //--------------------------------------------------------------------------
         public IList<ItemViewModel> Items
         {
             get
@@ -31,14 +30,13 @@ namespace HexHelper.View
                 SetValue( ItemsProperty, value );
             }
         }
-        //--------------------------------------------------------------------------
+
         public static readonly DependencyProperty ItemsProperty = DependencyProperty.Register(
             "Items",
             typeof( IList<ItemViewModel> ),
             typeof( HexItemsListControl ),
             new PropertyMetadata( OnItemsChanged ) );
 
-        //--------------------------------------------------------------------------
         private static void
         OnItemsChanged
             (
@@ -53,7 +51,6 @@ namespace HexHelper.View
             }
         }
 
-        //--------------------------------------------------------------------------
         private void
         OnItemsChanged
             (
@@ -62,36 +59,82 @@ namespace HexHelper.View
         {
             mList.ItemsSource = (IList) aArgs.NewValue;
             SetFilter();
+            SortList( mSortedBy, aInvertOrder: false );
+        }
+
+        public string DefaultSortColumn
+        {
+            get
+            {
+                return ( string ) GetValue( DefaultSortColumnProperty );
+            }
+            set
+            {
+                SetValue( DefaultSortColumnProperty, value );
+            }
+        }
+
+        public static readonly DependencyProperty DefaultSortColumnProperty = DependencyProperty.Register(
+            "DefaultSortColumn",
+            typeof( string ),
+            typeof( HexItemsListControl ),
+            new PropertyMetadata( OnDefaultSortColumnChanged ) );
+
+        private static void OnDefaultSortColumnChanged
+            (
+            DependencyObject aObject,
+            DependencyPropertyChangedEventArgs aArgs
+            )
+        {
+            var theControl = aObject as HexItemsListControl;
+            if( theControl != null )
+            {
+                theControl.OnDefaultSortColumnChanged( aArgs );
+            }
+        }
+
+        private void OnDefaultSortColumnChanged
+            (
+            DependencyPropertyChangedEventArgs aArgs
+            )
+        {
+            mSortedBy = (string) aArgs.NewValue;
         }
 
         private void HandlePlatClick( object sender, RoutedEventArgs e )
         {
-            SortList( nameof( ItemViewModel.PricePlatinum ) );
+            mSortedBy = nameof( ItemViewModel.PricePlatinum );
+            SortList( mSortedBy );
         }
 
         private void HandleGoldClick( object sender, RoutedEventArgs e )
         {
-            SortList( nameof( ItemViewModel.PriceGold ) );
+            mSortedBy = nameof( ItemViewModel.PriceGold );
+            SortList( mSortedBy );
         }
 
         private void HandlePlatSalesClick( object sender, RoutedEventArgs e )
         {
-            SortList( nameof( ItemViewModel.SalesPlatinum ) );
+            mSortedBy = nameof( ItemViewModel.SalesPlatinum );
+            SortList( mSortedBy );
         }
 
         private void HandleGoldSalesClick( object sender, RoutedEventArgs e )
         {
-            SortList( nameof( ItemViewModel.SalesGold ) );
+            mSortedBy = nameof( ItemViewModel.SalesGold );
+            SortList( mSortedBy );
         }
 
         private void HandleNameClick( object sender, RoutedEventArgs e )
         {
-            SortList( nameof( ItemViewModel.Name ) );
+            mSortedBy = nameof( ItemViewModel.Name );
+            SortList( mSortedBy );
         }
 
         private void HandleOwnedClick( object sender, RoutedEventArgs e )
         {
-            SortList( nameof( ItemViewModel.QuantityOwned ) );
+            mSortedBy = nameof( ItemViewModel.QuantityOwned );
+            SortList( mSortedBy );
         }
 
         private void HandleSearchKeyUp( object sender, KeyEventArgs e )
@@ -121,16 +164,21 @@ namespace HexHelper.View
             return false;
         }
 
-        private void SortList( string aPropertyName )
+        private void SortList( string aPropertyName, bool aInvertOrder = true )
         {
-            if( mList.ItemsSource == null )
+            if( mList.ItemsSource == null || aPropertyName == null )
             {
                 return;
             }
 
+            if( aInvertOrder )
+            {
+                mIsAscending = !mIsAscending;
+            }
+
             var theView = ( ListCollectionView ) CollectionViewSource.GetDefaultView( mList.ItemsSource );
-            theView.CustomSort = new PropertySorter<ItemViewModel>( aPropertyName, mIsAscending );
-            mIsAscending = !mIsAscending;
+            theView.CustomSort = new PropertySorter<ItemViewModel>( aPropertyName, mIsAscending );            
+            
             mList.Items.Refresh();
         }
 
@@ -165,6 +213,7 @@ namespace HexHelper.View
         };
 
         private bool mIsAscending = true;
+        private string mSortedBy = null;
 
     }
 }
