@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using HexHelper.Libs.HexApi;
 using HexHelper.Libs.Model;
 
-namespace HexHelper.Service
+namespace HexHelper.Libs.Service
 {
     public interface IHexApiService
     {

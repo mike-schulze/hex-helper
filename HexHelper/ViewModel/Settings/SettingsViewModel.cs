@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using GalaSoft.MvvmLight;
 using HexHelper.Libs.Model;
+using HexHelper.Libs.Service;
 using HexHelper.Libs.WebApiForward;
-using HexHelper.Service;
 
 namespace HexHelper.ViewModel.Settings
 {

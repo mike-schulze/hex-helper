@@ -5,8 +5,8 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using HexHelper.Libs.HexApi;
 using HexHelper.Libs.Model;
+using HexHelper.Libs.Service;
 using HexHelper.Libs.WebApiForward;
-using HexHelper.Service;
 using static HexHelper.Libs.Model.User;
 
 namespace HexHelper.ViewModel.Settings

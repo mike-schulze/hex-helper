@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using GalaSoft.MvvmLight;
 using HexHelper.Libs.Model;
-using HexHelper.Service;
+using HexHelper.Libs.Service;
 
 namespace HexHelper.ViewModel
 {

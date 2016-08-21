@@ -43,6 +43,7 @@ namespace HexHelper.ViewModel
             SimpleIoc.Default.Register<IHexApiService, HexApiService>();
             SimpleIoc.Default.Register<IFileService, FileService>();
             SimpleIoc.Default.Register<IRepository, Repository>();
+            SimpleIoc.Default.Register<ISettings, Persistance.Settings>();
             SimpleIoc.Default.Register<IDialogService, MetroDialogService>();
         }
 

@@ -121,9 +121,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Service\HexApiService.cs" />
+    <Compile Include="Persistance\Settings.cs" />
     <Compile Include="Service\IDialogService.cs" />
-    <Compile Include="Service\IHexApiService.cs" />
     <Compile Include="Service\MetroDialogService.cs" />
     <Compile Include="ViewModel\AuctionHouseViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />

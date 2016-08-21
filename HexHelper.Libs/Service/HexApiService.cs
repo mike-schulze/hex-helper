@@ -5,16 +5,15 @@ using System.Threading.Tasks;
 using HexHelper.Libs.HexApi;
 using HexHelper.Libs.Model;
 using HexHelper.Libs.Persistance;
-using HexHelper.Libs.Service;
 using HexHelper.Libs.Utils;
 using HexHelper.Libs.WebApi;
 using HexHelper.Libs.WebApiForward;
 
-namespace HexHelper.Service
+namespace HexHelper.Libs.Service
 {
     public sealed class HexApiService : IHexApiService
     {
-        public HexApiService( IFileService aFileService, IRepository aRepo, IServerService aServer )
+        public HexApiService( IFileService aFileService, IRepository aRepo, ISettings aSettings, IServerService aServer )
         {
             mServer = aServer;
             mServer.DataPosted += HandleDataPosted;
@@ -22,6 +21,7 @@ namespace HexHelper.Service
 
             mFileService = aFileService;
             mRepo = aRepo;
+            mSettings = aSettings;
         }
 
         public async Task Initialize()
@@ -31,7 +31,7 @@ namespace HexHelper.Service
             OnStatusChanged( "Initializing database..." );
             await mRepo.Initialize();
 
-            var theLastUser = Properties.Settings.Default.LastUser;
+            var theLastUser = mSettings.LastUser;
             mCurrentUser = mRepo.UserFromName( theLastUser );
             if( mCurrentUser == null )
             {
@@ -151,8 +151,7 @@ namespace HexHelper.Service
 
                 mCurrentUser = theUser;
                 OnUserChanged( theUser );
-                Properties.Settings.Default.LastUser = theUser.UserName;
-                Properties.Settings.Default.Save();
+                mSettings.LastUser = theUser.UserName;
 
                 mCards = null;
                 mInventory = null;
@@ -251,6 +250,7 @@ namespace HexHelper.Service
         private readonly IServerService mServer;
         private readonly IRepository mRepo;
         private readonly IFileService mFileService;
+        private readonly ISettings mSettings;
 
         private IEnumerable<ItemViewModel> mCards;
         private IEnumerable<ItemViewModel> mInventory;

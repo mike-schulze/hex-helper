@@ -48,9 +48,12 @@
     <Compile Include="Model\Item.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Persistance\IRepository.cs" />
+    <Compile Include="Persistance\ISettings.cs" />
     <Compile Include="Persistance\Repository.cs" />
     <Compile Include="Service\FileService.cs" />
+    <Compile Include="Service\HexApiService.cs" />
     <Compile Include="Service\IFileService.cs" />
+    <Compile Include="Service\IHexApiService.cs" />
     <Compile Include="Service\IServerService.cs" />
     <Compile Include="Service\ServerService.cs" />
     <Compile Include="WebApiForward\ApiSite.cs" />
