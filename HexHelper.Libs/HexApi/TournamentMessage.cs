@@ -18,6 +18,7 @@ namespace HexHelper.Libs.HexApi
             Constructed = 0,
             Sealed = 9,
             Draft = 10,
+            VIP_Sealed = 33,
             Unknown = 99
         }
 
@@ -131,7 +132,7 @@ namespace HexHelper.Libs.HexApi
 
         protected override void CreateSummary()
         {
-            Summary = String.Format( "Tournament: {0} {1}", Format.ToString(), Style.ToString() );
+            Summary = String.Format( "Tournament: {0} {1}", Format.ToString().Replace( "_", " " ), Style.ToString().Replace( "_", "" ) );
 
             if( UserStanding != null )
             {
